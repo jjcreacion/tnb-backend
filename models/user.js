@@ -31,17 +31,30 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             unique: false,
         },
-        profile: {
+        fk_profile: {
             type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
         },
-        created_at: {
-            type: DataTypes.STRING,
+        fk_person: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
         },
-        updated_at: {
-            type: DataTypes.STRING,
+        createdAt: {
+            type: DataTypes.DATE, 
+            allowNull: false, 
+            defaultValue: DataTypes.NOW 
         },
-    });
+        updatedAt: {
+            type: DataTypes.DATE, 
+            allowNull: false, 
+            defaultValue: DataTypes.NOW 
+        }
+    },
+    {
+        tableName: 'users',
+    }
+);
     return User;
 };

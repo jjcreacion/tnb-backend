@@ -4,9 +4,9 @@ const db = require('./models');
 
 app.use(express.json());
 
-const userRoutes = require('./routes/userRoutes');
-const personRoutes = require('./routes/personRoutes');
-const profileRoutes = require('./routes/profileRoutes');
+const profileRoutes = require('./routers/profileRoutes');
+const userRoutes = require('./routers/userRoutes');
+const personRoutes = require('./routers/personRoutes');
 
 app.use('/users', userRoutes);
 app.use('/profile', profileRoutes);

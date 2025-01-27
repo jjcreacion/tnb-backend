@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('nombre de la bd','usuario','password',{
+const sequelize = new Sequelize('tnb-db','root','',{
     host: 'localhost',
     dialect: 'mysql',
 });

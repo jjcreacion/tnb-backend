@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
+    const Person = sequelize.define('Person', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -30,12 +30,19 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             unique: true,
         },
-        created_at: {
-            type: DataTypes.STRING,
+        createdAt: {
+            type: DataTypes.DATE, 
+            allowNull: false, 
+            defaultValue: DataTypes.NOW 
         },
-        updated_at: {
-            type: DataTypes.STRING,
-        },
+        updatedAt: {
+            type: DataTypes.DATE, 
+            allowNull: false, 
+            defaultValue: DataTypes.NOW 
+        }
+    },
+    {
+        tableName: 'person',
     });
-    return User;
+    return Person;
 };
