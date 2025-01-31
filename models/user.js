@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         id: {
@@ -8,11 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         username: {
             type: DataTypes.STRING,
             allowNull: true,
-            unique: true,
         },
         email: {
             type: DataTypes.STRING,
-            unique: true,
+            allowNull: true,
         },
         validate_email: {
             type: DataTypes.INTEGER,
@@ -20,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         phone: {
             type: DataTypes.STRING,
-            unique: true,
+            allowNull: true,
         },
         validate_phone: {
             type: DataTypes.INTEGER,
@@ -29,17 +30,14 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: true,
-            unique: false,
         },
         fk_profile: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            unique: false,
+            allowNull: true,
         },
         fk_person: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            unique: false,
+            allowNull: true,
         },
         createdAt: {
             type: DataTypes.DATE, 
@@ -52,9 +50,17 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: DataTypes.NOW 
         }
     },
-    {
+    { 
         tableName: 'users',
-    }
+        hooks: {
+          beforeCreate: async (user) => {
+            const saltRounds = 10; 
+            const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+            user.password = hashedPassword;
+          },
+        }
+    },
+    
 );
     return User;
 };

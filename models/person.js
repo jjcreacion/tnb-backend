@@ -7,18 +7,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         first_name: {
             type: DataTypes.STRING,
+            allowNull: false, //No permitir nulo
         },
         middle_name: {
             type: DataTypes.STRING,
+            allowNull: true,
         },
         last_name: {
             type: DataTypes.STRING,
+            allowNull: false,
         },
         address: {
             type: DataTypes.STRING,
+            allowNull: false,
         },
         date_of_birth: {
             type: DataTypes.STRING,
+            allowNull: true,
         },
         email: {
             type: DataTypes.STRING,
