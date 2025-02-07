@@ -1,4 +1,5 @@
 const db = require('../models');
+const bcrypt = require('bcrypt'); 
 const User = db.User;
 
 exports.createUser = async (req, res) => {
@@ -7,6 +8,42 @@ exports.createUser = async (req, res) => {
         res.status(201).json(user);
     } catch (err) {
         res.status(400).json({ error: err.message });
+    }
+};
+
+exports.verifyEmail = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({
+            where: { email: email }
+        });
+
+        if (user) {
+            res.status(200).json({ exists: true });
+        } else {
+            res.status(200).json({ exists: false });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.verifyPhone = async (req, res) => {
+    try {
+        const { phone } = req.body;
+
+        const user = await User.findOne({
+            where: { phone: phone }
+        });
+
+        if (user) {
+            res.status(200).json({ exists: true });
+        } else {
+            res.status(200).json({ exists: false });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
 
@@ -31,6 +68,7 @@ exports.getUserById = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
 
 exports.updateUser = async (req, res) => {
     try {
@@ -59,3 +97,37 @@ exports.deleteUser = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+exports.verifyUserEmail = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      if (!email || !password) {
+        return res.status(400).json({ error: "Username and password are required" });
+      }
+  
+      const user = await User.findOne({
+        where: { 
+            email: email,
+        },
+      });
+
+      if (!user) {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+  
+      const passwordMatch = await bcrypt.compare(password, user.password); 
+  
+      if (!passwordMatch) {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+  
+      const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' }); 
+  
+      res.status(200).json({ token });
+  
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Something went wrong" });
+    }
+  };
