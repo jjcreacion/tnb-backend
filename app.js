@@ -1,6 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const db = require('./models');
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -15,6 +18,7 @@ app.use('/person', personRoutes);
 app.get('/', (req, res) => {
     res.send('!Hola, Mundo!');
 });
+
 
 db.sequelize.sync().then(() => {
     app.listen(3000, () => {

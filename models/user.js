@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true,
         },
+        status: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
         createdAt: {
             type: DataTypes.DATE, 
             allowNull: false, 
@@ -62,5 +66,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     
 );
+    const Person = require('./person')(sequelize, DataTypes); 
+    const Profile = require('./profile')(sequelize, DataTypes); 
+
+    User.belongsTo(Person, { as: 'person', foreignKey: 'fk_person' });
+    User.belongsTo(Profile, { as: 'profile', foreignKey: 'fk_profile' });
+
     return User;
 };

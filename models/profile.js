@@ -28,5 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'profile',
     }
 );
+
     return Profile;
 };

@@ -10,5 +10,7 @@ router.delete('/:id', userController.deleteUser);
 router.post('/verify/email', userController.verifyEmail);
 router.post('/verify/phone', userController.verifyPhone);
 router.post('/login/email', userController.verifyUserEmail); 
+router.post('/login/phone', userController.verifyUserPhone); 
+router.get('/all/data/', userController.getAllUsersAllData);
 
 module.exports = router;
