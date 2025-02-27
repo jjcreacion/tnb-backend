@@ -8,19 +8,7 @@
     ],
     "routes": [
       {
-        "src": "/users/(.*)",
-        "dest": "app.js"
-      },
-      {
-        "src": "/profile/(.*)",
-        "dest": "app.js"
-      },
-      {
-        "src": "/person/(.*)",
-        "dest": "app.js"
-      },
-      {
-        "src": "/",
+        "src": "/(.*)",
         "dest": "app.js"
       }
     ]
