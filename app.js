@@ -18,6 +18,18 @@ app.get('/', (req, res) => {
     res.send('TNB Home!');
 });
 
+app.get('/test-db', async (req, res) => {
+    try {
+        console.log('Intentando conectar a la base de datos...');
+        await db.sequelize.authenticate();
+        console.log('Conexión a la base de datos exitosa.');
+        res.send('Conexión a la base de datos exitosa.');
+    } catch (error) {
+        console.error('Error de conexión a la base de datos:', error);
+        res.status(500).send('Error de conexión a la base de datos.');
+    }
+});
+
 app.use('/users', async (req, res, next) => {
     try {
         await userRoutes(req, res, next);
