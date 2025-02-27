@@ -16,7 +16,7 @@ app.use('/profile', profileRoutes);
 app.use('/person', personRoutes);
 
 app.get('/', (req, res) => {
-    res.send('!Hola, Mundo!');
+    res.send('TNB Home!');
 });
 
 
