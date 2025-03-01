@@ -1,5 +1,3 @@
-
-/* 
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
@@ -19,18 +17,4 @@ const sequelize = new Sequelize(data_conf.db_name,data_conf.username,data_conf.p
     },
 });
 
-module.exports = sequelize; */
-
-const { Sequelize } = require('sequelize');
-
-const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.USERNAME_MYSQL,
-    process.env.PASSWORD_MYSQL,
-    {
-        host: process.env.HOST,
-        dialect: process.env.DIALECT,
-    }
-);
-
-module.exports = sequelize;
+module.exports = sequelize; 
