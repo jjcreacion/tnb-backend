@@ -14,6 +14,9 @@ const data_conf = {
 const sequelize = new Sequelize(data_conf.db_name,data_conf.username,data_conf.password,{
     host: data_conf.host,
     dialect: data_conf.dialect,
+    dialectOptions: {
+        ssl: false, 
+    },
 });
 
 module.exports = sequelize; */
