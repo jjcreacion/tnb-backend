@@ -1,12 +1,9 @@
 {
-    "version": 2,
-    "builds": [
+  "version": 2,
+  "builds": [
       {
-        "src": "app.js",
-        "use": "@vercel/node@20"
+          "src": "app.js",
+          "use": "@vercel/node@20"
       }
-    ],
-    "functions": {
-      "api/**/*.js": { "runtime": "@vercel/node@20" }
-    }
-  }
+  ]
+}
