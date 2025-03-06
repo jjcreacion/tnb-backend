@@ -8,10 +8,14 @@ app.use(express.json());
 const profileRoutes = require('./routers/profileRoutes');
 const userRoutes = require('./routers/userRoutes');
 const personRoutes = require('./routers/personRoutes');
+const categoryRoutes = require('./routers/categoryRoutes');
+const serviceRoutes = require('./routers/serviceRoutes');
 
 app.use('/users', userRoutes);
 app.use('/profile', profileRoutes);
 app.use('/person', personRoutes);
+app.use('/category', categoryRoutes);
+app.use('/service', serviceRoutes);
 
 app.get('/', (req, res) => {
     res.send('TNB Home!');
@@ -26,33 +30,6 @@ app.get('/test-db', async (req, res) => {
     } catch (error) {
         console.error('Error de conexión a la base de datos:', error);
         res.status(500).send('Error de conexión a la base de datos.');
-    }
-});
-
-app.use('/users', async (req, res, next) => {
-    try {
-        await userRoutes(req, res, next);
-    } catch (error) {
-        console.error('Error en /users:', error);
-        res.status(500).send('Error interno del servidor');
-    }
-});
-
-app.use('/profile', async (req, res, next) => {
-    try {
-        await profileRoutes(req, res, next);
-    } catch (error) {
-        console.error('Error en /profile:', error);
-        res.status(500).send('Error interno del servidor');
-    }
-});
-
-app.use('/person', async (req, res, next) => {
-    try {
-        await personRoutes(req, res, next);
-    } catch (error) {
-        console.error('Error en /person:', error);
-        res.status(500).send('Error interno del servidor');
     }
 });
 
