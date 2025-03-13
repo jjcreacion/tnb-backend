@@ -7,5 +7,6 @@ router.get('/', serviceController.getAllService);
 router.get('/:id', serviceController.getServiceById);
 router.put('/:id', serviceController.updateService);
 router.delete('/:id', serviceController.deleteService);
+router.get('/all/data/', serviceController.getAllServiceAllData);
 
 module.exports = router;

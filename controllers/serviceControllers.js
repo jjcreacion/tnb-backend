@@ -1,5 +1,6 @@
 const db = require('../models');
-const Service = db.Category;
+const Service = db.Service;
+const Category = db.Category;
 
 exports.createService = async (req, res) => {
     try {
@@ -16,6 +17,24 @@ exports.getAllService = async (req, res) => {
         res.status(200).json(service);
     } catch (err) {
         res.status(400).json({ error: err.message });
+    }
+};
+
+exports.getAllServiceAllData = async (req, res) => {
+    try {
+        const service = await Service.findAll({
+            include: [
+                {
+                    model: Category, 
+                    as: 'category', 
+                    required: false, 
+                },
+            ],
+        });
+        res.status(200).json(service);
+    } catch (err) {
+        console.error("Error al obtener servicios:", err); 
+        res.status(500).json({ error: err.message }); 
     }
 };
 
