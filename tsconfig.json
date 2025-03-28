@@ -19,9 +19,9 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["./src/*"],
-      "@parametros/*": ["./src/parametros/*"],
-      "@menu/*": ["./src/menu/*"],
-      "@entities/*": ["*/entities/*"]
+      "@entities/*": ["*/entities/"],
+      "@services/*": ["*/service/"],
+      "@dtos/*": ["src/*/dto/"],
     }
   }
 }

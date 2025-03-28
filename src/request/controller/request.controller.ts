@@ -14,6 +14,7 @@ import { RequestService } from '../services/request.service';
 import { CreateRequestDto } from '../dto/createRequest.dto';
 import {ReadRequestDto} from "@/request/dto/readRequests.dto";
 import {FindRequestsByPersonDto} from "@/request/dto/findRequestByPerson.dto";
+import {ValidID} from "@/utils/validID";
 
 @Controller('request')
 export class RequestController {
@@ -26,9 +27,10 @@ export class RequestController {
 
   @Get('getByPerson')
   async findRequestsByPerson(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) findPerson: FindRequestsByPersonDto
+      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+          findPerson: ValidID
   ):Promise<ReadRequestDto[] | null> {
-    return await this.requestService.findAllByPerson(findPerson.fkPerson);
+    return await this.requestService.findAllByPerson(findPerson);
   }
 
 

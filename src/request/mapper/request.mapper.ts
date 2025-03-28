@@ -1,9 +1,9 @@
 import {RequestEntity} from "@/request/entities/request.entity";
 import {ReadRequestDto} from "@/request/dto/readRequests.dto";
-import {mapPersonEntityToReadPersonDto} from "@/person/person.mapper";
 import {RequestImageMapper} from "@/request/mapper/requestImage.mapper";
 import {RequestLocationMapper} from "@/request/mapper/requestLocation.mapper";
 import {RequestPriorityMapper} from "@/request/mapper/requestPriority.mapper";
+import {PersonMapper} from "@/person/mapper/person.mapper";
 
 export class RequestMapper {
 
@@ -11,6 +11,7 @@ export class RequestMapper {
         private requestImageMapper : RequestImageMapper,
         private requestLocationMapper : RequestLocationMapper,
         private requestPriorityMapper : RequestPriorityMapper,
+        private  personMapper : PersonMapper
     ){}
 
     public  mapRequestEntityToReadRequestDto(requestEntity: RequestEntity): ReadRequestDto {
@@ -21,7 +22,7 @@ export class RequestMapper {
         let dto : ReadRequestDto = new ReadRequestDto();
 
         dto.id = requestEntity.id;
-            dto.person = mapPersonEntityToReadPersonDto(requestEntity.person);
+            dto.person = this.personMapper.entityToReadPersonDto(requestEntity.person);
             dto.dateRequest = requestEntity.dateRequest;
             dto.status = requestEntity.status;
             dto.description = requestEntity.description;
