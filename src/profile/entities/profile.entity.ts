@@ -40,7 +40,7 @@ export class ProfileEntity {
     @Column({name:"address",nullable:true, type:"varchar"})
     address: string;
 
-    @Column({name:"code_zip",nullable:true, type:"number"})
+    @Column({name:"code_zip",nullable:true, type:"int"})
     zipCode: number;
 
     @Column({name:"industry",nullable:true, type:"varchar"})

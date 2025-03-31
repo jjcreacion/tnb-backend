@@ -22,7 +22,7 @@ import { ServiceModule } from './service/service.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
+        type: 'mysql',
         host: process.env.DATABASE_HOST,
         port: configService.get<number>('DATABASE_PORT'), // Usa configService.get<>() para tornar el valor a number
         username: process.env.DATABASE_USERNAME,
