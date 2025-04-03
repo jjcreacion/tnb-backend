@@ -15,7 +15,7 @@ export class ProfileEntity {
     /*// Modificar cuando se cree la información de locality
     @OneToOne(() => UserEntity, (user) => user.profile)
     @JoinColumn({ name: 'fk_locality' })
-    locality: UserEntity;*/
+    locality: UserEntity; */
 
     /*// Modificar cuando se cree la información de Industry (maestros)
     @OneToOne(() => UserEntity, (user) => user.profile)

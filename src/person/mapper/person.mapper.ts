@@ -3,7 +3,7 @@ import {PersonEntity} from "@/person/entities/person.entity";
 import {ReadPersonDto} from "@/person/dto/readPerson.dto";
 
 export class PersonMapper {
-    public entityToReadPersonDto(entity: PersonEntity): ReadPersonDto {
+    static entityToReadPersonDto(entity: PersonEntity): ReadPersonDto {
 
         let responseDto = new ReadPersonDto();
         responseDto.pkPerson = entity.pkPerson;
@@ -24,7 +24,7 @@ export class PersonMapper {
      return responseDto;
     }
 
-    public createPersonDtoToEntity(dto: CreatePersonDto): PersonEntity {
+    static createPersonDtoToEntity(dto: CreatePersonDto): PersonEntity {
         const entity = new PersonEntity();
         entity.firstName = dto.firstName;
         entity.middleName = dto.middleName;

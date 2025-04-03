@@ -15,11 +15,10 @@ export class ProfileService {
   constructor(
       @InjectRepository(ProfileEntity) private profileRepository: Repository<ProfileEntity>,
       private userService : UserService,
-      private profileMapper : ProfileMapper
   ){}
 
   async create(createProfileDto: CreateProfileDto) : Promise<ReadProfileDto> {
-    return this.profileMapper.entityToReadProfileDto(
+    return ProfileMapper.entityToReadProfileDto(
         await this.profileRepository.save(
             this.profileRepository.create(createProfileDto)
         )
@@ -30,7 +29,7 @@ export class ProfileService {
     return await this.profileRepository.find()
         .then( profiles =>
          profiles.map(
-             (profile) => this.profileMapper.entityToReadProfileDto(profile)
+             (profile) => ProfileMapper.entityToReadProfileDto(profile)
         ));
   }
 

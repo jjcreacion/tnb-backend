@@ -29,7 +29,7 @@ export class PersonController {
               validPersonId: ValidID) : Promise<ReadPersonDto> {
     const responseEntity = await this.personService.findOneBy(validPersonId);
 
-    const responseDto = this.personMapper.entityToReadPersonDto(
+    const responseDto = PersonMapper.entityToReadPersonDto(
         responseEntity
     );
 

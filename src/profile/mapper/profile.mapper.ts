@@ -4,7 +4,7 @@ import {ReadProfileDto} from "@/profile/dto/readProfile.dto";
 import {CreateProfileDto} from "@/profile/dto/createProfile.dto";
 
 export class ProfileMapper {
-    public entityToReadProfileDto(entity: ProfileEntity): ReadProfileDto {
+    static entityToReadProfileDto(entity: ProfileEntity): ReadProfileDto {
         return {
             pkProfile: entity.pkProfile,
             name: entity.name,
@@ -24,7 +24,7 @@ export class ProfileMapper {
         };
     }
 
-    public createProfileDtoToEntity(dto: CreateProfileDto): ProfileEntity {
+    static createProfileDtoToEntity(dto: CreateProfileDto): ProfileEntity {
         const entity = new ProfileEntity();
         entity.name = dto.name;
         entity.alias = dto.alias;

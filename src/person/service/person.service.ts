@@ -23,7 +23,7 @@ export class PersonService {
   async findAll(): Promise<ReadPersonDto[]> {
       const personList = await this.personRepository.find();
       return personList.map(
-          (person) => this.personMapper.entityToReadPersonDto(person)
+          (person) => PersonMapper.entityToReadPersonDto(person)
       )
   }
 

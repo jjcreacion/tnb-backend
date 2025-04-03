@@ -4,7 +4,7 @@ import { ReadRequestImagesDto } from "@/request/dto/requestImages/read-images.dt
 
 
 export class RequestImageMapper {
-    public mapRequestImagesEntityToReadRequestImagesDto(
+    static mapRequestImagesEntityToReadRequestImagesDto(
         imageEntity: RequestImageEntity
     ): ReadRequestImagesDto  {
         if (!imageEntity) {

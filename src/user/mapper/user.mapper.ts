@@ -5,16 +5,12 @@ import {CreateUserDto} from "@/user/dto/createUser.dto";
 import {ProfileMapper} from "@/profile/mapper/profile.mapper";
 
 export class UserMapper {
-    constructor(
-        private profileMapper : ProfileMapper,
-        private personMapper : PersonMapper
-    ) {
-    }
-    public entityToReadUserDto(entity: UserEntity): ReadUserDto {
+
+    static entityToReadUserDto(entity: UserEntity): ReadUserDto {
         return {
             pkUser: entity.pkUser,
-            person: this.personMapper.entityToReadPersonDto(entity.person),
-            profile: this.profileMapper.entityToReadProfileDto(entity.profile),
+            person: PersonMapper.entityToReadPersonDto(entity.person),
+            profile: ProfileMapper.entityToReadProfileDto(entity.profile),
             email: entity.email,
             username: entity.username,
             phone: entity.phone,
@@ -26,7 +22,7 @@ export class UserMapper {
         };
     }
 
-    public createUserDtoToEntity(dto: CreateUserDto): UserEntity {
+    static createUserDtoToEntity(dto: CreateUserDto): UserEntity {
         const entity = new UserEntity();
         entity.email = dto.email;
         entity.username = dto.username;

@@ -31,6 +31,7 @@ export class RequestEntity {
     updatedAt : Date;
 
     @OneToOne(() => RequestPriorityEntity, (priority) => priority.request)
+    @JoinColumn({ name: 'fk_priority' })
     priority: RequestPriorityEntity;
 
     @OneToMany(() => RequestLocationEntity, (location) => location.request)

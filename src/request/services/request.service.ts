@@ -21,7 +21,6 @@ export class RequestService {
       private priorityService: RequestPriorityService,
       private locationService: RequestLocationService,
       private imagesService: RequestImagesService,
-      private requestMapper:RequestMapper
   ){}
 
 
@@ -78,10 +77,31 @@ export class RequestService {
     });
 
     return results.map(
-        (requestEntity) => this.requestMapper.mapRequestEntityToReadRequestDto(requestEntity)
+        (requestEntity) => RequestMapper.mapRequestEntityToReadRequestDto(requestEntity)
     );
   }
 
 
+  async findAllRequestByAdmin ():Promise<ReadRequestDto[]>{
+    const response = await this.requestRepository.find({
+      relations :['person','priority','locations','images']
+    });
+
+    response.forEach(
+
+        i => {
+          console.log(i.person)
+          console.log(i)
+        }
+    );
+
+    const responseDto = response.map(
+        (request) => RequestMapper.mapRequestEntityToReadRequestDto(request)
+    );
+
+
+
+    return responseDto;
+  }
 
 }

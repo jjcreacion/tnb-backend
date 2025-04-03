@@ -4,7 +4,7 @@ import { ReadRequestLocationDto } from "@/request/dto/requestLocation/read-locat
 
 
 export class RequestLocationMapper {
-    public mapRequestLocationEntityToReadRequestLocationDto(
+    static mapRequestLocationEntityToReadRequestLocationDto(
         locationEntity: RequestLocationEntity
     ): ReadRequestLocationDto {
         if (!locationEntity) {

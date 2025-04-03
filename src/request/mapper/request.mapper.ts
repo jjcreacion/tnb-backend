@@ -7,14 +7,9 @@ import {PersonMapper} from "@/person/mapper/person.mapper";
 
 export class RequestMapper {
 
-    constructor(
-        private requestImageMapper : RequestImageMapper,
-        private requestLocationMapper : RequestLocationMapper,
-        private requestPriorityMapper : RequestPriorityMapper,
-        private  personMapper : PersonMapper
-    ){}
 
-    public  mapRequestEntityToReadRequestDto(requestEntity: RequestEntity): ReadRequestDto {
+
+    static  mapRequestEntityToReadRequestDto(requestEntity: RequestEntity): ReadRequestDto {
         if (!requestEntity) {
             return new ReadRequestDto() ;
         }
@@ -22,17 +17,18 @@ export class RequestMapper {
         let dto : ReadRequestDto = new ReadRequestDto();
 
         dto.id = requestEntity.id;
-            dto.person = this.personMapper.entityToReadPersonDto(requestEntity.person);
+
+            dto.person = PersonMapper.entityToReadPersonDto(requestEntity.person);
             dto.dateRequest = requestEntity.dateRequest;
             dto.status = requestEntity.status;
             dto.description = requestEntity.description;
             dto.createdAt = requestEntity.createdAt;
             dto.updatedAt = requestEntity.updatedAt;
-            dto.priority = this.requestPriorityMapper.mapRequestPriorityEntityToReadRequestPriorityDto(requestEntity.priority);
+            dto.priority = RequestPriorityMapper.mapRequestPriorityEntityToReadRequestPriorityDto(requestEntity.priority);
 
             if(Array.isArray(requestEntity.locations)){
                 dto.locations = requestEntity.locations.map(
-                    this.requestLocationMapper.mapRequestLocationEntityToReadRequestLocationDto
+                    RequestLocationMapper.mapRequestLocationEntityToReadRequestLocationDto
                 );
             }else{
                 dto.locations = requestEntity.locations;
@@ -40,7 +36,7 @@ export class RequestMapper {
 
             if(Array.isArray(requestEntity.images)){
                 dto.images = requestEntity.images.map(
-                    this.requestImageMapper.mapRequestImagesEntityToReadRequestImagesDto
+                    RequestImageMapper.mapRequestImagesEntityToReadRequestImagesDto
                 );
             }else{
                 dto.images = requestEntity.images;

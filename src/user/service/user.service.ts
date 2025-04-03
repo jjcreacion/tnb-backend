@@ -20,7 +20,7 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) : Promise<ReadUserDto>  {
     const entity = this.userRepository.create(createUserDto);
-    return this.userMapper.entityToReadUserDto(
+    return UserMapper.entityToReadUserDto(
         await this.userRepository.save(entity)
     );
   }
@@ -28,7 +28,7 @@ export class UserService {
   async findAll() : Promise<ReadUserDto[]> {
     const responseUsers = await this.userRepository.find();
     return responseUsers.map( (user) =>
-      this.userMapper.entityToReadUserDto(user)
+      UserMapper.entityToReadUserDto(user)
     );
   }
 
@@ -61,7 +61,7 @@ export class UserService {
     if(!foundUser){ throw new HttpException( responseObject, HttpStatus.NOT_FOUND); }
 
 
-    return this.userMapper.entityToReadUserDto(foundUser);
+    return UserMapper.entityToReadUserDto(foundUser);
 
 
   }

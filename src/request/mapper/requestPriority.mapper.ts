@@ -5,7 +5,7 @@ import { ReadRequestPriorityDto } from "@/request/dto/requestPriority/readPriori
 
 
 export class RequestPriorityMapper {
-    public mapRequestPriorityEntityToReadRequestPriorityDto(
+    static mapRequestPriorityEntityToReadRequestPriorityDto(
         priorityEntity: RequestPriorityEntity
     ): ReadRequestPriorityDto {
         if (!priorityEntity) {

@@ -33,6 +33,10 @@ export class RequestController {
     return await this.requestService.findAllByPerson(findPerson);
   }
 
+  @Get('AllbyAdmin')
+  async findAllRequestByAdmin():Promise<ReadRequestDto[]>{
+    return this.requestService.findAllRequestByAdmin();
+  }
 
 
 }

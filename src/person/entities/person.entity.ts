@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {UserEntity} from "@/user/entities/user.entity";
 import {RequestEntity} from "@/request/entities/request.entity";
-
+//
 @Entity('person')
 export class PersonEntity {
 
