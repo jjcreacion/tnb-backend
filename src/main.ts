@@ -12,20 +12,20 @@ import {ValidationPipe} from "@nestjs/common";
 async function bootstrap() {
 
   const allowedOrigins = process.env.CORS_ORIGINS?.split(',') || [];
-  //console.log(allowedOrigins)
+
 
   const app = await NestFactory.create(
       AppModule
   );
 
-  const config = new DocumentBuilder()
+  const configSwagger = new DocumentBuilder()
       .setTitle('Documentación TNB-Backend')
       .setDescription('Se busca facilitar la información de los endpoints disponibles para ...')
       .setVersion('1.0')
       .addTag('tag')
       .build();
 
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  const documentFactory = () => SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup('doc', app, documentFactory);
 
   app.useGlobalPipes(

@@ -1,5 +1,6 @@
 import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {ServiceEntity} from "@/service/entities/service.entity";
+import {CategoryServicesEntity} from "@/category/entities/services/categoryServices.entity";
+import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
 
 @Entity('category')
 export class CategoryEntity {
@@ -7,8 +8,11 @@ export class CategoryEntity {
     @PrimaryGeneratedColumn({name: 'pk_category'})
     pkCategory: number;
 
-    @OneToOne(() => ServiceEntity, (service) => service.category)
-    service: ServiceEntity;
+    @OneToOne(() => CategoryServicesEntity, (service) => service.category)
+    service: CategoryServicesEntity;
+
+    @OneToOne(() => SubCategoryEntity, (subCategory) => subCategory.category)
+    subCategory: SubCategoryEntity;
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;

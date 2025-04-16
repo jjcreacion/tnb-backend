@@ -1,13 +1,30 @@
 import {RequestEntity} from "@/request/entities/request.entity";
-import {ReadRequestDto} from "@/request/dto/readRequests.dto";
+import {ReadRequestByTableDto, ReadRequestDto} from "@/request/dto/readRequests.dto";
 import {RequestImageMapper} from "@/request/mapper/requestImage.mapper";
 import {RequestLocationMapper} from "@/request/mapper/requestLocation.mapper";
 import {RequestPriorityMapper} from "@/request/mapper/requestPriority.mapper";
 import {PersonMapper} from "@/person/mapper/person.mapper";
+import {actionsDto} from "@/utils/actions.dto";
 
 export class RequestMapper {
 
+    static  mapRequestEntityToReadTableRequest(requestEntity: RequestEntity): ReadRequestByTableDto {
 
+        let dto : ReadRequestByTableDto = new ReadRequestByTableDto();
+
+        dto.id = requestEntity.id;
+        dto.personFullName = requestEntity.person.firstName;
+        dto.personFullName +=   requestEntity.person.middleName ?  " "+requestEntity.person.middleName : ""
+        dto.personFullName += requestEntity.person.lastName ?  " " + requestEntity.person.lastName : "";
+
+        dto.creationDate = requestEntity.createdAt;
+        dto.status = requestEntity.status;
+        dto.description = requestEntity.description;
+        dto.typePriority = requestEntity.priority.description;
+        dto.actions = new actionsDto(true,true,false); // MOdificar cuando se activen las acciones segun el menu
+
+        return dto;
+    }
 
     static  mapRequestEntityToReadRequestDto(requestEntity: RequestEntity): ReadRequestDto {
         if (!requestEntity) {
@@ -16,9 +33,8 @@ export class RequestMapper {
 
         let dto : ReadRequestDto = new ReadRequestDto();
 
-        dto.id = requestEntity.id;
+        if (requestEntity.person)dto.person = PersonMapper.entityToReadPersonDto(requestEntity.person);
 
-            dto.person = PersonMapper.entityToReadPersonDto(requestEntity.person);
             dto.dateRequest = requestEntity.dateRequest;
             dto.status = requestEntity.status;
             dto.description = requestEntity.description;

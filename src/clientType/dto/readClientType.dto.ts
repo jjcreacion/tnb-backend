@@ -1,5 +1,5 @@
-export class ReadCategoryDto {
-    pkCategory: number;
+export class ReadClientTypeDto {
+    pkType: number;
     name: string;
     description: string;
     status: number;

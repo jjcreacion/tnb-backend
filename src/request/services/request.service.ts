@@ -3,7 +3,7 @@ import { CreateRequestDto } from '../dto/createRequest.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {RequestEntity} from "@/request/entities/request.entity";
-import {ReadRequestDto} from "@/request/dto/readRequests.dto";
+import {ReadRequestByTableDto, ReadRequestDto} from "@/request/dto/readRequests.dto";
 import {PersonService} from "@/person/service/person.service";
 import {RequestMapper} from "@/request/mapper/request.mapper";
 import {RequestPriorityService} from "@/request/services/requestPriority.service";
@@ -66,6 +66,7 @@ export class RequestService {
 
   async findAllByPerson(validId : ValidID) : Promise<ReadRequestDto[]> {
     const foundPerson = await this.personService.findOneBy(validId);
+    console.log(foundPerson)
 
     if(!foundPerson){
       throw new HttpException('Person NotFound', HttpStatus.NOT_FOUND);
@@ -73,7 +74,7 @@ export class RequestService {
 
     const results = await this.requestRepository.find({
       where: { person: foundPerson },
-      relations: ['priority', 'locations', 'images'] // es posible agregar : person, person.profile; para extender la herencia de la consulta
+      relations: ['priority', 'locations', 'images',] // es posible agregar : person, person.profile; para extender la herencia de la consulta
     });
 
     return results.map(
@@ -81,25 +82,27 @@ export class RequestService {
     );
   }
 
+  async findAllRequestforTableList ():Promise<ReadRequestByTableDto[]>{
+    const response = await this.requestRepository.find({
+      relations :['person','priority']
+    });
+
+    const responseDto = response.map(
+        (request) => RequestMapper.mapRequestEntityToReadTableRequest(request)
+    );
+
+    return responseDto;
+
+  }
 
   async findAllRequestByAdmin ():Promise<ReadRequestDto[]>{
     const response = await this.requestRepository.find({
       relations :['person','priority','locations','images']
     });
 
-    response.forEach(
-
-        i => {
-          console.log(i.person)
-          console.log(i)
-        }
-    );
-
     const responseDto = response.map(
         (request) => RequestMapper.mapRequestEntityToReadRequestDto(request)
     );
-
-
 
     return responseDto;
   }

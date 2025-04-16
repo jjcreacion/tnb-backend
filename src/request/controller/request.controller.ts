@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { RequestService } from '../services/request.service';
 import { CreateRequestDto } from '../dto/createRequest.dto';
-import {ReadRequestDto} from "@/request/dto/readRequests.dto";
+import {ReadRequestByTableDto, ReadRequestDto} from "@/request/dto/readRequests.dto";
 import {FindRequestsByPersonDto} from "@/request/dto/findRequestByPerson.dto";
 import {ValidID} from "@/utils/validID";
 
@@ -21,16 +21,15 @@ export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
   @Post()
-  create(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) createRequestDto: CreateRequestDto) {
+  async create(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) createRequestDto: CreateRequestDto) {
     return this.requestService.create(createRequestDto);
   }
 
-  @Get('getByPerson')
+  @Get('getByPerson/:idPerson')
   async findRequestsByPerson(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-          findPerson: ValidID
+          @Param("idPerson")idPerson : number
   ):Promise<ReadRequestDto[] | null> {
-    return await this.requestService.findAllByPerson(findPerson);
+    return await this.requestService.findAllByPerson(new ValidID(idPerson));
   }
 
   @Get('AllbyAdmin')
@@ -38,5 +37,9 @@ export class RequestController {
     return this.requestService.findAllRequestByAdmin();
   }
 
+  @Get('forTableList')
+  async findAllforTableList():Promise<ReadRequestByTableDto[]>{
+    return this.requestService.findAllRequestforTableList();
+  }
 
 }

@@ -1,35 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, HttpStatus} from '@nestjs/common';
 import { CategoryService } from '../service/category.service';
 import { CreateCategoryDto } from '../dto/createCategory.dto';
-import { UpdatCategoryDto } from '../dto/updatCategory.dto';
+import { UpdateCategoryDto } from '../dto/updateCategory.dto';
 import {ReadCategoryDto} from "@/category/dto/readCategory.dto";
+import {ValidID} from "@/utils/validID";
 
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
+  create(
+      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+      createCategoryDto: CreateCategoryDto) {
     return this.categoryService.create(createCategoryDto);
   }
 
-  @Get('')
+  @Get('findAll')
   async findAll(): Promise<ReadCategoryDto[]> {
     return this.categoryService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(+id);
+  @Get('findOne/:id')
+  async findOne(
+      @Param("id") id : number
+  ): Promise<ReadCategoryDto> {
+    return this.categoryService.findOne(new ValidID(id));
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdatCategoryDto) {
-    return this.categoryService.update(+id, updateCategoryDto);
+  @Patch()
+  async update(
+      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+      updateCategoryDto: UpdateCategoryDto
+  ):Promise<ReadCategoryDto> {
+    return this.categoryService.update(updateCategoryDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoryService.remove(+id);
+  @Delete()
+  async remove(
+      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+      idCategory: ValidID
+  ):Promise<{ message: string, status: HttpStatus }> {
+    return this.categoryService.remove(idCategory);
   }
 }

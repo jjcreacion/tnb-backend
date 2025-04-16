@@ -1,6 +1,5 @@
 export class ReadPersonDto {
-    constructor() {
-    }
+
     pkPerson: number;
     firstName: string;
     middleName: string;

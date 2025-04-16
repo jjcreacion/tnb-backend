@@ -10,7 +10,11 @@ import { UserModule } from './user/user.module';
 import { PersonModule } from './person/person.module';
 import { ProfileModule } from './profile/profile.module';
 import { CategoryModule } from './category/category.module';
-import { ServiceModule } from './service/service.module';
+import { CategoryServiceModule } from '@/category/categoryService.module';
+import {SubCategoryModule} from "@/category/subCategory.module";
+import { ServiceStypeModule } from './category/serviceStype.module';
+import {ClientTypeModule} from "@/clientType/clientType.module";
+import {ServiceAddonsModule} from "@/category/serviceAddons.module";
 
 @Module({
   imports: [
@@ -44,8 +48,11 @@ import { ServiceModule } from './service/service.module';
     UserModule,
     PersonModule,
     ProfileModule,
-    CategoryModule,
-    ServiceModule
+    CategoryModule,SubCategoryModule,
+    CategoryServiceModule,ServiceStypeModule,
+    ClientTypeModule,
+    ServiceAddonsModule
+
   ],
   controllers: [],
   providers: [],

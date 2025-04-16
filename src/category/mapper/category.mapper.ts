@@ -1,6 +1,5 @@
 import { CategoryEntity } from '../entities/category.entity';
 import {ReadCategoryDto} from "@/category/dto/readCategory.dto";
-import {CreateCategoryDto} from "@/category/dto/createCategory.dto";
 
 export class CategoryMapper {
     static entityToReadCategoryDto(entity: CategoryEntity): ReadCategoryDto {
@@ -14,11 +13,16 @@ export class CategoryMapper {
         
         return responseDto;
     }
-
-    static createCategoryDtoToEntity(dto: CreateCategoryDto): CategoryEntity {
+    static readCategoryDtoToEntity(dto: ReadCategoryDto): CategoryEntity {
         const entity = new CategoryEntity();
+        entity.pkCategory = dto.pkCategory;
         entity.name = dto.name;
+        entity.description = dto.description;
+        entity.status = dto.status;
+        entity.createdAt = dto.createdAt;
+        entity.updatedAt = dto.updatedAt;
         return entity;
     }
+
 
 }

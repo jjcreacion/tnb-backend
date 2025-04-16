@@ -1,12 +1,12 @@
  import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
  import { CreateCategoryDto } from '../dto/createCategory.dto';
- import { UpdatCategoryDto } from '../dto/updatCategory.dto';
+ import { UpdateCategoryDto } from '../dto/updateCategory.dto';
  import {InjectRepository} from "@nestjs/typeorm";
  import {Repository} from "typeorm";
  import {CategoryEntity} from "@/category/entities/category.entity";
  import {CategoryMapper} from "@/category/mapper/category.mapper";
  import {ReadCategoryDto} from "@/category/dto/readCategory.dto";
- import {ValidPkUserDto} from "@/user/dto/validPkUser.dto";
+ import {ValidID} from "@/utils/validID";
 
  @Injectable()
  export class CategoryService {
@@ -32,17 +32,17 @@
          ));
    }
 
-   async findOne(id: number): Promise<ReadCategoryDto> {
-     const category = await this.categoryRepository.findOneBy({ pkCategory: id });
+   async findOne(validID: ValidID): Promise<ReadCategoryDto> {
+     const category = await this.categoryRepository.findOneBy({ pkCategory: validID.id });
      if (!category) {
-       throw new HttpException(`Category with ID ${id} not found`, HttpStatus.NOT_FOUND);
+       throw new HttpException(`Category with ID ${validID.id} not found`, HttpStatus.NOT_FOUND);
      }
      return CategoryMapper.entityToReadCategoryDto(category);
    }
 
-   async update(id: number, updateCategoryDto: UpdatCategoryDto): Promise<ReadCategoryDto> {
+   async update(updateCategoryDto: UpdateCategoryDto): Promise<ReadCategoryDto> {
      const foundCategory = await this.categoryRepository.findOneBy({
-       pkCategory: updateCategoryDto.pkCategory, // Usa pkCategory para buscar
+       pkCategory: updateCategoryDto.pkCategory,
      });
 
      if (!foundCategory) {
@@ -54,11 +54,18 @@
      return CategoryMapper.entityToReadCategoryDto(updatedCategory);
    }
 
-   async remove(id: number): Promise<void> {
-     const categoryToDelete = await this.categoryRepository.findOneBy({ pkCategory: id });
+   async remove(validID: ValidID): Promise<{ message: string; status: HttpStatus }> {
+     const categoryToDelete = await this.categoryRepository.findOneBy({ pkCategory: validID.id });
      if (!categoryToDelete) {
-       throw new HttpException(`Category with ID ${id} not found`, HttpStatus.NOT_FOUND);
+       throw new HttpException(`Category with ID ${validID.id} not found`, HttpStatus.NOT_FOUND);
      }
-     await this.categoryRepository.remove(categoryToDelete);
+     const response = await this.categoryRepository.remove(categoryToDelete);
+
+     if(!response) return { message: "Category Non Deleted", status: HttpStatus.NOT_MODIFIED }
+
+     return {
+         message: "Category Deleted",
+         status: HttpStatus.OK
+     };
    }
  }
