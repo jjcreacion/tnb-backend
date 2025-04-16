@@ -15,6 +15,10 @@ import {SubCategoryModule} from "@/category/subCategory.module";
 import { ServiceStypeModule } from './category/serviceStype.module';
 import {ClientTypeModule} from "@/clientType/clientType.module";
 import {ServiceAddonsModule} from "@/category/serviceAddons.module";
+import { CountryModule } from './country/country.module';
+import { CountryStatesModule } from '@/countryStates/country-states.module';
+import { LocalityModule } from './locality/locality.module';
+import { LocalityTypeModule } from './locality-type/locality-type.module';
 
 @Module({
   imports: [
@@ -51,7 +55,11 @@ import {ServiceAddonsModule} from "@/category/serviceAddons.module";
     CategoryModule,SubCategoryModule,
     CategoryServiceModule,ServiceStypeModule,
     ClientTypeModule,
-    ServiceAddonsModule
+    ServiceAddonsModule,
+    CountryModule,
+    CountryStatesModule,
+    LocalityModule,
+    LocalityTypeModule
 
   ],
   controllers: [],

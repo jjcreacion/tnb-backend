@@ -13,4 +13,4 @@ import {ServicesTypeEntity} from "@/category/entities/services/servicesType.enti
   controllers: [ServicesTypeController],
   providers: [ServicesTypeService],
 })
-export class ServiceStypeModule {}
+export class ServicesTypeModule {}
