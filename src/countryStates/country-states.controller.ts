@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from "@nestjs/common";
 import { ValidID } from "@/utils/validID";
 import {CreateStateDto} from "@/countryStates/dto/createCountryState.dto";
-import {CountryStateService} from "@/countryStates/countryStates.service";
+import {CountryStateService} from "@/countryStates/country-states.service";
 import {ReadStateDto} from "@/countryStates/dto/readCountryState.dto";
 import {UpdateStateDto} from "@/countryStates/dto/updateCountryState.dto";
 
 @Controller('state')
-export class StateController {
+export class CountryStateController {
 
   constructor(private readonly stateService: CountryStateService) {}
 

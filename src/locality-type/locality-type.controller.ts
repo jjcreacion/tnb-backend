@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from "@nestjs/common";
 import { ValidID } from "@/utils/validID";
-import {LocalityTypeService} from "@/locality-type/localityType.service";
+import {LocalityTypeService} from "@/locality-type/locality-type.service";
 import {CreateLocalityTypeDto} from "@/locality-type/dto/createLocalityType.dto";
 import {ReadLocalityTypeDto} from "@/locality-type/dto/readLocalityType.dto";
 import {UpdateLocalityTypeDto} from "@/locality-type/dto/updateLocalityType.dto";
