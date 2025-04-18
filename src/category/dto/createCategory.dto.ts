@@ -12,7 +12,7 @@ export class CreateCategoryDto extends OmitType(CategoryEntity, [
   @ApiProperty()
   name: string;
 
-  @IsString({ message: 'Name is required' })
+  @IsString({ message: 'Description is required' })
   @IsNotEmpty({ message: 'Name cannot be empty' })
   @ApiProperty()
   description: string;
