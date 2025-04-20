@@ -23,6 +23,11 @@ export class SubCategoryController {
         return this.subCategoryService.findAll();
     }
 
+    @Get("alldata")
+      async findAllWithCategoryInfo(): Promise<ReadSubCategoryDto[]> {
+        return this.subCategoryService.findAllWithCategory();
+    }
+
     @Delete(":id")
     async remove (@Param("id",ParseIntPipe) id : number) {
         return this.subCategoryService.remove(new ValidID(id));
