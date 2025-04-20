@@ -4,7 +4,7 @@ import {IsNumber, IsString, IsOptional, IsNotEmpty} from 'class-validator';
 import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
 
 export class UpdateSubCategoryDto extends OmitType(SubCategoryEntity,
-    ['updatedAt',"createdAt","addons",'category']
+    ['updatedAt',"createdAt",'category']
 ) {
   @IsNumber()
   @ApiProperty()

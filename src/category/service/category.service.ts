@@ -54,11 +54,15 @@
      return CategoryMapper.entityToReadCategoryDto(updatedCategory);
    }
 
-   async remove(validID: ValidID): Promise<{ message: string; status: HttpStatus }> {
-     const categoryToDelete = await this.categoryRepository.findOneBy({ pkCategory: validID.id });
+   async remove(id : number): Promise<{ message: string; status: HttpStatus }> {
+      const categoryToDelete = await this.categoryRepository.findOneBy(
+         {pkCategory : id}
+     );
+
      if (!categoryToDelete) {
-       throw new HttpException(`Category with ID ${validID.id} not found`, HttpStatus.NOT_FOUND);
+       throw new HttpException(`Category with ID ${id} not found`, HttpStatus.NOT_FOUND);
      }
+
      const response = await this.categoryRepository.remove(categoryToDelete);
 
      if(!response) return { message: "Category Non Deleted", status: HttpStatus.NOT_MODIFIED }

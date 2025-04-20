@@ -33,9 +33,11 @@ export class SubCategoryService {
     }
 
     async findOne (validId : ValidID): Promise<ReadSubCategoryDto>{
-        const entity = await this.subCategoryRepository.findOneBy({
-            pkSubCategory : validId.id
+        const entity = await this.subCategoryRepository.findOne({
+            where: {pkSubCategory : validId.id },
+            relations : ['category','services']
         })
+
         if(!entity){throw new HttpException(`SubCategory with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);}
 
         return SubCategoryMapper.entityToReadSubCategoryDto(entity);
@@ -50,10 +52,12 @@ export class SubCategoryService {
 
 
     async remove (validID : ValidID): Promise<{ message: string; status: HttpStatus }> {
-        const found = await this.findOne(validID);
+        const found = await this.subCategoryRepository.findOneBy({pkSubCategory:validID.id});
+
+        if(!found) return { message: "SubCategory Noy found", status: HttpStatus.NOT_FOUND }
 
         const responseDeleted = await this.subCategoryRepository.remove(
-            this.subCategoryRepository.create(found)
+            found
         );
 
         if(!responseDeleted) return { message: "SubCategory Deleted", status: HttpStatus.NOT_MODIFIED }

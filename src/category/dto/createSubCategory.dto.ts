@@ -4,7 +4,7 @@ import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
 
 
 export class CreateSubCategoryDto extends OmitType(SubCategoryEntity,
-['status','updatedAt','createdAt','addons']) {
+['status','updatedAt','createdAt',]) {
 
     @IsNumber({}, { message: 'Category ID must be a number' })
     @IsNotEmpty({ message: 'Category ID is required' })

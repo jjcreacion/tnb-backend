@@ -1,6 +1,7 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {CategoryEntity} from "@/category/entities/category.entity";
 import {ServiceAddonEntity} from "@/category/entities/services/serviceAddon.entity";
+import {CategoryServicesEntity} from "@/category/entities/services/categoryServices.entity";
 
 @Entity('sub_category')
 export class SubCategoryEntity {
@@ -13,8 +14,9 @@ export class SubCategoryEntity {
     @JoinColumn({ name: 'fk_category' })
     category: CategoryEntity;
 
-    @OneToMany(() => ServiceAddonEntity, (serviceAddons) => serviceAddons.subCategory)
-    addons: ServiceAddonEntity | ServiceAddonEntity[];
+
+    @OneToMany(() => CategoryServicesEntity, (service) => service.subCategory)
+    services: CategoryServicesEntity | CategoryServicesEntity[];
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;

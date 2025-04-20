@@ -1,3 +1,5 @@
+import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
+
 export class ReadCategoryServicesDto {
     pkService: number;
     name: string;
@@ -5,5 +7,6 @@ export class ReadCategoryServicesDto {
     status: number;
     createdAt: Date;
     updatedAt: Date;
-    fkCategory: number;
+    fkSubCategory: number;
+    subCategory : SubCategoryEntity;
 }

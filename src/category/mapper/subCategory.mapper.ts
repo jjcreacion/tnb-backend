@@ -2,6 +2,7 @@ import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
 import {ReadSubCategoryDto} from "@/category/dto/readSubCategory.dto";
 import {CategoryEntity} from "@/category/entities/category.entity";
 import {UpdateSubCategoryDto} from "@/category/dto/updateSubCategory.dto";
+import {response} from "express";
 
 
 export class SubCategoryMapper{
@@ -14,6 +15,8 @@ export class SubCategoryMapper{
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
         if(entity.category)responseDto.fkCategory = entity.category.pkCategory;
+        if(entity.category)responseDto.category = entity.category;
+        if(entity.services)responseDto.services = entity.services;
 
 
         return responseDto;

@@ -1,22 +1,26 @@
 import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import {ApiProperty, OmitType} from "@nestjs/swagger";
+import {CategoryServicesEntity} from "@/category/entities/services/categoryServices.entity";
 
 
-export class CreateCategoryServicesDto {
+export class CreateCategoryServicesDto extends OmitType(CategoryServicesEntity,
+    ['createdAt','updatedAt','addons',]
+){
 
-    @IsNumber({}, { message: 'Category ID must be a number' })
-    @IsNotEmpty({ message: 'Category ID is required' })
-    fkCategory: number;
 
     @IsString({ message: 'Name is required' })
     @IsNotEmpty({ message: 'Name cannot be empty' })
+    @ApiProperty()
     name: string;
 
     @IsString({ message: 'Description must be a string' })
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     description: string;
 
-    @IsNumber({}, { message: 'Status must be a number' })
-    @IsOptional()
-    status: number;
+    @IsNumber()@ApiProperty()
+    @IsNotEmpty({ message: 'Fk Sub category cannot be empty' })
+    fkSubCategory : number;
+
+
 
 }

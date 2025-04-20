@@ -20,7 +20,6 @@ export class ServiceAddonMapper {
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
         responseDto.fkService = entity.service?.pkService;
-        responseDto.fkSubCategory = entity.subCategory.pkSubCategory;
         responseDto.fkServiceType = entity.serviceType.pkType;
         responseDto.fkClientType = entity.clientType?.pkType;
         return responseDto;
@@ -41,9 +40,7 @@ export class ServiceAddonMapper {
         if (dto.fkService) {
             entity.service = { pkService: dto.fkService } as CategoryServicesEntity;
         }
-        if (dto.fkSubCategory) {
-            entity.subCategory = { pkSubCategory: dto.fkSubCategory } as SubCategoryEntity;
-        }
+
         if (dto.fkServiceType) {
             entity.serviceType = { pkType: dto.fkServiceType } as ServicesTypeEntity;
         }
@@ -61,7 +58,6 @@ export class ServiceAddonMapper {
         entity.contentWeb = dto.contentWeb;
         entity.price = dto.price;
         entity.service = { pkService: dto.fkService } as CategoryServicesEntity;
-        entity.subCategory = { pkSubCategory: dto.fkSubCategory } as SubCategoryEntity;
         entity.serviceType = { pkType: dto.fkServiceType } as ServicesTypeEntity;
         entity.clientType = { pkType: dto.fkClientType } as ClientTypeEntity;
         return entity;
@@ -81,9 +77,7 @@ export class ServiceAddonMapper {
         if (dto.fkService) {
             entity.service = { pkService: dto.fkService } as CategoryServicesEntity;
         }
-        if (dto.fkSubCategory) {
-            entity.subCategory = { pkSubCategory: dto.fkSubCategory } as SubCategoryEntity;
-        }
+
         if (dto.fkServiceType) {
             entity.serviceType = { pkType: dto.fkServiceType } as ServicesTypeEntity;
         }

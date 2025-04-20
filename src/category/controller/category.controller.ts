@@ -1,4 +1,15 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, HttpStatus} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  HttpStatus,
+  ParseIntPipe
+} from '@nestjs/common';
 import { CategoryService } from '../service/category.service';
 import { CreateCategoryDto } from '../dto/createCategory.dto';
 import { UpdateCategoryDto } from '../dto/updateCategory.dto';
@@ -36,11 +47,11 @@ export class CategoryController {
     return this.categoryService.update(updateCategoryDto);
   }
 
-  @Delete()
+  @Delete(":id")
   async remove(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-      idCategory: ValidID
+      @Param("id",ParseIntPipe) id: number
+
   ):Promise<{ message: string, status: HttpStatus }> {
-    return this.categoryService.remove(idCategory);
+    return this.categoryService.remove(id);
   }
 }

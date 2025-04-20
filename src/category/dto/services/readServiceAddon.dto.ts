@@ -9,7 +9,6 @@ export class ReadServiceAddonDto {
     createdAt: Date;
     updatedAt: Date;
     fkService: number;
-    fkSubCategory: number;
     fkServiceType: number;
     fkClientType: number;
 }

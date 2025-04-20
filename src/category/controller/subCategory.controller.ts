@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Patch, Post, ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe} from "@nestjs/common";
 import {SubCategoryService} from "@/category/service/subCategory.service";
 import {CreateSubCategoryDto} from "@/category/dto/createSubCategory.dto";
 import {ReadSubCategoryDto} from "@/category/dto/readSubCategory.dto";
@@ -23,9 +23,9 @@ export class SubCategoryController {
         return this.subCategoryService.findAll();
     }
 
-    @Delete()
-    async remove (@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) validID: ValidID) {
-        return this.subCategoryService.remove(validID);
+    @Delete(":id")
+    async remove (@Param("id",ParseIntPipe) id : number) {
+        return this.subCategoryService.remove(new ValidID(id));
     }
 
     @Patch()
@@ -33,6 +33,11 @@ export class SubCategoryController {
         @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
         updateSubCategoryDto:UpdateSubCategoryDto) {
         return this.subCategoryService.update(updateSubCategoryDto);
+    }
+
+    @Get("findOne/:id")
+    async getOne(@Param("id",ParseIntPipe) id:number){
+        return this.subCategoryService.findOne(new ValidID(id));
     }
 
 }

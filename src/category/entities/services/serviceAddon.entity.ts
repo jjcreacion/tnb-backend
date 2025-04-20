@@ -26,7 +26,7 @@ export class ServiceAddonEntity {
     @Column({name:"content_web",nullable:true, type:"varchar"})
     contentWeb: string;
 
-    @Column({name:"description",nullable:true, type:"varchar"})
+    @Column({name:"price",nullable:true, type:"varchar"})
     price: number;
 
     @Column({default: 1})
@@ -42,9 +42,6 @@ export class ServiceAddonEntity {
     @JoinColumn({ name: 'fk_service' })
     service: CategoryServicesEntity;
 
-    @ManyToOne(() => SubCategoryEntity, (subCategory) => subCategory.addons)
-    @JoinColumn({ name: 'fk_sub_category' })
-    subCategory: SubCategoryEntity;
 
     @OneToOne(() => ServicesTypeEntity, (serviceType) => serviceType.addons)
     @JoinColumn({ name: 'fk_service_type' })

@@ -1,54 +1,51 @@
-import { PartialType } from '@nestjs/swagger';
+import {ApiProperty, PartialType} from '@nestjs/swagger';
 import { IsNumber, IsString, IsOptional, IsBoolean } from 'class-validator';
 import {ServiceAddonEntity} from "@/category/entities/services/serviceAddon.entity";
 
 export class UpdateServiceAddonDto extends PartialType(ServiceAddonEntity) {
-    @IsNumber()
+    @IsNumber()@ApiProperty()
     pkAddon: number;
 
-    @IsBoolean()
+    @IsBoolean()@ApiProperty()
     isRetail: number;
 
-    @IsString()
+    @IsString()@ApiProperty()
     name: string;
 
     @IsString()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     description: string;
 
     @IsString()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     contentWeb: string;
 
     @IsNumber()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     price: number;
 
     @IsNumber()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     status: number;
 
     @IsString()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     createdAt: Date;
 
     @IsString()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     updatedAt: Date;
 
     @IsNumber()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     fkService: number;
 
-    @IsNumber()
-    @IsOptional()
-    fkSubCategory: number;
 
     @IsNumber()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     fkServiceType: number;
 
     @IsNumber()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     fkClientType: number;
 }

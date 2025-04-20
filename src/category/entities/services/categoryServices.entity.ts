@@ -2,6 +2,7 @@ import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn}
 import {CategoryEntity} from "@/category/entities/category.entity";
 import {RequestImageEntity} from "@/request/entities/requestImages.entity";
 import {ServiceAddonEntity} from "@/category/entities/services/serviceAddon.entity";
+import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
 
 @Entity('services')
 export class CategoryServicesEntity {
@@ -10,9 +11,9 @@ export class CategoryServicesEntity {
     @PrimaryGeneratedColumn({name: 'pk_service'})
     pkService: number;
 
-    @OneToOne(() => CategoryEntity, (category) => category.service)
-    @JoinColumn({ name: 'fk_category' })
-    category: CategoryEntity;
+    @OneToOne(() => SubCategoryEntity, (subcategory) => subcategory.services)
+    @JoinColumn({ name: 'fk_sub_category' })
+    subCategory: SubCategoryEntity;
 
     @OneToMany(() => ServiceAddonEntity, (serviceAddons) => serviceAddons.service)
     addons: ServiceAddonEntity | ServiceAddonEntity[];

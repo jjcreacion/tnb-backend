@@ -8,8 +8,6 @@ export class CategoryEntity {
     @PrimaryGeneratedColumn({name: 'pk_category'})
     pkCategory: number;
 
-    @OneToOne(() => CategoryServicesEntity, (service) => service.category)
-    service: CategoryServicesEntity;
 
     @OneToOne(() => SubCategoryEntity, (subCategory) => subCategory.category)
     subCategory: SubCategoryEntity;
