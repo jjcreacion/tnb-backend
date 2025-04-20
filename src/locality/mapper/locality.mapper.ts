@@ -2,7 +2,7 @@ import { LocalityEntity } from '../entities/locality.entity';
 import { ReadLocalityDto } from '../dto/readLocality.dto';
 import { CreateLocalityDto } from '../dto/createLocality.dto';
 import { UpdateLocalityDto } from '../dto/updateLocality.dto';
-import { CountryStateEntity } from '@/countryStates/entities/countryState.entity';
+import {CountryStateEntity} from "@/country-states/entities/country-states.entity";
 
 export class LocalityMapper {
     static entityToReadLocalityDto(entity: LocalityEntity): ReadLocalityDto {

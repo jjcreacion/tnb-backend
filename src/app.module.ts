@@ -10,15 +10,15 @@ import { UserModule } from './user/user.module';
 import { PersonModule } from './person/person.module';
 import { ProfileModule } from './profile/profile.module';
 import { CategoryModule } from './category/category.module';
-import { CategoryServiceModule } from '@/category/categoryService.module';
-import {SubCategoryModule} from "@/category/subCategory.module";
-import { ServicesTypeModule } from './category/services-type.module';
-import {ClientTypeModule} from "@/clientType/clientType.module";
-import {ServiceAddonsModule} from "@/category/serviceAddons.module";
-//import { CountryModule } from './country/country.module';
-//import { CountryStatesModule } from '@/countryStates/country-states.module';
-//import { LocalityModule } from './locality/locality.module';
-//import { LocalityTypeModule } from './locality-type/locality-type.module';
+import { ServicesModule } from '@/services/services.module';
+import { ServicesTypeModule } from './services-type/services-type.module';
+import {SubCategoryModule} from "@/sub-category/sub-Category.module";
+import {ServiceAddonsModule} from "@/service-addons/service-addons.module";
+import {ClientTypeModule} from "@/client-type/client-type.module";
+import {CountryModule} from "@/country/country.module";
+import {CountryStatesModule} from "@/country-states/country-states.module";
+import {LocalityModule} from "@/locality/locality.module";
+import {LocalityTypeModule} from "@/locality-type/locality-type.module";
 
 @Module({
   imports: [
@@ -53,13 +53,13 @@ import {ServiceAddonsModule} from "@/category/serviceAddons.module";
     PersonModule,
     ProfileModule,
     CategoryModule,SubCategoryModule,
-    CategoryServiceModule,ServicesTypeModule,
+    ServicesModule,ServicesTypeModule,
     ClientTypeModule,
     ServiceAddonsModule,
-  // CountryModule,
-  //  CountryStatesModule,
-  //  LocalityModule,
-  //  LocalityTypeModule
+   CountryModule,
+    CountryStatesModule,
+   LocalityModule,
+   LocalityTypeModule
 
   ],
   controllers: [],

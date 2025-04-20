@@ -1,5 +1,5 @@
 import { CategoryEntity } from '../entities/category.entity';
-import {ReadCategoryDto} from "@/category/dto/readCategory.dto";
+import {ReadCategoryDto} from "@/category/dto/read-category.dto";
 
 export class CategoryMapper {
     static entityToReadCategoryDto(entity: CategoryEntity): ReadCategoryDto {

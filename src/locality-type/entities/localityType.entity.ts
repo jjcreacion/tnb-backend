@@ -1,5 +1,5 @@
 import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {SubCategoryEntity} from "@/category/entities/subCategory.entity";
+import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
 import {LocalityEntity} from "@/locality/entities/locality.entity";
 
 

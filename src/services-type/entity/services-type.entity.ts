@@ -1,18 +1,21 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {CountryStateEntity} from "@/country-states/entities/country-states.entity";
+import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 
 
-@Entity('countries')
-export class CountryEntity {
+@Entity('services_type')
+export class ServicesTypeEntity {
 
-    @PrimaryGeneratedColumn({name: 'pk_country'})
-    pkCountry: number;
+    @PrimaryGeneratedColumn({name: 'pk_services_type'})
+    pkType: number;
 
-    @OneToMany(() => CountryStateEntity, (state) => state.country)
-    states: CountryStateEntity | CountryStateEntity[];
+    @OneToMany(() => AddonsEntity, (serviceAddons) => serviceAddons.serviceType)
+    addons: AddonsEntity | AddonsEntity[];
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;
+
+    @Column({name:"description",nullable:true, type:"varchar"})
+    description: string;
 
     @Column({default: 1})
     status: number;
@@ -22,5 +25,4 @@ export class CountryEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
-
 }

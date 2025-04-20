@@ -1,6 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {CountryStateEntity} from "@/countryStates/entities/countryState.entity";
 import {LocalityTypeEntity} from "@/locality-type/entities/localityType.entity";
+import {CountryStateEntity} from "@/country-states/entities/country-states.entity";
 
 
 @Entity('localities')

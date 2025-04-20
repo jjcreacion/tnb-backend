@@ -1,16 +1,20 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {ServicesEntity} from "@/services/entity/services.entity";
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
 
-@Entity('category')
-export class CategoryEntity {
-
-    @PrimaryGeneratedColumn({name: 'pk_category'})
-    pkCategory: number;
+@Entity('services')
+export class ServicesEntity {
 
 
-    @OneToOne(() => SubCategoryEntity, (subCategory) => subCategory.category)
+    @PrimaryGeneratedColumn({name: 'pk_service'})
+    pkService: number;
+
+    @OneToOne(() => SubCategoryEntity, (subcategory) => subcategory.services)
+    @JoinColumn({ name: 'fk_sub_category' })
     subCategory: SubCategoryEntity;
+
+    @OneToMany(() => AddonsEntity, (serviceAddons) => serviceAddons.service)
+    addons: AddonsEntity | AddonsEntity[];
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;
@@ -26,4 +30,5 @@ export class CategoryEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
+
 }
