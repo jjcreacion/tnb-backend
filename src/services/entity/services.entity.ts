@@ -1,6 +1,8 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
+import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
+import {ClientTypeEntity} from "@/client-type/entities/clientType.entity";
 
 @Entity('services')
 export class ServicesEntity {
@@ -15,6 +17,14 @@ export class ServicesEntity {
 
     @OneToMany(() => AddonsEntity, (serviceAddons) => serviceAddons.service)
     addons: AddonsEntity | AddonsEntity[];
+
+    @OneToOne(() => ServicesTypeEntity, (serviceType) => serviceType.services)
+    @JoinColumn({ name: 'fk_service_type' })
+    serviceType: ServicesTypeEntity;
+
+    @OneToOne(() => ClientTypeEntity, (clientType) => clientType.service)
+    @JoinColumn({ name: 'fk_client_type' })
+    clientType: ClientTypeEntity;
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;

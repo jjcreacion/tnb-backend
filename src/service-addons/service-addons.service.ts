@@ -37,7 +37,7 @@ export class ServiceAddonService {
 
   async findAll (): Promise<ReadAddonsDto[]> {
     const entities = await this.serviceAddonRepository.find({
-      relations: ['service', 'subCategory', 'serviceType', 'clientType'],
+      relations: ['service'],
     });
     return entities.map(entity => ServiceAddonMapper.entityToReadServiceAddonDto(entity));
   }

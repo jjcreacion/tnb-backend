@@ -21,6 +21,12 @@ export class CreateServicesDto extends OmitType(ServicesEntity,
     @IsNotEmpty({ message: 'Fk Sub category cannot be empty' })
     fkSubCategory : number;
 
+    @IsNumber()@ApiProperty()
+    @IsNotEmpty({ message: 'Fk client type cannot be empty' })
+    fkClientType : number;
 
+    @IsNumber()@ApiProperty()
+    @IsNotEmpty({ message: 'Fk service type cannot be empty' })
+    fkServiceType : number;
 
 }

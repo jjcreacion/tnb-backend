@@ -41,11 +41,4 @@ export class AddonsEntity {
     service: ServicesEntity;
 
 
-    @OneToOne(() => ServicesTypeEntity, (serviceType) => serviceType.addons)
-    @JoinColumn({ name: 'fk_service_type' })
-    serviceType: ServicesTypeEntity;
-
-    @OneToOne(() => ClientTypeEntity, (clientType) => clientType.addons)
-    @JoinColumn({ name: 'fk_client_type' })
-    clientType: ClientTypeEntity;
 }

@@ -18,6 +18,9 @@ export class ServicesMapper {
             dto.fkSubCategory= entity.subCategory.pkSubCategory;
             dto.subCategory = entity.subCategory;
         }
+        if(entity.clientType) dto.clientType = entity.clientType;
+        if(entity.serviceType) dto.serviceType = entity.serviceType;
+
 
        return dto ;
     }

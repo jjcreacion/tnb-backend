@@ -22,4 +22,11 @@ export class UpdateServicesDto extends OmitType(ServicesEntity,
     @ApiProperty()@IsNumber()
     fkSubCategory: number;
 
+    @IsNumber()@ApiProperty()
+    @IsNotEmpty({ message: 'Fk client type cannot be empty' })
+    fkClientType : number;
+
+    @IsNumber()@ApiProperty()
+    @IsNotEmpty({ message: 'Fk service type cannot be empty' })
+    fkServiceType : number;
 }

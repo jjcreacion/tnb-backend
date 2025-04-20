@@ -1,5 +1,5 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {AddonsEntity} from "@/service-addons/entity/addons.entity";
+import {ServicesEntity} from "@/services/entity/services.entity";
 
 
 @Entity('client_type')
@@ -8,8 +8,8 @@ export class ClientTypeEntity {
     @PrimaryGeneratedColumn({name: 'pk_client_type'})
     pkType: number;
 
-    @OneToMany(() => AddonsEntity, (serviceAddons) => serviceAddons.clientType)
-    addons: AddonsEntity | AddonsEntity[];
+    @OneToMany(() => ServicesEntity, (service) => service.clientType)
+    service: ServicesEntity | ServicesEntity[];
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;

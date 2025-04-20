@@ -1,5 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {AddonsEntity} from "@/service-addons/entity/addons.entity";
+import {ServicesEntity} from "@/services/entity/services.entity";
 
 
 @Entity('services_type')
@@ -8,8 +9,8 @@ export class ServicesTypeEntity {
     @PrimaryGeneratedColumn({name: 'pk_services_type'})
     pkType: number;
 
-    @OneToMany(() => AddonsEntity, (serviceAddons) => serviceAddons.serviceType)
-    addons: AddonsEntity | AddonsEntity[];
+    @OneToMany(() => ServicesEntity, (service) => service.serviceType)
+    services: ServicesEntity | ServicesEntity[];
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;

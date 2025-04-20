@@ -19,8 +19,6 @@ export class ServiceAddonMapper {
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
         responseDto.fkService = entity.service?.pkService;
-        responseDto.fkServiceType = entity.serviceType.pkType;
-        responseDto.fkClientType = entity.clientType?.pkType;
         return responseDto;
     }
 
@@ -40,12 +38,7 @@ export class ServiceAddonMapper {
             entity.service = { pkService: dto.fkService } as ServicesEntity;
         }
 
-        if (dto.fkServiceType) {
-            entity.serviceType = { pkType: dto.fkServiceType } as ServicesTypeEntity;
-        }
-        if (dto.fkClientType) {
-            entity.clientType = { pkType: dto.fkClientType } as ClientTypeEntity;
-        }
+
         return entity;
     }
 
@@ -57,8 +50,7 @@ export class ServiceAddonMapper {
         entity.contentWeb = dto.contentWeb;
         entity.price = dto.price;
         entity.service = { pkService: dto.fkService } as ServicesEntity;
-        entity.serviceType = { pkType: dto.fkServiceType } as ServicesTypeEntity;
-        entity.clientType = { pkType: dto.fkClientType } as ClientTypeEntity;
+
         return entity;
     }
 
@@ -77,12 +69,7 @@ export class ServiceAddonMapper {
             entity.service = { pkService: dto.fkService } as ServicesEntity;
         }
 
-        if (dto.fkServiceType) {
-            entity.serviceType = { pkType: dto.fkServiceType } as ServicesTypeEntity;
-        }
-        if (dto.fkClientType) {
-            entity.clientType = { pkType: dto.fkClientType } as ClientTypeEntity;
-        }
+
         return entity;
     }
 }
