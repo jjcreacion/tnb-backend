@@ -3,21 +3,26 @@ import { IsNumber, IsString, IsOptional, IsBoolean } from 'class-validator';
 import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 
 export class UpdateAddonsDto extends PartialType(AddonsEntity) {
-    @IsNumber()@ApiProperty()
+    @IsNumber()
+    @ApiProperty()
     pkAddon: number;
 
-    @IsBoolean()@ApiProperty()
+    @IsNumber()
+    @ApiProperty()
     isRetail: number;
 
-    @IsString()@ApiProperty()
+    @IsString()
+    @ApiProperty()
     name: string;
 
     @IsString()
-    @IsOptional()@ApiProperty()
+    @IsOptional()
+    @ApiProperty()
     description: string;
 
     @IsString()
-    @IsOptional()@ApiProperty()
+    @IsOptional()
+    @ApiProperty()
     contentWeb: string;
 
     @IsNumber()
@@ -28,24 +33,10 @@ export class UpdateAddonsDto extends PartialType(AddonsEntity) {
     @IsOptional()@ApiProperty()
     status: number;
 
-    @IsString()
-    @IsOptional()@ApiProperty()
-    createdAt: Date;
-
-    @IsString()
-    @IsOptional()@ApiProperty()
-    updatedAt: Date;
 
     @IsNumber()
     @IsOptional()@ApiProperty()
     fkService: number;
 
 
-    @IsNumber()
-    @IsOptional()@ApiProperty()
-    fkServiceType: number;
-
-    @IsNumber()
-    @IsOptional()@ApiProperty()
-    fkClientType: number;
 }

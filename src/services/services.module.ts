@@ -16,5 +16,6 @@ import {ClientTypeModule} from "@/client-type/client-type.module";
   ],
   controllers: [ServicesController],
   providers: [CategoryServicesService],
+  exports:[CategoryServicesService]
 })
 export class ServicesModule {}

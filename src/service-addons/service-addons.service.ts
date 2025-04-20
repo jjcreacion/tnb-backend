@@ -7,6 +7,8 @@ import {ValidID} from "@/utils/validID";
 import {UpdateAddonsDto} from "@/service-addons/dto/update-addons.dto";
 import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
 import {CreateAddonsDto} from "@/service-addons/dto/create-addons.dto";
+import {CategoryServicesService} from "@/services/services.service";
+import {ServicesEntity} from "@/services/entity/services.entity";
 
 @Injectable()
 export class ServiceAddonService {
@@ -14,9 +16,19 @@ export class ServiceAddonService {
   constructor(
       @InjectRepository(AddonsEntity)
       private readonly serviceAddonRepository: Repository<AddonsEntity>,
+      private readonly categoryServicesService : CategoryServicesService
   ) {}
 
   async create (createServiceAddonDto : CreateAddonsDto): Promise<ReadAddonsDto> {
+    let entity = this.serviceAddonRepository.create(createServiceAddonDto);
+
+    let service = await this.categoryServicesService.findOne(new ValidID(createServiceAddonDto.fkService));
+
+    if(!service){ throw new HttpException(`Service  with ID ${createServiceAddonDto.fkService} not found`, HttpStatus.NOT_FOUND);}
+
+    entity.service = { pkService : service.pkService  } as ServicesEntity;
+
+
     return ServiceAddonMapper.entityToReadServiceAddonDto(
         await this.serviceAddonRepository.save(
             ServiceAddonMapper.createServiceAddonDtoToEntity(createServiceAddonDto)
@@ -27,7 +39,7 @@ export class ServiceAddonService {
   async findOne (validId : ValidID): Promise<ReadAddonsDto> {
     const entity = await this.serviceAddonRepository.findOne({
       where: { pkAddon: validId.id },
-      relations: ['service', 'subCategory', 'serviceType', 'clientType'],
+      relations: ['service'],
     });
     if(!entity){
       throw new HttpException(`Service Addon with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);
@@ -63,14 +75,19 @@ export class ServiceAddonService {
   async update (updateServiceAddonDto: UpdateAddonsDto): Promise<{ message: string; status: HttpStatus }> {
     const entity = await this.serviceAddonRepository.findOne({
       where: { pkAddon: updateServiceAddonDto.pkAddon },
-      //relations: ['service', 'subCategory', 'serviceType', 'clientType'],
     });
-    if(!entity){
-      throw new HttpException(`Service Addon with ID ${updateServiceAddonDto.pkAddon} not found`, HttpStatus.NOT_FOUND);
-    }
+
+    if(!entity){ throw new HttpException(`Service Addon with ID ${updateServiceAddonDto.pkAddon} not found`, HttpStatus.NOT_FOUND);}
 
     const updatedEntity = ServiceAddonMapper.updateServiceAddonDtoToEntity(updateServiceAddonDto);
     const mergedEntity = this.serviceAddonRepository.merge(entity, updatedEntity);
+
+
+
+
+
+
+
     const updateResult = await this.serviceAddonRepository.save(mergedEntity);
 
     if(!updateResult) {

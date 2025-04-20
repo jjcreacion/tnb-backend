@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe} from '@nestjs/common';
 import {ValidID} from "@/utils/validID";
 import {UpdateAddonsDto} from "@/service-addons/dto/update-addons.dto";
 import {ServiceAddonService} from "@/service-addons/service-addons.service";
@@ -23,20 +23,18 @@ export class ServiceAddonController {
     return this.serviceAddonService.findAll();
   }
 
-  @Get('findOne')
+  @Get('findOne/:id')
   async findOne(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-      validID: ValidID
+      @Param("id",ParseIntPipe) id :number
   ): Promise<ReadAddonsDto> {
-    return this.serviceAddonService.findOne(validID);
+    return this.serviceAddonService.findOne(new ValidID(id));
   }
 
-  @Delete()
+  @Delete(":id")
   async remove (
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-      validID: ValidID
+      @Param("id",ParseIntPipe) id :number
   ) {
-    return this.serviceAddonService.remove(validID);
+    return this.serviceAddonService.remove(new ValidID(id));
   }
 
   @Patch()

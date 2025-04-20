@@ -10,5 +10,6 @@ import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
   ],
   controllers: [ServicesTypeController],
   providers: [ServicesTypeService],
+  exports: [ServicesTypeService]
 })
 export class ServicesTypeModule {}

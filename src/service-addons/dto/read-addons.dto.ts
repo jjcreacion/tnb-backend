@@ -1,6 +1,6 @@
 export class ReadAddonsDto {
     pkAddon: number;
-    isReailt: number;
+    isReail: number;
     name: string;
     description: string;
     contentWeb: string;

@@ -10,7 +10,7 @@ export class ServiceAddonMapper {
     static entityToReadServiceAddonDto(entity: AddonsEntity): ReadAddonsDto {
         const responseDto = new ReadAddonsDto();
         responseDto.pkAddon = entity.pkAddon;
-        responseDto.isReailt = entity.isRetail;
+        responseDto.isReail = entity.isRetail;
         responseDto.name = entity.name;
         responseDto.description = entity.description;
         responseDto.contentWeb = entity.contentWeb;
@@ -18,14 +18,14 @@ export class ServiceAddonMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
-        responseDto.fkService = entity.service?.pkService;
+        if(entity.service) responseDto.fkService = entity.service.pkService;
         return responseDto;
     }
 
     static readServiceAddonDtoToEntity(dto: ReadAddonsDto): AddonsEntity {
         const entity = new AddonsEntity();
         entity.pkAddon = dto.pkAddon;
-        entity.isRetail = dto.isReailt;
+        entity.isRetail = dto.isReail;
         entity.name = dto.name;
         entity.description = dto.description;
         entity.contentWeb = dto.contentWeb;
