@@ -44,7 +44,8 @@ export class SubCategoryService {
     }
 
     async findAll ():Promise<ReadSubCategoryDto[]>{
-        return this.subCategoryRepository.find().then(subs =>
+
+        return this.subCategoryRepository.find({relations:['category']}).then(subs =>
         subs.map( (subCate) =>
             SubCategoryMapper.entityToReadSubCategoryDto(subCate)
         ))
