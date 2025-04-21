@@ -71,6 +71,15 @@ export class CategoryServicesService {
         ))
   }
 
+  async findAllWithChildrens ():Promise<ReadServicesDto[]>{
+    return this.categoryServicesRepository.find(
+        {relations : ['subCategory','subCategory.category','serviceType','clientType']}
+    ).then(subs =>
+        subs.map( (subCate) =>
+            ServicesMapper.entityToReadServiceDto(subCate)
+        ))
+  }
+
 
   async remove (validID : ValidID): Promise<{ message: string; status: HttpStatus }> {
     const found = await this.categoryServicesRepository.findOneBy({pkService:validID.id})

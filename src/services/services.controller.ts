@@ -22,6 +22,11 @@ export class ServicesController {
     return this.categoryServicesService.findAll();
   }
 
+  @Get("findAllWithChildrens")
+  async findAllWithChildrens ():Promise<ReadServicesDto[]>{
+    return this.categoryServicesService.findAllWithChildrens();
+  }
+
   @Delete(":id")
   async remove (@Param("id",ParseIntPipe) id:number) {
     return this.categoryServicesService.remove(new ValidID(id));
