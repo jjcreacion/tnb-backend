@@ -24,7 +24,7 @@ export class SubCategoryController {
     }
 
     @Get("alldata")
-      async findAllWithCategoryInfo(): Promise<ReadSubCategoryDto[]> {
+    async findAllWithCategoryInfo(): Promise<ReadSubCategoryDto[]> {
         return this.subCategoryService.findAllWithCategory();
     }
 
