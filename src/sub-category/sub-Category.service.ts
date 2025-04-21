@@ -31,6 +31,10 @@ export class SubCategoryService {
             await this.subCategoryRepository.save(newEntity)
         )
     }
+    async findAllWithCategory(): Promise<ReadSubCategoryDto[]> {
+        const subCategories = await this.subCategoryRepository.find({ relations: ['category'] });
+        return subCategories.map((subCategory) => SubCategoryMapper.entityToReadSubCategoryDto(subCategory));
+    }
 
     async findOne (validId : ValidID): Promise<ReadSubCategoryDto>{
         const entity = await this.subCategoryRepository.findOne({
