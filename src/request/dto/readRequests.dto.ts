@@ -6,7 +6,7 @@ import {actionsDto} from "@/utils/actions.dto";
 
 export class ReadRequestDto {
 
-    id: number;
+    pkRequest: number;
     dateRequest: Date;
     status: string;
     description: string;
@@ -19,7 +19,7 @@ export class ReadRequestDto {
 
 }
 export class ReadRequestByTableDto {
-    id: number;
+    pkRequest: number;
     personFullName : string;
     creationDate : Date;
     status : string;

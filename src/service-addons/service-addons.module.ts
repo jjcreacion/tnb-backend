@@ -12,5 +12,6 @@ import {ServicesModule} from "@/services/services.module";
   ],
   controllers: [ServiceAddonController],
   providers: [ServiceAddonService],
+  exports:[ServiceAddonService]
 })
 export class ServiceAddonsModule {}

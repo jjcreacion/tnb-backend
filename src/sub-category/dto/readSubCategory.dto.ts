@@ -1,10 +1,10 @@
-import {CategoryEntity} from "@/category/entities/category.entity";
-import {ServicesEntity} from "@/services/entity/services.entity";
 import {OmitType, PartialType} from "@nestjs/swagger";
 import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
+import {ReadCategoryDto} from "@/category/dto/read-category.dto";
+import {ReadServicesDto} from "@/services/dto/read-services.dto";
 
 export class ReadSubCategoryDto extends OmitType(SubCategoryEntity,
-    ['status','updatedAt','createdAt',]) {
+    ['status','updatedAt','createdAt','category','services']) {
 
     pkSubCategory: number;
     name: string;
@@ -13,6 +13,6 @@ export class ReadSubCategoryDto extends OmitType(SubCategoryEntity,
     createdAt: Date;
     updatedAt: Date;
     fkCategory: number;
-    category : CategoryEntity ;
-    services : ServicesEntity | ServicesEntity[];
+    category : ReadCategoryDto ;
+    services : ReadServicesDto | ReadServicesDto[];
 }

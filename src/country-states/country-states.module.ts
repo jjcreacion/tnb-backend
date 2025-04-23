@@ -10,5 +10,6 @@ import {CountryStateEntity} from "@/country-states/entities/country-states.entit
   ],
   controllers: [CountryStateController],
   providers: [CountryStateService],
+  exports:[CountryStateService]
 })
 export class CountryStatesModule {}

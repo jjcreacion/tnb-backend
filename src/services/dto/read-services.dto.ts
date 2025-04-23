@@ -1,6 +1,7 @@
-import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
-import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
-import {ClientTypeEntity} from "@/client-type/entities/clientType.entity";
+import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
+import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
+import {ReadServicesTypeDto} from "@/services-type/dto/read-services-type.dto";
+import {ReadClientTypeDto} from "@/client-type/dto/readClientType.dto";
 
 export class ReadServicesDto {
     pkService: number;
@@ -10,7 +11,8 @@ export class ReadServicesDto {
     createdAt: Date;
     updatedAt: Date;
     fkSubCategory: number;
-    subCategory : SubCategoryEntity;
-    serviceType : ServicesTypeEntity;
-    clientType : ClientTypeEntity;
+    subCategory : ReadSubCategoryDto;
+    serviceType : ReadServicesTypeDto;
+    clientType : ReadClientTypeDto;
+    addons : ReadAddonsDto | ReadAddonsDto[];
 }

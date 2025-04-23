@@ -12,7 +12,7 @@ export class RequestMapper {
 
         let dto : ReadRequestByTableDto = new ReadRequestByTableDto();
 
-        dto.id = requestEntity.id;
+        dto.pkRequest = requestEntity.pkRequest;
         dto.personFullName = requestEntity.person.firstName;
         dto.personFullName +=   requestEntity.person.middleName ?  " "+requestEntity.person.middleName : ""
         dto.personFullName += requestEntity.person.lastName ?  " " + requestEntity.person.lastName : "";

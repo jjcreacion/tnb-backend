@@ -10,5 +10,6 @@ import {LocalityEntity} from "@/locality/entities/locality.entity";
   ],
   controllers: [LocalityController],
   providers: [LocalityService],
+  exports:[LocalityService]
 })
 export class LocalityModule {}

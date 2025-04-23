@@ -32,6 +32,26 @@
          ));
    }
 
+     async findAllWithChildrens(): Promise <ReadCategoryDto[]> {
+         return await this.categoryRepository.find({
+            relations :['subCategory']
+         })
+             .then( categories =>
+                 categories.map(
+                     (category) => CategoryMapper.entityToReadCategoryDto(category)
+                 ));
+     }
+     async findAllWithChildrensCompleted(): Promise <ReadCategoryDto[]> {
+         return await this.categoryRepository.find({
+             relations :['subCategory','subCategory.services','subCategory.services.addons']
+         })
+             .then( categories =>
+                 categories.map(
+                     (category) => CategoryMapper.entityToReadCategoryDto(category)
+                 )
+             );
+     }
+
    async findOne(validID: ValidID): Promise<ReadCategoryDto> {
      const category = await this.categoryRepository.findOneBy({ pkCategory: validID.id });
      if (!category) {

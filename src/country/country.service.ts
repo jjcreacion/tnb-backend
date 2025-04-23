@@ -41,6 +41,15 @@ export class CountryService {
         )
     );
   }
+  async findAllWithChildrensCompleted (): Promise<ReadCountryDto[]> {
+    return this.countryRepository.find({
+      relations: ['states','states.localities','states.localities.localityType']
+    }).then(countries =>
+        countries.map(country =>
+            CountryMapper.entityToReadCountryDto(country)
+        )
+    );
+  }
 
   async remove (validID : ValidID): Promise<{ message: string; status: HttpStatus }> {
     const found = await this.findOne(validID);

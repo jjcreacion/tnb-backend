@@ -3,6 +3,7 @@ import { ReadLocalityDto } from '../dto/readLocality.dto';
 import { CreateLocalityDto } from '../dto/createLocality.dto';
 import { UpdateLocalityDto } from '../dto/updateLocality.dto';
 import {CountryStateEntity} from "@/country-states/entities/country-states.entity";
+import {LocalityTypeMapper} from "@/locality-type/mapper/localityType.mapper";
 
 export class LocalityMapper {
     static entityToReadLocalityDto(entity: LocalityEntity): ReadLocalityDto {
@@ -13,6 +14,7 @@ export class LocalityMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
+        if(entity.localityType)responseDto.localityType = LocalityTypeMapper.entityToReadLocalityTypeDto(entity.localityType)
         return responseDto;
     }
 

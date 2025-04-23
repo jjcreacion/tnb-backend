@@ -3,18 +3,15 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
-  HttpException,
-  HttpStatus,
-  ValidationPipe
+  ValidationPipe, ParseIntPipe
 } from '@nestjs/common';
-import { RequestService } from '../services/request.service';
-import { CreateRequestDto } from '../dto/createRequest.dto';
+import { RequestService } from './services/request.service';
+import { CreateRequestDto } from './dto/createRequest.dto';
 import {ReadRequestByTableDto, ReadRequestDto} from "@/request/dto/readRequests.dto";
-import {FindRequestsByPersonDto} from "@/request/dto/findRequestByPerson.dto";
 import {ValidID} from "@/utils/validID";
+import {ReadRequestFormDto} from "@/request/dto/read-request-form.dto";
+import {OptionalParseIntPipe} from "@/utils/pipes/optional-parse-int.pipe";
 
 @Controller('request')
 export class RequestController {
@@ -35,6 +32,14 @@ export class RequestController {
   @Get('AllbyAdmin')
   async findAllRequestByAdmin():Promise<ReadRequestDto[]>{
     return this.requestService.findAllRequestByAdmin();
+  }
+
+  @Get('getFormRequestData/:id')
+  async getFormRequest(
+      @Param("id",ParseIntPipe) id:number
+  ):Promise<ReadRequestFormDto>{
+
+    return this.requestService.getFormRequest(id);
   }
 
   @Get('forTableList')

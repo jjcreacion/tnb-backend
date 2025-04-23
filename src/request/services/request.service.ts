@@ -10,6 +10,14 @@ import {RequestPriorityService} from "@/request/services/requestPriority.service
 import {RequestLocationService} from "@/request/services/requestLocation.service";
 import {RequestImagesService} from "@/request/services/requestImages.service";
 import {ValidID} from "@/utils/validID";
+import {ReadRequestFormDto} from "@/request/dto/read-request-form.dto";
+import {CountryService} from "@/country/country.service";
+import {CountryStateService} from "@/country-states/country-states.service";
+import {LocalityService} from "@/locality/locality.service";
+import {CategoryService} from "@/category/category.service";
+import {SubCategoryService} from "@/sub-category/sub-Category.service";
+import {ServiceAddonService} from "@/service-addons/service-addons.service";
+import {CategoryServicesService} from "@/services/services.service";
 
 @Injectable()
 export class RequestService {
@@ -21,6 +29,13 @@ export class RequestService {
       private priorityService: RequestPriorityService,
       private locationService: RequestLocationService,
       private imagesService: RequestImagesService,
+      private readonly countriesService : CountryService,
+      private readonly statesService : CountryStateService,
+      private readonly localitiesServices : LocalityService,
+      private readonly categoriesService : CategoryService,
+      private readonly subCategoriesService : SubCategoryService,
+      private readonly categoryServicesService :CategoryServicesService,
+      private readonly addonsService : ServiceAddonService
   ){}
 
 
@@ -95,6 +110,19 @@ export class RequestService {
 
   }
 
+  async findOneWithChildren (id:number):Promise<ReadRequestDto>{
+    let dto = new ReadRequestDto ();
+    const requestFound = await this.requestRepository.findOne({
+      where : {pkRequest : id},
+      relations : ['person','priority','locations','images']
+    });
+    if(!requestFound){ throw new HttpException('Request ID NotFound', HttpStatus.NOT_FOUND);}
+
+    dto = RequestMapper.mapRequestEntityToReadRequestDto(requestFound);
+
+    return dto;
+  }
+
   async findAllRequestByAdmin ():Promise<ReadRequestDto[]>{
     const response = await this.requestRepository.find({
       relations :['person','priority','locations','images']
@@ -107,4 +135,15 @@ export class RequestService {
     return responseDto;
   }
 
+  async getFormRequest(id: number):Promise<ReadRequestFormDto>{
+    let dto = new ReadRequestFormDto ();
+    let requestDto = new ReadRequestDto();
+
+    dto.request = id ? await this.findOneWithChildren(id) :  new ReadRequestDto();
+    dto.countries = await this.countriesService.findAllWithChildrensCompleted();
+    dto.categories = await this.categoriesService.findAllWithChildrensCompleted();
+
+
+    return dto;
+  }
 }

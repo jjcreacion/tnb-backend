@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
 import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
@@ -11,7 +11,7 @@ export class ServicesEntity {
     @PrimaryGeneratedColumn({name: 'pk_service'})
     pkService: number;
 
-    @OneToOne(() => SubCategoryEntity, (subcategory) => subcategory.services)
+    @ManyToOne(() => SubCategoryEntity, (subcategory) => subcategory.services)
     @JoinColumn({ name: 'fk_sub_category' })
     subCategory: SubCategoryEntity;
 

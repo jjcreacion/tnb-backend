@@ -3,7 +3,7 @@ import {RequestEntity} from "@/request/entities/request.entity";
 import {IsDate, IsNotEmpty, IsNumber, IsPositive, IsString, MinDate, MinLength} from "class-validator";
 
 export class CreateRequestDto extends OmitType(RequestEntity, [
-    'id','status','createdAt','updatedAt'
+    'pkRequest','status','createdAt','updatedAt'
 ]){
 
     @ApiProperty({ description: 'Request date ', example: '2025-12-31',  })

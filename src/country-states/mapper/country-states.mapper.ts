@@ -3,6 +3,7 @@ import {CountryStateEntity} from "@/country-states/entities/country-states.entit
 import {ReadStateDto} from "@/country-states/dto/read-country-state.dto";
 import {CreateStateDto} from "@/country-states/dto/create-country-state.dto";
 import {UpdateStateDto} from "@/country-states/dto/update-country-state.dto";
+import {LocalityMapper} from "@/locality/mapper/locality.mapper";
 
 export class CountryStateMapper {
     static entityToReadStateDto(entity: CountryStateEntity): ReadStateDto {
@@ -14,6 +15,17 @@ export class CountryStateMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
+
+        if(entity.localities){
+            if(Array.isArray(entity.localities)){
+                responseDto.localities =entity.localities.map ((locality) =>
+                    LocalityMapper.entityToReadLocalityDto(locality)
+                )
+            }else{
+                responseDto.localities = LocalityMapper.entityToReadLocalityDto(entity.localities)
+            }
+        }
+
         return responseDto;
     }
 

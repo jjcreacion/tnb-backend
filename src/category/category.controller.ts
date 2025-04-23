@@ -32,6 +32,12 @@ export class CategoryController {
     return this.categoryService.findAll();
   }
 
+  @Get('findAllWithChildrens')
+  async findAllWithChildrens(): Promise<ReadCategoryDto[]> {
+    return this.categoryService.findAllWithChildrens();
+  }
+
+
   @Get('findOne/:id')
   async findOne(
       @Param("id") id : number

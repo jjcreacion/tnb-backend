@@ -3,6 +3,8 @@ import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
 import {CategoryEntity} from "@/category/entities/category.entity";
 import {UpdateSubCategoryDto} from "@/sub-category/dto/updateSubCategory.dto";
 import {response} from "express";
+import {CategoryMapper} from "@/category/mapper/category.mapper";
+import {ServicesMapper} from "@/services/mapper/services.mapper";
 
 
 export class SubCategoryMapper{
@@ -15,8 +17,20 @@ export class SubCategoryMapper{
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
         if(entity.category)responseDto.fkCategory = entity.category.pkCategory;
-        if(entity.category)responseDto.category = entity.category;
-        if(entity.services)responseDto.services = entity.services;
+        if(entity.category)responseDto.category = CategoryMapper.entityToReadCategoryDto(entity.category);
+
+        if(entity.services){
+            if(Array.isArray(entity.services) ){
+                responseDto.services = entity.services.map( (service) =>
+                    ServicesMapper.entityToReadServiceDto(service)
+                );
+            }else{
+                responseDto.services = ServicesMapper.entityToReadServiceDto(entity.services);
+            }
+        }
+
+
+
 
 
         return responseDto;

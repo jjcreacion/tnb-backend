@@ -2,6 +2,7 @@ import { CountryEntity } from '../entities/country.entity';
 import { ReadCountryDto } from '../dto/readCountry.dto';
 import { CreateCountryDto } from '../dto/createCountry.dto';
 import { UpdateCountryDto } from '../dto/updateCountry.dto';
+import {CountryStateMapper} from "@/country-states/mapper/country-states.mapper";
 
 export class CountryMapper {
     static entityToReadCountryDto(entity: CountryEntity): ReadCountryDto {
@@ -11,6 +12,17 @@ export class CountryMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
+
+        if(entity.states){
+            if(Array.isArray(entity.states)){
+                responseDto.states =entity.states .map( (state) =>
+                    CountryStateMapper.entityToReadStateDto(state)
+                )
+            }else{
+                responseDto.states = CountryStateMapper.entityToReadStateDto(entity.states);
+            }
+        }
+
         return responseDto;
     }
 

@@ -3,23 +3,40 @@ import { ServicesEntity } from '../entity/services.entity';
 import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
 import {ReadServicesDto} from "@/services/dto/read-services.dto";
 import {CreateServicesDto} from "@/services/dto/create-services.dto";
+import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
+import {ServiceAddonMapper} from "@/service-addons/mapper/serviceAddon.mapper";
 
 export class ServicesMapper {
     static entityToReadServiceDto(entity: ServicesEntity): ReadServicesDto {
         let dto = new ReadServicesDto();
 
-        dto.pkService= entity.pkService;
-        dto.name= entity.name;
-        dto.description= entity.description;
-        dto.status= entity.status;
-        dto.createdAt= entity.createdAt;
-        dto.updatedAt= entity.updatedAt;
-        if(entity.subCategory){
-            dto.fkSubCategory= entity.subCategory.pkSubCategory;
-            dto.subCategory = entity.subCategory;
+
+            dto.pkService= entity.pkService;
+            dto.name= entity.name;
+            dto.description= entity.description;
+            dto.status= entity.status;
+            dto.createdAt= entity.createdAt;
+            dto.updatedAt= entity.updatedAt;
+            if(entity.subCategory){
+                dto.fkSubCategory= entity.subCategory.pkSubCategory;
+                dto.subCategory = SubCategoryMapper.entityToReadSubCategoryDto(entity.subCategory);
+            }
+            if(entity.clientType) dto.clientType = entity.clientType;
+            if(entity.serviceType) dto.serviceType = entity.serviceType;
+
+        if(entity.addons) {
+            if (Array.isArray(entity.addons)) {
+                dto.addons = entity.addons.map((addon) =>
+                    ServiceAddonMapper.entityToReadServiceAddonDto(addon)
+                )
+            }else{
+                dto.addons = ServiceAddonMapper.entityToReadServiceAddonDto(entity.addons)
+            }
         }
-        if(entity.clientType) dto.clientType = entity.clientType;
-        if(entity.serviceType) dto.serviceType = entity.serviceType;
+
+
+
+
 
 
        return dto ;

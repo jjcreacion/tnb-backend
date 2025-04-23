@@ -8,7 +8,7 @@ import {RequestPriorityEntity} from "@/request/entities/requestPriority.entity";
 export class RequestEntity {
 
     @PrimaryGeneratedColumn({name: 'request_id'})
-    id: number;
+    pkRequest: number;
 
     @ManyToOne(() => PersonEntity, (person) => person.requests)
     @JoinColumn({ name: 'fk_person' })

@@ -1,3 +1,5 @@
+import {ReadLocalityTypeDto} from "@/locality-type/dto/readLocalityType.dto";
+
 export class ReadLocalityDto {
     pkLocality: number;
     name: string;
@@ -5,4 +7,5 @@ export class ReadLocalityDto {
     status: number;
     createdAt: Date;
     updatedAt: Date;
+    localityType : ReadLocalityTypeDto ;
 }
