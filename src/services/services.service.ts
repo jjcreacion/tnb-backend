@@ -80,6 +80,16 @@ export class CategoryServicesService {
         ))
   }
 
+  async findOneWithAddons (pkService: number):Promise<ReadServicesDto>{
+    const entity = await this.categoryServicesRepository.findOne({
+      where: {pkService:pkService},
+          relations : ['addons']
+    })
+    if(!entity){throw new HttpException(`CategoryServices with ID ${pkService} not found`, HttpStatus.NOT_FOUND);}
+
+    return ServicesMapper.entityToReadServiceDto(entity)
+  }
+
 
   async remove (validID : ValidID): Promise<{ message: string; status: HttpStatus }> {
     const found = await this.categoryServicesRepository.findOneBy({pkService:validID.id})

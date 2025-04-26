@@ -44,4 +44,10 @@ export class ServiceAddonController {
   ) {
     return this.serviceAddonService.update(updateServiceAddonDto);
   }
+
+
+  @Get("getAllByService/:pkService")
+  async findByService(@Param("pkService",ParseIntPipe) pkService : number){
+    return this.serviceAddonService.findOAllByService(pkService)
+  }
 }

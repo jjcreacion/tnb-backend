@@ -5,6 +5,7 @@ import {UpdateAddonsDto} from "@/service-addons/dto/update-addons.dto";
 import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
 import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
 import {CreateAddonsDto} from "@/service-addons/dto/create-addons.dto";
+import {ServicesMapper} from "@/services/mapper/services.mapper";
 
 export class ServiceAddonMapper {
     static entityToReadServiceAddonDto(entity: AddonsEntity): ReadAddonsDto {
@@ -18,7 +19,10 @@ export class ServiceAddonMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
-        if(entity.service) responseDto.fkService = entity.service.pkService;
+        if(entity.service){
+            responseDto.fkService = entity.service.pkService;
+            responseDto.service=ServicesMapper.entityToReadServiceDto(entity.service)
+        }
         return responseDto;
     }
 

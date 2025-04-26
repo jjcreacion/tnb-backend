@@ -9,6 +9,7 @@ import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
 import {CreateAddonsDto} from "@/service-addons/dto/create-addons.dto";
 import {CategoryServicesService} from "@/services/services.service";
 import {ServicesEntity} from "@/services/entity/services.entity";
+import {ServicesMapper} from "@/services/mapper/services.mapper";
 
 @Injectable()
 export class ServiceAddonService {
@@ -85,11 +86,6 @@ export class ServiceAddonService {
     const mergedEntity = this.serviceAddonRepository.merge(entity, updatedEntity);
 
 
-
-
-
-
-
     const updateResult = await this.serviceAddonRepository.save(mergedEntity);
 
     if(!updateResult) {
@@ -102,4 +98,18 @@ export class ServiceAddonService {
       addon: ServiceAddonMapper.entityToReadServiceAddonDto(updateResult)
     };
   }
+
+
+  async findOAllByService (pkService:number){
+
+    const serviceWithAddons = await this.categoryServicesService.findOneWithAddons(pkService);
+
+    if(!serviceWithAddons){throw new HttpException(`Service with ID ${pkService} not found`, HttpStatus.NOT_FOUND);}
+
+    return serviceWithAddons;
+
+  }
+
+
+
 }

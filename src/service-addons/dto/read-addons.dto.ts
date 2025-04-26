@@ -1,3 +1,5 @@
+import {ReadServicesDto} from "@/services/dto/read-services.dto";
+
 export class ReadAddonsDto {
     pkAddon: number;
     isReail: number;
@@ -9,6 +11,5 @@ export class ReadAddonsDto {
     createdAt: Date;
     updatedAt: Date;
     fkService: number;
-    fkServiceType: number;
-    fkClientType: number;
+    service : ReadServicesDto;
 }
