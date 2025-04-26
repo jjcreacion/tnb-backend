@@ -4,7 +4,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {RequestEntity} from "@/request/entities/request.entity";
 import {ReadRequestByTableDto, ReadRequestDto} from "@/request/dto/readRequests.dto";
-import {PersonService} from "@/person/service/person.service";
+import {PersonService} from "@/person/person.service";
 import {RequestMapper} from "@/request/mapper/request.mapper";
 import {RequestPriorityService} from "@/request/services/requestPriority.service";
 import {RequestLocationService} from "@/request/services/requestLocation.service";

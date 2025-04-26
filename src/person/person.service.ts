@@ -1,5 +1,5 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import { CreatePersonDto } from '../dto/createPerson.dto';
+import { CreatePersonDto } from './dto/createPerson.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {PersonEntity} from "@/person/entities/person.entity";
@@ -7,6 +7,8 @@ import {ReadPersonDto} from "@/person/dto/readPerson.dto";
 import {PersonMapper} from "@/person/mapper/person.mapper";
 import {UpdatePersonDto} from "@/person/dto/updatePerson.dto";
 import {ValidID} from "@/utils/validID";
+import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
+import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
 
 @Injectable()
 export class PersonService {
@@ -27,16 +29,30 @@ export class PersonService {
       )
   }
 
-  async update(updatePersonDto : UpdatePersonDto){
+  async update(updatePersonDto : UpdatePersonDto):Promise< {
+      message: string; status: HttpStatus , person : ReadPersonDto | null
+  }> {
       const foundPerson = await this.personRepository.findOneBy({
         pkPerson : updatePersonDto.pkPerson
       });
 
       if(!foundPerson){
-          throw new HttpException('Person NotFound', HttpStatus.NOT_FOUND);
+          return {
+              message: "Person Not Found",
+              status: HttpStatus.NOT_FOUND,
+              person: null
+          }
       }
       const personEntity = this.personRepository.create(updatePersonDto);
-      return this.personRepository.save(personEntity);
+      const update = await this.personRepository.save(personEntity);
+      return {
+          message: "Person Not Found",
+          status: HttpStatus.NOT_FOUND,
+          person: PersonMapper.entityToReadPersonDto(update)
+      }
+
+
+      ;
   }
 
     async findOneBy(validId : ValidID){

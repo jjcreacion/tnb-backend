@@ -1,7 +1,7 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe} from '@nestjs/common';
-import { ProfileService } from '../service/profile.service';
-import { CreateProfileDto } from '../dto/createProfile.dto';
-import { UpdateProfileDto } from '../dto/updateProfile.dto';
+import { ProfileService } from './profile.service';
+import { CreateProfileDto } from './dto/createProfile.dto';
+import { UpdateProfileDto } from './dto/updateProfile.dto';
 import {ReadProfileDto} from "@/profile/dto/readProfile.dto";
 import {ValidPkUserDto} from "@/user/dto/validPkUser.dto";
 

@@ -99,7 +99,9 @@ export class CategoryServicesService {
   }
 
 
-  async update (readCategoryServicesDto:UpdateServicesDto): Promise< { message: string; status: HttpStatus }> {
+  async update (readCategoryServicesDto:UpdateServicesDto): Promise< {
+    message: string; status: HttpStatus , service : ReadServicesDto | null
+  }> {
     const entity = await this.categoryServicesRepository.findOne({
       where: {pkService : readCategoryServicesDto.pkService}
     })
@@ -123,13 +125,14 @@ export class CategoryServicesService {
     entity.subCategory = { pkSubCategory: subCategoryDto.pkSubCategory } as SubCategoryEntity;
 
 
-const update = this.categoryServicesRepository.save(entity);
+const update = await this.categoryServicesRepository.save(entity);
 
-    if(!update)return { message: "CategoryServices Non Updated", status: HttpStatus.NOT_MODIFIED }
+    if(!update)return { message: "CategoryServices Non Updated", status: HttpStatus.NOT_MODIFIED, service: null}
 
     return {
       message: "CategoryServices Updated",
-      status: HttpStatus.OK
+      status: HttpStatus.OK,
+      service: ServicesMapper.entityToReadServiceDto(update)
     };
 
   }

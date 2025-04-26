@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import { CreateProfileDto } from '../dto/createProfile.dto';
-import { UpdateProfileDto } from '../dto/updateProfile.dto';
+import { CreateProfileDto } from './dto/createProfile.dto';
+import { UpdateProfileDto } from './dto/updateProfile.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {ProfileEntity} from "@/profile/entities/profile.entity";

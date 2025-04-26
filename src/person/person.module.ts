@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PersonService } from './service/person.service';
-import { PersonController } from './controller/person.controller';
+import { PersonService } from './person.service';
+import { PersonController } from './person.controller';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {PersonEntity} from "@/person/entities/person.entity";
 import {PersonMapperModule} from "@/person/mapper/person.mapper.module";

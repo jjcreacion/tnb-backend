@@ -1,7 +1,7 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe} from '@nestjs/common';
-import { PersonService } from '../service/person.service';
-import { CreatePersonDto } from '../dto/createPerson.dto';
-import { UpdatePersonDto } from '../dto/updatePerson.dto';
+import { PersonService } from './person.service';
+import { CreatePersonDto } from './dto/createPerson.dto';
+import { UpdatePersonDto } from './dto/updatePerson.dto';
 import {ReadPersonDto} from "@/person/dto/readPerson.dto";
 import {ValidID} from "@/utils/validID";
 import {PersonMapper} from "@/person/mapper/person.mapper";

@@ -72,7 +72,9 @@ export class ServiceAddonService {
   }
 
   // Considerar la actualizaci´n con los FKS existentes / testear
-  async update (updateServiceAddonDto: UpdateAddonsDto): Promise<{ message: string; status: HttpStatus }> {
+  async update (updateServiceAddonDto: UpdateAddonsDto): Promise<{
+    message: string; status: HttpStatus , addon: ReadAddonsDto | null
+  }> {
     const entity = await this.serviceAddonRepository.findOne({
       where: { pkAddon: updateServiceAddonDto.pkAddon },
     });
@@ -91,12 +93,13 @@ export class ServiceAddonService {
     const updateResult = await this.serviceAddonRepository.save(mergedEntity);
 
     if(!updateResult) {
-      return { message: "Service Addon Not Updated", status: HttpStatus.NOT_MODIFIED };
+      return { message: "Service Addon Not Updated", status: HttpStatus.NOT_MODIFIED, addon:null };
     }
 
     return {
       message: "Service Addon Updated",
-      status: HttpStatus.OK
+      status: HttpStatus.OK,
+      addon: ServiceAddonMapper.entityToReadServiceAddonDto(updateResult)
     };
   }
 }

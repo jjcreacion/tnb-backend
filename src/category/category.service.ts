@@ -7,6 +7,8 @@
  import {CreateCategoryDto} from "@/category/dto/create-category.dto";
  import {ReadCategoryDto} from "@/category/dto/read-category.dto";
  import {UpdateCategoryDto} from "@/category/dto/update-category.dto";
+ import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
+ import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
 
  @Injectable()
  export class CategoryService {
@@ -60,7 +62,9 @@
      return CategoryMapper.entityToReadCategoryDto(category);
    }
 
-   async update(updateCategoryDto: UpdateCategoryDto): Promise<ReadCategoryDto> {
+   async update(updateCategoryDto: UpdateCategoryDto): Promise< {
+       message: string; status: HttpStatus , category : ReadCategoryDto | null
+   }> {
      const foundCategory = await this.categoryRepository.findOneBy({
        pkCategory: updateCategoryDto.pkCategory,
      });
@@ -71,7 +75,14 @@
 
      this.categoryRepository.merge(foundCategory, updateCategoryDto);
      const updatedCategory = await this.categoryRepository.save(foundCategory);
-     return CategoryMapper.entityToReadCategoryDto(updatedCategory);
+     return {
+         message: "SubCategory Updated" ,
+         status: HttpStatus.OK,
+         category: CategoryMapper.entityToReadCategoryDto(updatedCategory)
+     };
+
+
+
    }
 
    async remove(id : number): Promise<{ message: string; status: HttpStatus }> {

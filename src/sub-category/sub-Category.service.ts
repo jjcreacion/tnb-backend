@@ -74,7 +74,9 @@ export class SubCategoryService {
     }
 
 
-    async update (updateSubCategoryDto:UpdateSubCategoryDto): Promise< { message: string; status: HttpStatus }> {
+    async update (updateSubCategoryDto:UpdateSubCategoryDto): Promise< {
+        message: string; status: HttpStatus , subCategory : ReadSubCategoryDto | null
+    }> {
 
         const entity = await this.subCategoryRepository.findOneBy({
             pkSubCategory : updateSubCategoryDto.pkSubCategory
@@ -90,11 +92,12 @@ export class SubCategoryService {
         merge.category=category;
         const update = await this.subCategoryRepository.save(merge);
 
-        if(!update)return { message: "SubCategory Non Updated", status: HttpStatus.NOT_MODIFIED }
+        if(!update)return { message: "SubCategory Non Updated", status: HttpStatus.NOT_MODIFIED, subCategory: null }
 
         return {
             message: "SubCategory Updated" ,
-            status: HttpStatus.OK
+            status: HttpStatus.OK,
+            subCategory: SubCategoryMapper.entityToReadSubCategoryDto(update)
         };
 
     }
