@@ -49,7 +49,7 @@ export class CategoryController {
   async update(
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
       updateCategoryDto: UpdateCategoryDto
-  ):Promise<ReadCategoryDto> {
+  ):Promise<{ message: string; status: HttpStatus; category: ReadCategoryDto | null }> {
     return this.categoryService.update(updateCategoryDto);
   }
 

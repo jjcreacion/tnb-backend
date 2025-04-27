@@ -28,31 +28,40 @@ export class CategoryServicesService {
 
   ) {}
 
-  async create (createCategoryServicesDto : CreateServicesDto):Promise<ReadServicesDto>{
-    const subCategoryDto =await this.subCategoryService.findOne(new ValidID(createCategoryServicesDto.fkSubCategory))
-    if(!subCategoryDto) throw new HttpException(`subCategory with ID ${createCategoryServicesDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);
 
-    const clientType =  await this.clientTypeSerive.findOne(new ValidID(createCategoryServicesDto.fkClientType))
-    if(!clientType) throw new HttpException(`client Type with ID ${createCategoryServicesDto.fkClientType} not found`, HttpStatus.NOT_FOUND);
+   async create (createCategoryServicesDto : CreateServicesDto):Promise<ReadServicesDto>{
+     const subCategoryDto =await this.subCategoryService.findOne(new ValidID(createCategoryServicesDto.fkSubCategory));
+     if(!subCategoryDto) throw new HttpException(`subCategory with ID ${createCategoryServicesDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);
 
-    const serviceType = await this.serviceTypeSerive.findOne(new ValidID(createCategoryServicesDto.fkServiceType))
-    if(!serviceType)   throw new HttpException(`service Type with ID ${createCategoryServicesDto.fkServiceType} not found`, HttpStatus.NOT_FOUND);
+     const clientType =  await this.clientTypeSerive.findOne(new ValidID(createCategoryServicesDto.fkClientType));
+     if(!clientType) throw new HttpException(`client Type with ID ${createCategoryServicesDto.fkClientType} not found`, HttpStatus.NOT_FOUND);
 
+     const serviceType = await this.serviceTypeSerive.findOne(new ValidID(createCategoryServicesDto.fkServiceType));
+     if(!serviceType)   throw new HttpException(`service Type with ID ${createCategoryServicesDto.fkServiceType} not found`, HttpStatus.NOT_FOUND);
 
+     let entitySub = new SubCategoryEntity();
+     entitySub.pkSubCategory = createCategoryServicesDto.fkSubCategory;
 
-    let entitySub = new SubCategoryEntity();
-    entitySub.pkSubCategory = createCategoryServicesDto.fkSubCategory;
+     let newEntity = this.categoryServicesRepository.create(createCategoryServicesDto);
+     newEntity.subCategory = entitySub;
 
-    let newEntity = this.categoryServicesRepository.create(createCategoryServicesDto);
-    newEntity.subCategory = entitySub;
+     newEntity.serviceType = { pkType: serviceType.pkType } as ServicesTypeEntity;
+     newEntity.clientType = { pkType: clientType.pkType } as ClientTypeEntity;
 
-    newEntity.serviceType = { pkType: serviceType.pkType } as ServicesTypeEntity;
-    newEntity.clientType = { pkType: clientType.pkType } as ClientTypeEntity;
+     const savedEntity = await this.categoryServicesRepository.save(newEntity);
 
-    return ServicesMapper.entityToReadServiceDto(
-        await this.categoryServicesRepository.save(newEntity)
-    )
-  }
+     const entityWithCategory = await this.categoryServicesRepository.findOne({
+       where: { pkService: savedEntity.pkService },
+       relations: ['subCategory', 'subCategory.category', 'clientType', 'serviceType'],
+     });
+
+     if (!entityWithCategory) {
+       throw new HttpException('Error al cargar la categoría del servicio creado', HttpStatus.INTERNAL_SERVER_ERROR);
+     }
+
+     return ServicesMapper.entityToReadServiceDto(entityWithCategory);
+   }
+   
 
   async findOne (validId : ValidID): Promise<ReadServicesDto>{
     const entity = await this.categoryServicesRepository.findOne({
@@ -109,43 +118,48 @@ export class CategoryServicesService {
   }
 
 
-  async update (readCategoryServicesDto:UpdateServicesDto): Promise< {
-    message: string; status: HttpStatus , service : ReadServicesDto | null
-  }> {
-    const entity = await this.categoryServicesRepository.findOne({
-      where: {pkService : readCategoryServicesDto.pkService}
-    })
-    if(!entity){throw new HttpException(`Service with ID ${readCategoryServicesDto.pkService} not found`, HttpStatus.NOT_FOUND);}
+async update (readCategoryServicesDto:UpdateServicesDto): Promise< {
+     message: string; status: HttpStatus , service : ReadServicesDto | null
+   }> {
+     const entity = await this.categoryServicesRepository.findOne({
+       where: {pkService : readCategoryServicesDto.pkService}
+     });
+     if(!entity){throw new HttpException(`Service with ID ${readCategoryServicesDto.pkService} not found`, HttpStatus.NOT_FOUND);}
 
-    const subCategoryDto =await this.subCategoryService.findOne(new ValidID(readCategoryServicesDto.fkSubCategory))
-    if(!subCategoryDto) throw new HttpException(`subCategory with ID ${readCategoryServicesDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);
+     const subCategoryDto =await this.subCategoryService.findOne(new ValidID(readCategoryServicesDto.fkSubCategory));
+     if(!subCategoryDto) throw new HttpException(`subCategory with ID ${readCategoryServicesDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);
 
-    const clientType =  await this.clientTypeSerive.findOne(new ValidID(readCategoryServicesDto.fkClientType))
-    if(!clientType) throw new HttpException(`client Type with ID ${readCategoryServicesDto.fkClientType} not found`, HttpStatus.NOT_FOUND);
+     const clientType =  await this.clientTypeSerive.findOne(new ValidID(readCategoryServicesDto.fkClientType));
+     if(!clientType) throw new HttpException(`client Type with ID ${readCategoryServicesDto.fkClientType} not found`, HttpStatus.NOT_FOUND);
 
-    const serviceType = await this.serviceTypeSerive.findOne(new ValidID(readCategoryServicesDto.fkServiceType))
-    if(!serviceType)   throw new HttpException(`service Type with ID ${readCategoryServicesDto.fkServiceType} not found`, HttpStatus.NOT_FOUND);
+     const serviceType = await this.serviceTypeSerive.findOne(new ValidID(readCategoryServicesDto.fkServiceType));
+     if(!serviceType)   throw new HttpException(`service Type with ID ${readCategoryServicesDto.fkServiceType} not found`, HttpStatus.NOT_FOUND);
 
-    const merge = await this.categoryServicesRepository.merge(
-        entity,readCategoryServicesDto
-    );
+     const merge = await this.categoryServicesRepository.merge(
+         entity,readCategoryServicesDto
+     );
 
-    entity.serviceType = { pkType: serviceType.pkType } as ServicesTypeEntity;
-    entity.clientType = { pkType: clientType.pkType } as ClientTypeEntity;
-    entity.subCategory = { pkSubCategory: subCategoryDto.pkSubCategory } as SubCategoryEntity;
+     entity.serviceType = { pkType: serviceType.pkType } as ServicesTypeEntity;
+     entity.clientType = { pkType: clientType.pkType } as ClientTypeEntity;
+     entity.subCategory = { pkSubCategory: subCategoryDto.pkSubCategory } as SubCategoryEntity;
 
+     const updateResult = await this.categoryServicesRepository.save(entity);
 
-const update = await this.categoryServicesRepository.save(entity);
+     const updatedEntityWithCategory = await this.categoryServicesRepository.findOne({
+       where: { pkService: updateResult.pkService },
+       relations: ['subCategory', 'subCategory.category', 'clientType', 'serviceType'],
+     });
 
-    if(!update)return { message: "CategoryServices Non Updated", status: HttpStatus.NOT_MODIFIED, service: null}
+     if (!updatedEntityWithCategory) {
+       return { message: "CategoryServices Updated", status: HttpStatus.OK, service: null };
+     }
 
-    return {
-      message: "CategoryServices Updated",
-      status: HttpStatus.OK,
-      service: ServicesMapper.entityToReadServiceDto(update)
-    };
-
-  }
+     return {
+       message: "CategoryServices Updated",
+       status: HttpStatus.OK,
+       service: ServicesMapper.entityToReadServiceDto(updatedEntityWithCategory)
+     };
+   }
 
 
 }

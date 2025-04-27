@@ -81,8 +81,6 @@
          category: CategoryMapper.entityToReadCategoryDto(updatedCategory)
      };
 
-
-
    }
 
    async remove(id : number): Promise<{ message: string; status: HttpStatus }> {
