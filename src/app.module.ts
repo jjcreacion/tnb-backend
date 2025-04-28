@@ -19,6 +19,7 @@ import {CountryModule} from "@/country/country.module";
 import {CountryStatesModule} from "@/country-states/country-states.module";
 import {LocalityModule} from "@/locality/locality.module";
 import {LocalityTypeModule} from "@/locality-type/locality-type.module";
+import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
 
 @Module({
   imports: [
@@ -59,7 +60,8 @@ import {LocalityTypeModule} from "@/locality-type/locality-type.module";
    CountryModule,
     CountryStatesModule,
    LocalityModule,
-   LocalityTypeModule
+   LocalityTypeModule,
+   ClientTypeQuestionsModule
 
   ],
   controllers: [],

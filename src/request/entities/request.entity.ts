@@ -22,7 +22,7 @@ export class RequestEntity {
 
     @Column({name:"description",nullable:true, type:"varchar"})
     description: string;
-2
+
 
     @Column({ name:'createdAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;

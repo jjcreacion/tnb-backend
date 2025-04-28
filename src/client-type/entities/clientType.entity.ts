@@ -1,5 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {ServicesEntity} from "@/services/entity/services.entity";
+import { QuestionEnTity } from '@/client-type-questions/mapper/client-type-question.mapper';
+import { SubCategoryEntity } from '@/sub-category/entity/subCategory.entity';
 
 
 @Entity('client_type')
@@ -10,6 +12,9 @@ export class ClientTypeEntity {
 
     @OneToMany(() => ServicesEntity, (service) => service.clientType)
     service: ServicesEntity | ServicesEntity[];
+
+    @OneToMany(() => QuestionEnTity, (question) => question.clientType)
+    questions : QuestionEnTity
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;

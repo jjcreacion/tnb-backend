@@ -1,24 +1,20 @@
-import { PartialType } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {IsNumber, IsString, IsOptional, IsDate} from 'class-validator';
 import {ClientTypeEntity} from "@/client-type/entities/clientType.entity";
 
 export class UpdateClientTypeDto extends PartialType(ClientTypeEntity) {
-    @IsNumber()
+    @IsNumber() @ApiProperty()
     pkType: number;
 
-    @IsString()
+    @IsString()@ApiProperty()
     name: string;
 
     @IsString()
-    @IsOptional()
+    @IsOptional()@ApiProperty()
     description: string;
 
-    @IsNumber()
+    @IsNumber()@ApiProperty()
     status: number;
 
-    @IsDate()
-    createdAt: Date;
 
-    @IsDate()
-    updatedAt: Date;
 }
