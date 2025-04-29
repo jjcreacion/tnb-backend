@@ -5,18 +5,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ClientTypeEntity } from '@/client-type/entities/clientType.entity';
 import { Repository } from 'typeorm';
 import { ReadQuestionDto } from '@/client-type-questions/dto/read-client-type-question.dto';
-import { QuestionEnTity } from '@/client-type-questions/entities/client-type-question.entity';
 import { ClientTypeService } from '@/client-type/client-type.service';
 import { ValidID } from '@/utils/validID';
 import { QuestionMapper } from '@/client-type-questions/mapper/client-type-question.mapper';
+import {QuestionEnTity} from "@/client-type-questions/entities/client-type-question.entity";
 
 @Injectable()
 export class ClientTypeQuestionsService {
 
 
   constructor(
-    @InjectRepository(ClientTypeEntity)
-    private readonly questionRepository: Repository<QuestionEnTity>,
+    @InjectRepository(QuestionEnTity) private readonly questionRepository: Repository<QuestionEnTity>,
     private readonly clientTypeService : ClientTypeService
   ) {}
 
@@ -33,7 +32,7 @@ export class ClientTypeQuestionsService {
 
     if(!insert){ throw new HttpException(`Question are not added`, HttpStatus.NOT_MODIFIED);}
 
-    return
+    return QuestionMapper.entityToReadQuestionDto(insert);
 
   }
 
