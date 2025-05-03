@@ -9,3 +9,4 @@ export class ReadCategoryDto {
     updatedAt: Date;
     subCategory: ReadSubCategoryDto | ReadSubCategoryDto[];
 }
+

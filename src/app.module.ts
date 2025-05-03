@@ -5,7 +5,6 @@ import * as process from "process";
 import {JwtModule} from "@nestjs/jwt";
 import {ThrottlerModule, minutes} from '@nestjs/throttler'
 import {Module} from "@nestjs/common";
-import { RequestModule } from './request/request.module';
 import { UserModule } from './user/user.module';
 import { PersonModule } from './person/person.module';
 import { ProfileModule } from './profile/profile.module';
@@ -19,6 +18,7 @@ import {CountryModule} from "@/country/country.module";
 import {CountryStatesModule} from "@/country-states/country-states.module";
 import {LocalityModule} from "@/locality/locality.module";
 import {LocalityTypeModule} from "@/locality-type/locality-type.module";
+import { ServiceRequestModule } from "@/app-mobile/service-requests/service-request.module";
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
 
 @Module({
@@ -49,7 +49,6 @@ import { ClientTypeQuestionsModule } from './client-type-questions/client-type-q
       ttl: minutes(1),
       limit: 10,
     }]),
-    RequestModule,
     UserModule,
     PersonModule,
     ProfileModule,
@@ -57,12 +56,12 @@ import { ClientTypeQuestionsModule } from './client-type-questions/client-type-q
     ServicesModule,ServicesTypeModule,
     ClientTypeModule,
     ServiceAddonsModule,
-   CountryModule,
+    ServiceRequestModule,
+    CountryModule,
     CountryStatesModule,
-   LocalityModule,
-   LocalityTypeModule,
-   ClientTypeQuestionsModule
-
+    LocalityModule,
+    LocalityTypeModule,
+    ClientTypeQuestionsModule
   ],
   controllers: [],
   providers: [],

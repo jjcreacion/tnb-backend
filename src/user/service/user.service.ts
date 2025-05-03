@@ -100,4 +100,15 @@ export class UserService {
 
   }
 
+    async findOneWithUser (pkUser: number):Promise<ReadUserDto>{
+      const entity = await this.userRepository.findOne({
+        where: {pkUser:pkUser},
+            relations : ['addons']
+      })
+      if(!entity){throw new HttpException(`Request with ID ${pkUser} not found`, HttpStatus.NOT_FOUND);}
+  
+      return UserMapper.entityToReadUserDto(entity)
+    }
+  
+
 }
