@@ -17,11 +17,11 @@ import {
   import { RequestService } from './service-request.service'; 
   import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
   
-  @ApiTags('Requests-Services')
+  @ApiTags('Services-requests')
   @Controller('service_request')
   export class RequestController {
     constructor(private readonly requestService: RequestService) {}
-  
+      
     @Post()
     @ApiOperation({ summary: 'Crear una nueva solicitud' }) 
     @ApiResponse({ status: 201, description: 'Solicitud creada exitosamente.' }) 
