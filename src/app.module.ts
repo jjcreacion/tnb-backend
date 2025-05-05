@@ -23,6 +23,7 @@ import { ClientTypeQuestionsModule } from './client-type-questions/client-type-q
 import { PersonEmailsModule } from './person-emails/person-emails.module';
 import { PersonPhonesModule } from './person-phones/person-phones.module';
 import { PersonAddressModule } from './person-address/person-address.module';
+import { StatusInfoModule } from './status-info/status-info.module';
 
 @Module({
   imports: [
@@ -67,7 +68,8 @@ import { PersonAddressModule } from './person-address/person-address.module';
    ClientTypeQuestionsModule,
    PersonEmailsModule,
    PersonPhonesModule,
-   PersonAddressModule
+   PersonAddressModule,
+   StatusInfoModule
 
   ],
   controllers: [],
