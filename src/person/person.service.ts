@@ -14,8 +14,7 @@ import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
 export class PersonService {
 
   constructor(
-      @InjectRepository(PersonEntity) private personRepository: Repository<PersonEntity>,
-      private personMapper : PersonMapper
+      @InjectRepository(PersonEntity) private personRepository: Repository<PersonEntity>
   ){}
   async create(createPersonDto: CreatePersonDto): Promise<PersonEntity> {
     const entity: PersonEntity =  this.personRepository.create(createPersonDto);
