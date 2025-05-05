@@ -67,6 +67,9 @@ import {
       return this.requestService.remove(id);
     }
 
+    @ApiOperation({ summary: 'Listado de solicitudes por Usuario' })
+    @ApiResponse({ status: 200, description: 'Solicitudes encontradas.' })
+    @ApiResponse({ status: 404, description: 'Solicitud no encontrada.' })
     @Get('user/:userId')
     async findAllByUser(@Param('userId', ParseIntPipe) userId: number): Promise<ReadRequestDto[]> {
       return this.requestService.findAllByUser(userId);
