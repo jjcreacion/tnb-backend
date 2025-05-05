@@ -20,6 +20,9 @@ import {CountryStatesModule} from "@/country-states/country-states.module";
 import {LocalityModule} from "@/locality/locality.module";
 import {LocalityTypeModule} from "@/locality-type/locality-type.module";
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
+import { PersonEmailsModule } from './person-emails/person-emails.module';
+import { PersonPhonesModule } from './person-phones/person-phones.module';
+import { PersonAddressModule } from './person-address/person-address.module';
 
 @Module({
   imports: [
@@ -61,7 +64,10 @@ import { ClientTypeQuestionsModule } from './client-type-questions/client-type-q
     CountryStatesModule,
    LocalityModule,
    LocalityTypeModule,
-   ClientTypeQuestionsModule
+   ClientTypeQuestionsModule,
+   PersonEmailsModule,
+   PersonPhonesModule,
+   PersonAddressModule
 
   ],
   controllers: [],

@@ -7,7 +7,6 @@ import {PersonMapperModule} from "@/person/mapper/person.mapper.module";
 
 @Module({
   imports: [
-      PersonMapperModule,
     TypeOrmModule.forFeature([PersonEntity]),
   ],
   controllers: [PersonController],
