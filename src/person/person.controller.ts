@@ -10,7 +10,6 @@ import {PersonMapper} from "@/person/mapper/person.mapper";
 export class PersonController {
   constructor(
       private readonly personService: PersonService,
-      private  personMapper : PersonMapper
   ) {}
 
   @Post()
