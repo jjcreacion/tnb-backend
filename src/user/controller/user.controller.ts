@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, ValidationPipe, Param, HttpStatus} from '@nestjs/common';
+import {Controller, Get, Post, Body, ValidationPipe, Param, HttpStatus, Query, HttpException} from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
@@ -10,6 +10,8 @@ import { ApiOperation } from '@nestjs/swagger';
 import { UserMapper } from "@/user/mapper/user.mapper";
 import {ValidID} from "@/utils/validID";
 import { UserEntity } from '../entities/user.entity';
+import * as bcrypt from 'bcryptjs'; 
+import { LoginWithEmailDto } from '../dto/loginWithEmail.dto';
 
 @Controller('user')
 export class UserController {
@@ -36,16 +38,32 @@ export class UserController {
     const responseDto = await this.userService.findOneBy(id);
     return responseDto;
   }
-/*
-  @Get('verifyUser')
-  verifyUser(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-          validParameter : ValidUsernameDto | ValidPhoneDto | ValidEmailDto
-  ) : Promise<{exists:boolean , status: HttpStatus}> {
-    return this.userService.verifyUser(validParameter);
+
+  @ApiOperation({ summary: 'Verificar si el usuario existe por email y retornar su ID' })
+  @Get('verifyUserWithEmail')
+  verifyUserWithEmail(
+    @Query(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) validParameter: ValidEmailDto
+  ): Promise<{ exists: boolean, status: HttpStatus, pkUser?: number }> {
+    return this.userService.verifyUserWithEmail(validParameter);
   }
 
-*/
+  @ApiOperation({ summary: 'Login por Email' })
+  @Post('loginWithEmail')
+  async login(@Body(new ValidationPipe()) loginDto: LoginWithEmailDto): Promise<{ accessToken: string, pkUser: number}> {
+    const user = await this.userService.findByEmail(loginDto.email);
 
+    if (!user) {
+      throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+    }
+
+    const isPasswordValid = await this.userService.validatePassword(loginDto.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+    }
+
+    const accessToken = await this.userService.generateJwt(user);
+    return { accessToken, pkUser: user.pkUser };
+  }
 
 }

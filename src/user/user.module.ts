@@ -7,6 +7,8 @@ import {PersonEntity} from "@/person/entities/person.entity";
 import {UserMapperModule} from "@/user/mapper/user.mapper.module";
 import {PersonMapperModule} from "@/person/mapper/person.mapper.module";
 import {ProfileMapperModule} from "@/profile/mapper/profile.mapper.module";
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -14,6 +16,14 @@ import {ProfileMapperModule} from "@/profile/mapper/profile.mapper.module";
       UserMapperModule,
       PersonMapperModule,
       ProfileMapperModule,
+      JwtModule.registerAsync({
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: async (configService: ConfigService) => ({
+          secret: configService.get<string>('JWT_SECRET'), 
+          signOptions: { expiresIn: '12h' }, 
+        }),
+      }),
   ],
   controllers: [UserController],
   providers: [UserService],
