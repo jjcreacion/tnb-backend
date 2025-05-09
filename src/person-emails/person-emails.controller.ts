@@ -36,14 +36,6 @@ export class PersonEmailController {
     return this.personEmailService.findOne(id);
   }
 
-  @ApiOperation({ summary: 'Buscar email por Id de Contacto' })
-  @ApiResponse({ status: 200, description: 'Solicitud encontrada.' })
-  @ApiResponse({ status: 404, description: 'Solicitud no encontrada.' })
-  @Get('findByContact/:id')
-  findByContact(@Param("id", ParseIntPipe) id: number): Promise<ReadPersonEmailDto> {
-    return this.personEmailService.findOne(id);
-  }
-
   @ApiOperation({ summary: 'Buscar email por Id de Persona'})
   @ApiResponse({ status: 200, description: 'Solicitud encontrada.' })
   @ApiResponse({ status: 404, description: 'Solicitud no encontrada.' })

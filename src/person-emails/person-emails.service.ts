@@ -54,6 +54,8 @@ export class PersonEmailService {
     return emails.map(PersonEmailMapper.entityToReadPersonEmailDto);
   }
 
+
+
   async findByUser(id: number): Promise<ReadPersonEmailDto[]> {
     const user = await this.userRepo.findOne({
       where: { pkUser: id },

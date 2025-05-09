@@ -49,14 +49,6 @@ export class PersonPhoneController {
     return this.personPhoneService.findOne(new ValidID(id));
   }
 
-  @ApiOperation({ summary: 'Buscar telefono por Id de Contacto' })
-  @ApiResponse({ status: 200, description: 'Solicitud encontrada.' })
-  @ApiResponse({ status: 404, description: 'Solicitud no encontrada.' })
-  @Get('findByContact/:id')
-  findByContact(@Param("id", ParseIntPipe) id: number): Promise<ReadPersonPhoneDto> {
-    return this.personPhoneService.findOne(new ValidID(id));
-  }
-
   @ApiOperation({ summary: 'Buscar telefono por Id de Persona'})
   @ApiResponse({ status: 200, description: 'Solicitud encontrada.' })
   @ApiResponse({ status: 404, description: 'Solicitud no encontrada.' })

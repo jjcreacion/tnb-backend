@@ -32,7 +32,7 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @ApiOperation({ summary: 'Listar persona por Id' })
+  @ApiOperation({ summary: 'Listar usuario por Id' })
   @Get('findOne/:id')
   async findOne(@Param("id") id : number) : Promise<ReadUserDto> {
     const responseDto = await this.userService.findOneBy(id);
