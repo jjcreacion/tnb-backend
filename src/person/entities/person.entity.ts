@@ -20,17 +20,8 @@ export class PersonEntity {
     @Column({name:"last_name",nullable:false})
     lastName: string;
 
-    @Column({name:"address",nullable:false})
-    address: string;
-
     @Column({name:"date_of_birth",nullable:false, type: "date"})
     dateOfBirth: Date;
-
-    @Column({name:"email",nullable:false})
-    email: string;
-
-    @Column({name:"phone",nullable:false})
-    phone: string;
 
     @Column({default: 1})
     status: number;
@@ -55,6 +46,5 @@ export class PersonEntity {
 
     @OneToMany(() => PersonAddressEntity, (address) => address.person)
     addresses : PersonAddressEntity[]
-
 
 }

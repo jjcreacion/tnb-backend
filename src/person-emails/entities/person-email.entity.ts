@@ -27,5 +27,4 @@ export class PersonEmailEntity {
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
 
-
 }

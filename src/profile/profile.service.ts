@@ -33,7 +33,7 @@ export class ProfileService {
         ));
   }
 
-  async findOneByFkUser(validParameter : ValidPkUserDto):Promise<ReadProfileDto> {
+ /* async findOneByFkUser(validParameter : ValidPkUserDto):Promise<ReadProfileDto> {
     const foundUser = await this.userService.findOneBy(validParameter);
     if(!foundUser){ throw new HttpException( 'User notFound', HttpStatus.NOT_FOUND); }
 
@@ -44,7 +44,7 @@ export class ProfileService {
     if(!foundProfile){ throw new HttpException( 'Profile notFound', HttpStatus.NOT_FOUND); }
 
     return foundProfile;
-  }
+  }*/
 
 
 }

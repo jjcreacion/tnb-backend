@@ -21,7 +21,7 @@ export class ProfileController {
   findAll(): Promise<ReadProfileDto[]> {
     return this.profileService.findAll();
   }
-
+/*
   @Get(':findOneByFkUser')
   findOneByFkUser(
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -29,5 +29,5 @@ export class ProfileController {
   ):Promise<ReadProfileDto> {
     return this.profileService.findOneByFkUser(validParameter);
   }
-
+*/
 }

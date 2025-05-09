@@ -14,7 +14,7 @@ export class CreatePersonAddressDto extends OmitType(PersonAddressEntity, [
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    phone: string;
+    address: string;
 
     @ApiProperty()
     @IsNumber()

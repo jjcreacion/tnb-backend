@@ -1,36 +1,42 @@
-import {Controller, Get, Post, Body, ValidationPipe, HttpStatus} from '@nestjs/common';
+import {Controller, Get, Post, Body, ValidationPipe, Param, HttpStatus} from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { CreateUserDto } from '../dto/createUser.dto';
+import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import {ReadUserDto} from "@/user/dto/readUser.dto";
 import {ValidUsernameDto} from "@/user/dto/validUsername.dto";
 import {ValidPhoneDto} from "@/user/dto/validPhone.dto";
 import {ValidEmailDto} from "@/user/dto/validEmail.dto";
+import { ApiOperation } from '@nestjs/swagger';
+import { UserMapper } from "@/user/mapper/user.mapper";
+import {ValidID} from "@/utils/validID";
+import { UserEntity } from '../entities/user.entity';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @ApiOperation({ summary: 'Crear Usuario Por Email' })
+  @Post('createWithEmail')
   create(
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-      createUserDto: CreateUserDto
+      createUserWithEmailDto: CreateUserWithEmailDto
   ): Promise<ReadUserDto> {
-    return this.userService.create(createUserDto);
+    return this.userService.createWithEmail(createUserWithEmailDto);
   }
 
+  @ApiOperation({ summary: 'Lista Completa de Usuarios ' })
   @Get('findAll')
   findAll() {
     return this.userService.findAll();
   }
 
-  @Get('findBy')
-  findOne(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-          validParameter : ValidUsernameDto | ValidPhoneDto | ValidEmailDto
-  ):Promise<ReadUserDto> {
-    return this.userService.findOneBy(validParameter);
+  @ApiOperation({ summary: 'Listar persona por Id' })
+  @Get('findOne/:id')
+  async findOne(@Param("id") id : number) : Promise<ReadUserDto> {
+    const responseDto = await this.userService.findOneBy(id);
+    return responseDto;
   }
-
+/*
   @Get('verifyUser')
   verifyUser(
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -39,7 +45,7 @@ export class UserController {
     return this.userService.verifyUser(validParameter);
   }
 
-
+*/
 
 
 }

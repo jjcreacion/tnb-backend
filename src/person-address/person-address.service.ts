@@ -7,13 +7,15 @@ import {CreatePersonAddressDto} from "@/person-address/dto/create-person-address
 import {ReadPersonAddressDto} from "@/person-address/dto/read-person-address.dto";
 import {PersonAddressMapper} from "@/person-address/mapper/person-address.mapper";
 import {UpdatePersonAddressDto} from "@/person-address/dto/update-person-address.dto";
-
+import {UserEntity} from "@/user/entities/user.entity";
 
 @Injectable()
 export class PersonAddressService {
   constructor(
       @InjectRepository(PersonAddressEntity)
       private readonly addressRepo: Repository<PersonAddressEntity>,
+      @InjectRepository(UserEntity) 
+      private readonly userRepo: Repository<UserEntity>,
   ) {}
 
   async create(dto: CreatePersonAddressDto): Promise<ReadPersonAddressDto> {
@@ -24,18 +26,51 @@ export class PersonAddressService {
   }
 
   async findAll(): Promise<ReadPersonAddressDto[]> {
-    const result = await this.addressRepo.find();
+    const result = await this.addressRepo.find({ relations: ["person"] });
     return result.map(PersonAddressMapper.entityToReadPersonAddressDto);
   }
 
   async findOne(id: number): Promise<ReadPersonAddressDto> {
-    const entity = await this.addressRepo.findOneBy({ pkAddress: id });
+    const entity = await this.addressRepo.findOne({ 
+      where: { pkAddress: id },
+      relations: ["person"],
+    });
     if (!entity) {
       throw new HttpException(`Address with ID ${id} not found`, HttpStatus.NOT_FOUND);
     }
     return PersonAddressMapper.entityToReadPersonAddressDto(entity);
   }
 
+async findByPerson(id: number): Promise<ReadPersonAddressDto[]> {
+    const address = await this.addressRepo.find({
+      where: { person: { pkPerson: id } },
+      relations: ["person"]
+    });
+    if (!address) {
+      throw new HttpException(`Phone with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+    return address.map(PersonAddressMapper.entityToReadPersonAddressDto);
+  }
+
+  async findByUser(id: number): Promise<ReadPersonAddressDto[]> {
+    const user = await this.userRepo.findOne({
+      where: { pkUser: id },
+    });
+  
+    if (!user) {
+      throw new HttpException(`User with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+  
+    const address = await this.addressRepo.find({
+      where: { person: { user: { pkUser: id } } }, 
+    });
+  
+    if (!address) {
+      return []; 
+    }
+    return address.map(PersonAddressMapper.entityToReadPersonAddressDto);
+  }
+  
   async update(dto: UpdatePersonAddressDto): Promise<{
     message: string; status: HttpStatus; address: ReadPersonAddressDto | null;
   }> {

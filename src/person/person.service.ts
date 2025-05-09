@@ -7,8 +7,6 @@ import {ReadPersonDto} from "@/person/dto/readPerson.dto";
 import {PersonMapper} from "@/person/mapper/person.mapper";
 import {UpdatePersonDto} from "@/person/dto/updatePerson.dto";
 import {ValidID} from "@/utils/validID";
-import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
-import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
 
 @Injectable()
 export class PersonService {
@@ -22,10 +20,10 @@ export class PersonService {
   }
 
   async findAll(): Promise<ReadPersonDto[]> {
-      const personList = await this.personRepository.find();
-      return personList.map(
-          (person) => PersonMapper.entityToReadPersonDto(person)
-      )
+    const personList = await this.personRepository.find({
+      relations: ['emails', 'phones', 'addresses'],
+    });
+    return personList.map((person) => PersonMapper.entityToReadPersonDto(person));
   }
 
   async update(updatePersonDto : UpdatePersonDto):Promise< {
@@ -45,24 +43,35 @@ export class PersonService {
       const personEntity = this.personRepository.create(updatePersonDto);
       const update = await this.personRepository.save(personEntity);
       return {
-          message: "Person Not Found",
-          status: HttpStatus.NOT_FOUND,
-          person: PersonMapper.entityToReadPersonDto(update)
-      }
-
-
-      ;
+        message: "Person Updated" ,
+        status: HttpStatus.OK,
+        person: PersonMapper.entityToReadPersonDto(update)
+      };
   }
 
-    async findOneBy(validId : ValidID){
-        const foundPerson = await this.personRepository.findOneBy({
-            pkPerson : validId.id
-        });
+  async findOneBy(validId: ValidID): Promise<PersonEntity> {
+    const foundPerson = await this.personRepository.findOne({
+      where: { pkPerson: validId.id },
+      relations: ['emails', 'phones', 'addresses'],
+    });
 
-        if(!foundPerson){
-            throw new HttpException('Person NotFound', HttpStatus.NOT_FOUND);
-        }
-        return foundPerson;
+    if (!foundPerson) {
+      throw new HttpException('Person Not Found', HttpStatus.NOT_FOUND);
     }
+    return foundPerson;
+  }
+
+  async remove(id: number): Promise<{ message: string; status: HttpStatus }> {
+    const entity = await this.personRepository.findOneBy({ pkPerson: id });
+    if (!entity) {
+      throw new HttpException(`Person with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+
+    await this.personRepository.remove(entity);
+    return {
+      message: 'Person Deleted',
+      status: HttpStatus.OK,
+    };
+  }
 
 }

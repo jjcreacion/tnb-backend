@@ -12,7 +12,7 @@ export class UpdatePersonAddressDto extends OmitType(PersonAddressEntity, ['crea
     @IsString()
     @IsOptional()
     @ApiProperty()
-    phone: string;
+    address: string;
 
     @IsNumber()
     @IsOptional()

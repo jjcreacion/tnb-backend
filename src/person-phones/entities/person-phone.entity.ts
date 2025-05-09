@@ -10,7 +10,7 @@ export class PersonPhoneEntity {
     @JoinColumn({ name: 'fk_person' })
     person: PersonEntity;
 
-    @Column({name:"email",nullable:false, type:"varchar"})
+    @Column({name:"phone",nullable:false, type:"varchar"})
     phone: string;
 
     @Column({name:"is_primary",default: 0})

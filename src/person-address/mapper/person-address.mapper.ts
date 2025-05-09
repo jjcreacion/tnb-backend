@@ -6,7 +6,7 @@ export class PersonAddressMapper {
     static entityToReadPersonAddressDto(entity: PersonAddressEntity): ReadPersonAddressDto {
         const dto = new ReadPersonAddressDto();
         dto.pkAddress = entity.pkAddress;
-        dto.phone = entity.phone;
+        dto.address = entity.address;
         dto.isPrimary = entity.isPrimary;
         dto.status = entity.status;
         dto.createdAt = entity.createdAt;
@@ -18,7 +18,7 @@ export class PersonAddressMapper {
     static readPersonAddressDtoToEntity(dto: ReadPersonAddressDto): PersonAddressEntity {
         const entity = new PersonAddressEntity();
         entity.pkAddress = dto.pkAddress;
-        entity.phone = dto.phone;
+        entity.address = dto.address;
         entity.isPrimary = dto.isPrimary;
         entity.status = dto.status;
         entity.createdAt = dto.createdAt;

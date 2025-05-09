@@ -1,9 +1,8 @@
 import {Module} from "@nestjs/common";
 import {PersonMapper} from "@/person/mapper/person.mapper";
 
-
 @Module({
-     providers:[PersonMapper],
+    providers:[PersonMapper],
     exports:[ PersonMapper]
 
 })

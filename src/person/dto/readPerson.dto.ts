@@ -1,14 +1,19 @@
+import { PersonEmailEntity } from '@/person-emails/entities/person-email.entity';
+import { PersonPhoneEntity } from '@/person-phones/entities/person-phone.entity';
+import { PersonAddressEntity } from '@/person-address/entities/person-address.entity';
+
 export class ReadPersonDto {
 
     pkPerson: number;
     firstName: string;
-    middleName: string;
+    middleName?: string;
     lastName: string;
-    address: string;
     dateOfBirth: Date;
-    email: string;
-    phone: string;
     status: number;
     createdAt: Date;
     updatedAt: Date;
+
+    emails?: PersonEmailEntity[]; 
+    phones?: PersonPhoneEntity[]; 
+    addresses?: PersonAddressEntity[];
 }

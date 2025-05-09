@@ -1,7 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {PersonEntity} from "@/person/entities/person.entity";
 
-@Entity('person-addresses')
+@Entity('person_address')
 export class PersonAddressEntity {
     @PrimaryGeneratedColumn({name: 'pk_address'})
     pkAddress: number;
@@ -10,8 +10,8 @@ export class PersonAddressEntity {
     @JoinColumn({ name: 'fk_person' })
     person: PersonEntity;
 
-    @Column({name:"email",nullable:false, type:"varchar"})
-    phone: string;
+    @Column({name:"address",nullable:false, type:"varchar"})
+    address: string;
 
     @Column({name:"is_primary",default: 0})
     isPrimary: number;

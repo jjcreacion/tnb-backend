@@ -2,7 +2,7 @@ import {ReadPersonDto} from "@/person/dto/readPerson.dto";
 
 export class ReadPersonAddressDto {
     pkAddress: number;
-    phone: string;
+    address: string;
     isPrimary: number;
     status: number;
     createdAt: Date;

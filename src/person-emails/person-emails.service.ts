@@ -7,12 +7,17 @@ import {ReadPersonEmailDto} from "@/person-emails/dto/read-person-email.dto";
 import {PersonEmailMapper} from "@/person-emails/mapper/person-email.mapper";
 import {UpdatePersonEmailDto} from "@/person-emails/dto/update-person-email.dto";
 import {PersonEntity} from "@/person/entities/person.entity";
+import {UserEntity} from "@/user/entities/user.entity";
 
 @Injectable()
 export class PersonEmailService {
   constructor(
       @InjectRepository(PersonEmailEntity)
       private readonly emailRepo: Repository<PersonEmailEntity>,
+      @InjectRepository(PersonEntity)
+      private readonly personRepo: Repository<PersonEntity>,
+      @InjectRepository(UserEntity) 
+      private readonly userRepo: Repository<UserEntity>,
   ) {}
 
   async create(dto: CreatePersonEmailDto): Promise<ReadPersonEmailDto> {
@@ -21,7 +26,7 @@ export class PersonEmailService {
     const saved = await this.emailRepo.save(entity);
     return PersonEmailMapper.entityToReadPersonEmailDto(saved);
   }
-
+  
   async findAll(): Promise<ReadPersonEmailDto[]> {
     const emails = await this.emailRepo.find({ relations: ["person"] });
     return emails.map(PersonEmailMapper.entityToReadPersonEmailDto);
@@ -36,6 +41,36 @@ export class PersonEmailService {
       throw new HttpException(`Email with ID ${id} not found`, HttpStatus.NOT_FOUND);
     }
     return PersonEmailMapper.entityToReadPersonEmailDto(email);
+  }
+
+  async findByPerson(id: number): Promise<ReadPersonEmailDto[]> {
+    const emails = await this.emailRepo.find({
+      where: { person: { pkPerson: id } },
+      relations: ["person"]
+    });
+    if (!emails) {
+      throw new HttpException(`Email with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+    return emails.map(PersonEmailMapper.entityToReadPersonEmailDto);
+  }
+
+  async findByUser(id: number): Promise<ReadPersonEmailDto[]> {
+    const user = await this.userRepo.findOne({
+      where: { pkUser: id },
+    });
+  
+    if (!user) {
+      throw new HttpException(`User with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+  
+    const emails = await this.emailRepo.find({
+      where: { person: { user: { pkUser: id } } }, 
+    });
+  
+    if (!emails) {
+      return []; 
+    }
+    return emails.map(PersonEmailMapper.entityToReadPersonEmailDto);
   }
 
   async update(dto: UpdatePersonEmailDto): Promise<{

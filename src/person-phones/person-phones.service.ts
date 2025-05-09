@@ -8,12 +8,15 @@ import {ReadPersonPhoneDto} from "@/person-phones/dto/read-person-phone.dto";
 import {PersonPhoneMapper} from "@/person-phones/mapper/person-phone.mapper";
 import {ValidID} from "@/utils/validID";
 import {UpdatePersonPhoneDto} from "@/person-phones/dto/update-person-phone.dto";
+import {UserEntity} from "@/user/entities/user.entity";
 
 @Injectable()
 export class PersonPhoneService {
   constructor(
       @InjectRepository(PersonPhoneEntity)
       private readonly phoneRepo: Repository<PersonPhoneEntity>,
+      @InjectRepository(UserEntity) 
+      private readonly userRepo: Repository<UserEntity>,
   ) {}
 
   async create(dto: CreatePersonPhoneDto): Promise<ReadPersonPhoneDto> {
@@ -24,16 +27,49 @@ export class PersonPhoneService {
   }
 
   async findAll(): Promise<ReadPersonPhoneDto[]> {
-    const phones = await this.phoneRepo.find();
+    const phones = await this.phoneRepo.find({ relations: ["person"] });
     return phones.map((phone) => PersonPhoneMapper.entityToReadPersonPhoneDto(phone));
   }
 
   async findOne(validID: ValidID): Promise<ReadPersonPhoneDto> {
-    const phone = await this.phoneRepo.findOneBy({ pkPhone: validID.id });
+    const phone = await this.phoneRepo.findOne({
+      where: { pkPhone: validID.id },
+      relations: ["person"],
+    });
     if (!phone) {
       throw new HttpException(`Phone with ID ${validID.id} not found`, HttpStatus.NOT_FOUND);
     }
     return PersonPhoneMapper.entityToReadPersonPhoneDto(phone);
+  }
+
+  async findByPerson(id: number): Promise<ReadPersonPhoneDto[]> {
+    const phones = await this.phoneRepo.find({
+      where: { person: { pkPerson: id } },
+      relations: ["person"]
+    });
+    if (!phones) {
+      throw new HttpException(`Phone with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+    return phones.map(PersonPhoneMapper.entityToReadPersonPhoneDto);
+  }
+
+  async findByUser(id: number): Promise<ReadPersonPhoneDto[]> {
+    const user = await this.userRepo.findOne({
+      where: { pkUser: id },
+    });
+  
+    if (!user) {
+      throw new HttpException(`User with ID ${id} not found`, HttpStatus.NOT_FOUND);
+    }
+  
+    const phones = await this.phoneRepo.find({
+      where: { person: { user: { pkUser: id } } }, 
+    });
+  
+    if (!phones) {
+      return []; 
+    }
+    return phones.map(PersonPhoneMapper.entityToReadPersonPhoneDto);
   }
 
   async update(dto: UpdatePersonPhoneDto): Promise<{

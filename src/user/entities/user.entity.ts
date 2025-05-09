@@ -13,6 +13,7 @@ export class UserEntity {
     person: PersonEntity;
 
     @OneToOne(() => ProfileEntity, (profile) => profile.user)
+    @JoinColumn({ name: 'fk_profile' })
     profile: ProfileEntity;
 
     @Column({name:"email",nullable:false})
@@ -41,8 +42,5 @@ export class UserEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
-
-
-
 
 }
