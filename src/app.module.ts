@@ -38,16 +38,16 @@ import { StatusInfoModule } from './status-info/status-info.module';
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql',
         host: process.env.DATABASE_HOST,
-        port: configService.get<number>('DATABASE_PORT'), // Usa configService.get<>() para tornar el valor a number
+        port: configService.get<number>('DATABASE_PORT'), 
         username: process.env.DATABASE_USERNAME,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_SCHEMA,
-        entities: [__dirname  + "/**/*.entity{.ts,.js}"], // Encuentra todos los archivos que tengan ".entitity de tipo js o ts de cualquier carpeta
+        entities: [__dirname  + "/**/*.entity{.ts,.js}"], 
         synchronize: false,
       }),
     }),
     JwtModule.register({
-      secret: process.env.JwT_SECRET,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
     ThrottlerModule.forRoot([{
