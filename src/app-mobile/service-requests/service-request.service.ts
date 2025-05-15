@@ -42,6 +42,9 @@ export class RequestService {
   async findAll(): Promise<ReadRequestDto[]> {
     const entities = await this.requestRepository.find({
       relations: ['fkUser'],
+      order: {
+        createdAt: 'DESC', 
+      },
     });
     return entities.map((entity) => RequestMapper.entityToReadRequestDto(entity));
   }
