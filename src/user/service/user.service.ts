@@ -11,7 +11,7 @@ import {ValidEmailDto} from "@/user/dto/validEmail.dto";
 import { PersonEntity } from '../../person/entities/person.entity'; 
 import * as bcrypt from 'bcryptjs'; 
 import { JwtService } from '@nestjs/jwt';
-
+import { VerifyEmailDto } from "@/user/dto/verifyEmail.dto";
 
 @Injectable()
 export class UserService {
@@ -78,6 +78,11 @@ export class UserService {
       status: HttpStatus.FOUND,
       pkUser: foundUser.pkUser
     };
+  }
+
+   async verifyEmail(email: string): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    return !!user;
   }
 
   async findOneWithUser (pkUser: number):Promise<ReadUserDto>{
