@@ -25,6 +25,7 @@ import { PersonPhonesModule } from './person-phones/person-phones.module';
 import { PersonAddressModule } from './person-address/person-address.module';
 import { ContactModule } from './contact/contact.module';
 import { StatusInfoModule } from './status-info/status-info.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -71,7 +72,8 @@ import { StatusInfoModule } from './status-info/status-info.module';
     PersonPhonesModule,
     PersonAddressModule,
     StatusInfoModule,
-    ContactModule
+    ContactModule,
+    MailerModule
   ],
   controllers: [],
   providers: [],
