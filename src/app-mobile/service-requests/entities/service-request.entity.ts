@@ -14,11 +14,12 @@ import {
     @PrimaryGeneratedColumn({ name: 'request_id' })
     requestId: number;
   
-    @ManyToOne(() => UserEntity, (user) => user.pkUser)
+    @ManyToOne(() => UserEntity, (user) => user.serviceRequests)
     @JoinColumn({ name: 'fk_user' })
     fkUser: UserEntity;
   
-    @Column({ name: 'service_type', type: 'decimal', precision: 10, scale: 7 })
+    // CORREGIDO: de decimal a int
+    @Column({ name: 'service_type', type: 'int' })
     serviceType: number;
   
     @Column({ name: 'service_description', type: 'text', nullable: true })
@@ -27,13 +28,16 @@ import {
     @Column({ name: 'address', type: 'varchar', length: 255 })
     address: string;
   
-    @Column({ name: 'latitude', type: 'decimal', precision: 10, scale: 7 })
+    // CORREGIDO: precision 10,6 (coincide con BD)
+    @Column({ name: 'latitude', type: 'decimal', precision: 10, scale: 6 })
     latitude: number;
   
-    @Column({ name: 'longitude', type: 'decimal', precision: 10, scale: 7 })
+    // CORREGIDO: precision 10,6 (coincide con BD)  
+    @Column({ name: 'longitude', type: 'decimal', precision: 10, scale: 6 })
     longitude: number;
   
-    @Column({ name: 'status', type: 'decimal', precision: 10, scale: 7 })
+    // CORREGIDO: de decimal a int
+    @Column({ name: 'status', type: 'int' })
     status: number;
   
     @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
