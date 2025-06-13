@@ -4,7 +4,8 @@ import {RequestEntity} from "@/request/entities/request.entity";
 import {PersonEmailEntity} from "@/person-emails/entities/person-email.entity";
 import {PersonPhoneEntity} from "@/person-phones/entities/person-phone.entity";
 import {PersonAddressEntity} from "@/person-address/entities/person-address.entity";
-//
+import {ContactEntity} from "@/contact/entities/contact.entity"; // AGREGAR IMPORT
+
 @Entity('person')
 export class PersonEntity {
 
@@ -47,4 +48,7 @@ export class PersonEntity {
     @OneToMany(() => PersonAddressEntity, (address) => address.person)
     addresses : PersonAddressEntity[]
 
+    // AGREGADO: relación faltante con contacts
+    @OneToMany(() => ContactEntity, (contact) => contact.person)
+    contacts: ContactEntity[];
 }

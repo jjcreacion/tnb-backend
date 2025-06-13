@@ -1,6 +1,7 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, OneToMany, JoinColumn} from 'typeorm';
 import {PersonEntity} from "@/person/entities/person.entity";
 import {ProfileEntity} from "@/profile/entities/profile.entity";
+import {RequestEntity} from "@/app-mobile/service-requests/entities/service-request.entity"; // AGREGAR IMPORT
 
 @Entity('users')
 export class UserEntity {
@@ -12,8 +13,9 @@ export class UserEntity {
     @JoinColumn({ name: 'fk_person' })
     person: PersonEntity;
 
+    // CORREGIR: Cambiar @JoinColumn para que sea la relacion inversa correcta
     @OneToOne(() => ProfileEntity, (profile) => profile.user)
-    @JoinColumn({ name: 'fk_profile' })
+    // @JoinColumn({ name: 'fk_profile' })
     profile: ProfileEntity;
 
     @Column({name:"email",nullable:false})
@@ -43,4 +45,7 @@ export class UserEntity {
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
 
+    // relación con mobile service requests
+    @OneToMany(() => RequestEntity, (request) => request.fkUser)
+    serviceRequests: RequestEntity[];
 }

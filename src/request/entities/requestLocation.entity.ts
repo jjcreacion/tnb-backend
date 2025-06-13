@@ -1,6 +1,4 @@
-
-
-import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {RequestEntity} from "@/request/entities/request.entity";
 
 @Entity('request_location')
@@ -19,9 +17,13 @@ export class RequestLocationEntity {
     @Column({name:"latitude",nullable:true, type:"varchar"})
     latitude: string;
 
-    @Column({name:"description",nullable:true, type:"varchar"})
+    // CORREGIDO: era 'description' mapeado incorrectamente a 'longitude'
+    @Column({name:"longitude",nullable:true, type:"varchar"}) 
     longitude: string;
 
+    // AGREGADO: campo description que estaba mal mapeado
+    @Column({name:"description",nullable:true, type:"varchar"})
+    description: string;
 
     @Column({default: 1})
     status: number;
@@ -31,5 +33,4 @@ export class RequestLocationEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
-
 }

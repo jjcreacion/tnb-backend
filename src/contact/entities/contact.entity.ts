@@ -6,7 +6,8 @@ export class ContactEntity {
     @PrimaryGeneratedColumn({name: 'pk_contact'})
     pkContact: number;
 
-    @ManyToOne(() => PersonEntity, (person) => person.addresses)
+    // CORREGIDO: relación inversa de 'addresses' a 'contacts'
+    @ManyToOne(() => PersonEntity, (person) => person.contacts)
     @JoinColumn({ name: 'fk_person' })
     person: PersonEntity;
 
@@ -24,5 +25,4 @@ export class ContactEntity {
 
     @Column({ name:'updated_at', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
-
 }

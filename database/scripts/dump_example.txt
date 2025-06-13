@@ -1,0 +1,85 @@
+-- ==================================================================================
+       LOCAL TNB
+-- ==================================================================================
+      Ip: localhost
+    User: root
+Password: <your-pass>
+ DB name: tnb_db_develop
+    Port: 3306      //default
+
+
+
+
+
+*************************************************************************************
+                    DUMP SQL on MacOS feat MySQLWorkbench
+
+-- ==================================================================================
+-- ESTRUCTURE AND DATA (ALL)
+-- ==================================================================================
+/Applications/MySQLWorkbench.app/Contents/MacOS/mysqldump \
+  --host=localhost \
+  --port=3306 \
+  --user=root \
+  --password \
+  --default-character-set=utf8 \
+  --no-tablespaces \
+  --column-statistics=0 \
+  --single-transaction \
+  --routines \
+  --events \
+  --triggers \
+  --add-drop-table \
+  --add-drop-database \
+  --create-options \
+  --disable-keys \
+  --extended-insert \
+  --lock-tables=false \
+  --set-gtid-purged=OFF \
+  tnb_test > ~/Downloads/tnb_test_complete_$(date +%Y%m%d_%H%M%S).sql
+  
+  
+
+
+-- ==================================================================================
+-- ONLY STRUCTURE
+-- ==================================================================================
+/Applications/MySQLWorkbench.app/Contents/MacOS/mysqldump \
+  --host=localhost \
+  --port=3306 \
+  --user=root \
+  --password \
+  --default-character-set=utf8 \
+  --no-tablespaces \
+  --column-statistics=0 \
+  --no-data \
+  --routines \
+  --events \
+  --triggers \
+  --add-drop-table \
+  --add-drop-database \
+  --create-options \
+  --set-gtid-purged=OFF \
+  tnb_test > ~/Downloads/tnb_test_structure_only_$(date +%Y%m%d_%H%M%S).sql
+
+
+
+-- ==================================================================================
+-- ONLY DATA
+-- ==================================================================================
+/Applications/MySQLWorkbench.app/Contents/MacOS/mysqldump \
+  --host=localhost \
+  --port=3306 \
+  --user=root \
+  --password \
+  --default-character-set=utf8 \
+  --no-tablespaces \
+  --column-statistics=0 \
+  --no-create-info \
+  --skip-lock-tables \
+  --set-gtid-purged=OFF \
+  tnb_test > ~/Downloads/tnb_test_data_only_$(date +%Y%m%d_%H%M%S).sql
+
+
+  
+

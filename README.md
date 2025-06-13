@@ -97,3 +97,16 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+## SETTINGS 
+-- Create the `.env` file in the project's root directory
+Example:
+```env
+PORT=3000
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_USERNAME=root
+DATABASE_PASSWORD=
+DATABASE_SCHEMA=tnb_db_develop
+```
