@@ -5,6 +5,11 @@ export class ReadPersonAddressDto {
     address: string;
     isPrimary: number;
     status: number;
+    latitude: number;
+    longitude: number;
+    country: number;
+    state: number;
+    city: number;
     createdAt: Date;
     updatedAt: Date;
     person : ReadPersonDto;

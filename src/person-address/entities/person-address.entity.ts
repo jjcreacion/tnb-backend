@@ -19,6 +19,21 @@ export class PersonAddressEntity {
     @Column({default: 1})
     status: number;
 
+    @Column({name:"latitude", type:"decimal"})
+    latitude: number;
+
+    @Column({name:"longitude", type:"decimal"})
+    longitude: number;
+
+    @Column({name:"country", type:"int"})
+    country: number;
+
+    @Column({name:"state", type:"int"})
+    state: number;
+
+    @Column({name:"city", type:"int"})
+    city: number;
+
     @Column({ name:'createdAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 

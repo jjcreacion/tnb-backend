@@ -19,4 +19,24 @@ export class CreatePersonAddressDto extends OmitType(PersonAddressEntity, [
     @ApiProperty()
     @IsNumber()
     isPrimary : number;
+
+    @ApiProperty()
+    @IsNumber()
+    latitude: number;
+
+    @ApiProperty()
+    @IsNumber()
+    longitude : number;
+
+    @ApiProperty()
+    @IsNumber()
+    country : number;
+
+    @ApiProperty()
+    @IsNumber()
+    state : number;
+
+    @ApiProperty()
+    @IsNumber()
+    city : number;
 }
