@@ -17,7 +17,6 @@ import {ClientTypeModule} from "@/client-type/client-type.module";
 import {CountryModule} from "@/country/country.module";
 import {CountryStatesModule} from "@/country-states/country-states.module";
 import {LocalityModule} from "@/locality/locality.module";
-import {LocalityTypeModule} from "@/locality-type/locality-type.module";
 import { ServiceRequestModule } from "@/app-mobile/service-requests/service-request.module";
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
 import { PersonEmailsModule } from './person-emails/person-emails.module';
@@ -66,7 +65,6 @@ import { MailerModule } from './mailer/mailer.module';
     CountryModule,
     CountryStatesModule,
     LocalityModule,
-    LocalityTypeModule,
     ClientTypeQuestionsModule,
     PersonEmailsModule,
     PersonPhonesModule,

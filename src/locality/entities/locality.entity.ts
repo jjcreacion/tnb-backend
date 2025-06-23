@@ -1,13 +1,12 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {LocalityTypeEntity} from "@/locality-type/entities/localityType.entity";
 import {CountryStateEntity} from "@/country-states/entities/country-states.entity";
 
 
-@Entity('localities')
+@Entity('country_city')
 export class LocalityEntity {
 
-    @PrimaryGeneratedColumn({name: 'pk_locality'})
-    pkLocality: number;
+    @PrimaryGeneratedColumn({name: 'pk_city'})
+    pkCity: number;
 
     @Column({name:"name",nullable:false, type:"varchar"})
     name: string;
@@ -15,10 +14,6 @@ export class LocalityEntity {
     @ManyToOne(() => CountryStateEntity, (state) => state.localities)
     @JoinColumn({ name: 'fk_state' })
     state: CountryStateEntity;
-
-    @OneToOne(() => LocalityTypeEntity, (type) => type.locality)
-    @JoinColumn({ name: 'fk_locality_type' })
-    localityType: LocalityTypeEntity;
 
     @Column({default: 1})
     status: number;
@@ -28,5 +23,4 @@ export class LocalityEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
-
 }

@@ -8,7 +8,7 @@ export class UpdateLocalityDto extends OmitType(LocalityEntity,
     @IsNumber()
     @IsNotEmpty()
     @ApiProperty()
-    pkLocality: number;
+    pkCtiy: number;
 
     @IsString()
     @IsNotEmpty()
@@ -24,8 +24,5 @@ export class UpdateLocalityDto extends OmitType(LocalityEntity,
     @ApiProperty()
     @IsNotEmpty()
     status: number;
-
-
-
 
 }

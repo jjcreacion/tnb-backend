@@ -3,24 +3,22 @@ import { ReadLocalityDto } from '../dto/readLocality.dto';
 import { CreateLocalityDto } from '../dto/createLocality.dto';
 import { UpdateLocalityDto } from '../dto/updateLocality.dto';
 import {CountryStateEntity} from "@/country-states/entities/country-states.entity";
-import {LocalityTypeMapper} from "@/locality-type/mapper/localityType.mapper";
 
 export class LocalityMapper {
     static entityToReadLocalityDto(entity: LocalityEntity): ReadLocalityDto {
         const responseDto = new ReadLocalityDto();
-        responseDto.pkLocality = entity.pkLocality;
+        responseDto.pkCity = entity.pkCity;
         responseDto.name = entity.name;
         responseDto.fkState = entity.state?.pkState;
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
-        if(entity.localityType)responseDto.localityType = LocalityTypeMapper.entityToReadLocalityTypeDto(entity.localityType)
         return responseDto;
     }
 
     static readLocalityDtoToEntity(dto: ReadLocalityDto): LocalityEntity {
         const entity = new LocalityEntity();
-        entity.pkLocality = dto.pkLocality;
+        entity.pkCity = dto.pkCity;
         entity.name = dto.name;
         entity.status = dto.status;
         entity.createdAt = dto.createdAt;
@@ -40,7 +38,7 @@ export class LocalityMapper {
 
     static updateLocalityDtoToEntity(dto: UpdateLocalityDto): LocalityEntity {
         const entity = new LocalityEntity();
-        entity.pkLocality = dto.pkLocality;
+        entity.pkCity = dto.pkCity;
         entity.name = dto.name;
         entity.status = dto.status;
         if (dto.fkState) {

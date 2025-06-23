@@ -26,7 +26,7 @@ export class LocalityService {
 
   async findOne (validId : ValidID): Promise<ReadLocalityDto> {
     const entity = await this.localityRepository.findOne({
-      where: { pkLocality: validId.id },
+      where: { pkCity: validId.id },
     });
     if(!entity){
       throw new HttpException(`Locality with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);
@@ -59,10 +59,10 @@ export class LocalityService {
 
   async update (updateLocalityDto: UpdateLocalityDto): Promise<{ message: string; status: HttpStatus }> {
     const entity = await this.localityRepository.findOne({
-      where: { pkLocality: updateLocalityDto.pkLocality },
+      where: { pkCity: updateLocalityDto.pkCity },
     });
     if(!entity){
-      throw new HttpException(`Locality with ID ${updateLocalityDto.pkLocality} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(`Locality with ID ${updateLocalityDto.pkCity} not found`, HttpStatus.NOT_FOUND);
     }
 
     const updatedEntity = LocalityMapper.updateLocalityDtoToEntity(updateLocalityDto);

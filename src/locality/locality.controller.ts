@@ -5,7 +5,7 @@ import {ReadLocalityDto} from "@/locality/dto/readLocality.dto";
 import {ValidID} from "@/utils/validID";
 import {UpdateLocalityDto} from "@/locality/dto/updateLocality.dto";
 
-@Controller('locality')
+@Controller('country_city')
 export class LocalityController {
 
   constructor(private readonly localityService: LocalityService) {}
