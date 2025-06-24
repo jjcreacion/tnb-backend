@@ -35,7 +35,9 @@ export class CountryStateService {
   }
 
   async findAll (): Promise<ReadStateDto[]> {
-    const entities = await this.stateRepository.find({});
+    const entities = await this.stateRepository.find({
+      relations: ['country'],
+    });
     return entities.map(entity => CountryStateMapper.entityToReadStateDto(entity));
   }
 

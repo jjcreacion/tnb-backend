@@ -36,6 +36,7 @@ export class LocalityService {
 
   async findAll (): Promise<ReadLocalityDto[]> {
     const entities = await this.localityRepository.find({
+      relations: ['state'], 
     });
     return entities.map(entity => LocalityMapper.entityToReadLocalityDto(entity));
   }
