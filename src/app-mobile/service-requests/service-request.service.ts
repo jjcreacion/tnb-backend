@@ -8,12 +8,17 @@ import { ReadRequestDto } from './dto/read-request.dto';
 import { RequestMapper } from './mapper/service-request.mapper';
 import { UpdateRequestDto } from './dto/update-request.dt';
 import { UserService } from "@/user/service/user.service";
+import { RequestImageEntity } from '../request-images/entities/request-image.entity'; // Asegúrate de tener esta entidad
+import { RequestImageDto } from '../request-images/dto/request-image.dto'; // Y este DTO si lo usas
+
 
 @Injectable()
 export class RequestService {
   constructor(
     @InjectRepository(RequestEntity)
     private readonly requestRepository: Repository<RequestEntity>,
+    @InjectRepository(RequestImageEntity) // Inyecta el repositorio de imágenes
+    private readonly requestImageRepository: Repository<RequestImageEntity>,
     private readonly UserService : UserService
   ) {}
 
@@ -123,6 +128,31 @@ export class RequestService {
     return {
       message: 'Request Updated',
       status: HttpStatus.OK,
+    };
+  }
+
+  async saveRequestImages(requestId: number, imagePaths: string[]): Promise<{ message: string; savedImagesCount: number }> {
+    const request = await this.requestRepository.findOne({
+      where: { requestId: requestId },
+    });
+
+    if (!request) {
+      throw new HttpException(`Request with ID ${requestId} not found`, HttpStatus.NOT_FOUND);
+    }
+
+    const savedImages: RequestImageEntity[] = [];
+    for (const path of imagePaths) {
+      const newImage = this.requestImageRepository.create({
+        fkRequest: request, 
+        urlImage: path,
+        status: 1,
+      });
+      savedImages.push(await this.requestImageRepository.save(newImage));
+    }
+
+    return {
+      message: `Successfully uploaded ${savedImages.length} images for request ${requestId}`,
+      savedImagesCount: savedImages.length,
     };
   }
 }
