@@ -6,8 +6,10 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
     CreateDateColumn,
+    OneToMany
   } from 'typeorm';
   import { UserEntity } from '@/user/entities/user.entity'; 
+  import { RequestImageEntity } from '@/request-images/entities/request-image.entity'; 
   
   @Entity('mobile_service_requests')
   export class RequestEntity {
@@ -45,4 +47,7 @@ import {
   
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
     updatedAt: Date;
+
+    @OneToMany(() => RequestImageEntity, image => image.fkRequest)
+    images: RequestImageEntity[];
   }

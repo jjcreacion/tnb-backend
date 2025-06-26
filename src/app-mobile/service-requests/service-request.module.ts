@@ -4,7 +4,7 @@ import { RequestController } from './service-request.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestEntity } from './entities/service-request.entity';
 import { UserModule } from '../../user/user.module'; 
-import { RequestImageEntity } from '../request-images/entities/request-image.entity'; 
+import { RequestImageEntity } from '../../request-images/entities/request-image.entity'; 
 
 @Module({
   imports: [

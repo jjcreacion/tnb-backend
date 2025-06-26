@@ -10,7 +10,8 @@ import {
     Post,
     ValidationPipe,
     UseInterceptors, 
-    UploadedFiles,    
+    UploadedFiles,   
+    HttpException,  
   } from '@nestjs/common';
   import { ValidID } from '@/utils/validID';
   import { UpdateRequestDto } from './dto/update-request.dt';
@@ -95,9 +96,7 @@ import {
       FilesInterceptor('images', 10, { 
         storage: diskStorage({
           destination: (req, file, cb) => {
-            // Define la carpeta de destino al mismo nivel del proyecto
-            // Puedes ajustar 'uploads' al nombre que desees
-            const uploadPath = join(__dirname, '../../uploads'); // Sube dos niveles para estar al mismo nivel del proyecto
+            const uploadPath = join(__dirname, '../../uploads'); 
             cb(null, uploadPath);
           },
           filename: (req, file, cb) => {
@@ -121,10 +120,7 @@ import {
         throw new HttpException('No files uploaded', HttpStatus.BAD_REQUEST);
       }
 
-      // Aquí, `files` contiene información sobre los archivos guardados en el disco.
-      // Necesitas guardar las URLs de estas imágenes en tu base de datos (tabla `request_images`).
-      // Pasa el requestId y los archivos al servicio.
-      const imagePaths = files.map(file => file.path); // O file.filename si quieres guardar solo el nombre
+       const imagePaths = files.map(file => file.path); 
       return this.requestService.saveRequestImages(requestId, imagePaths);
     }
 }
