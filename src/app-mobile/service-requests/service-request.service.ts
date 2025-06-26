@@ -8,16 +8,14 @@ import { ReadRequestDto } from './dto/read-request.dto';
 import { RequestMapper } from './mapper/service-request.mapper';
 import { UpdateRequestDto } from './dto/update-request.dt';
 import { UserService } from "@/user/service/user.service";
-import { RequestImageEntity } from '../request-images/entities/request-image.entity'; // Asegúrate de tener esta entidad
-import { RequestImageDto } from '../request-images/dto/request-image.dto'; // Y este DTO si lo usas
-
+import { RequestImageEntity } from '../../request-images/entities/request-image.entity'; 
 
 @Injectable()
 export class RequestService {
   constructor(
     @InjectRepository(RequestEntity)
     private readonly requestRepository: Repository<RequestEntity>,
-    @InjectRepository(RequestImageEntity) // Inyecta el repositorio de imágenes
+    @InjectRepository(RequestImageEntity) 
     private readonly requestImageRepository: Repository<RequestImageEntity>,
     private readonly UserService : UserService
   ) {}

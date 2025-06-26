@@ -7,11 +7,11 @@ export class RequestImageEntity {
   imageId: number;
 
   @Column({ name: 'fk_request' })
-  fkRequestId: number; // Columna para almacenar el ID de la solicitud
+  fkRequestId: number; 
 
-  @ManyToOne(() => RequestEntity, request => request.images) // Relación Many-to-One
-  @JoinColumn({ name: 'fk_request' }) // Clave foránea real
-  fkRequest: RequestEntity; // Propiedad para la relación
+  @ManyToOne(() => RequestEntity, request => request.images) 
+  @JoinColumn({ name: 'fk_request' }) 
+  fkRequest: RequestEntity; 
 
   @Column({ name: 'url_image' })
   urlImage: string;
