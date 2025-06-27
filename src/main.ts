@@ -1,18 +1,12 @@
-
-import {  NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as process from "process";
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
-import {ValidationPipe} from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
 
   const allowedOrigins = process.env.CORS_ORIGINS?.split(',') || [];
-
 
   const app = await NestFactory.create(
       AppModule
@@ -31,15 +25,19 @@ async function bootstrap() {
   app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
-        forbidNonWhitelisted: true
+        forbidNonWhitelisted: true,
+        transform: true, 
+        transformOptions: {
+          enableImplicitConversion: true, 
+        },
       })
-  )
+  );
 
   app.enableCors({
-    origin:  true,
+    origin:  true, 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-  })
+  });
 
   await app.listen(process.env.PORT ?? 5641);
 }
