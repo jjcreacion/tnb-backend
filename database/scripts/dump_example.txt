@@ -4,14 +4,10 @@
       Ip: localhost
     User: root
 Password: <your-pass>
- DB name: tnb_db_develop
+ DB name: tnb-db-develop
     Port: 3306      //default
 
-
-
-
-
-*************************************************************************************
+-- **********************************************************************************
                     DUMP SQL on MacOS feat MySQLWorkbench
 
 -- ==================================================================================
@@ -36,8 +32,7 @@ Password: <your-pass>
   --extended-insert \
   --lock-tables=false \
   --set-gtid-purged=OFF \
-  tnb_test > ~/Downloads/tnb_test_complete_$(date +%Y%m%d_%H%M%S).sql
-  
+  tnb-db-develop > ~/Downloads/tnb-db-develop_complete_$(date +%Y%m%d_%H%M%S).sql
   
 
 
@@ -60,7 +55,7 @@ Password: <your-pass>
   --add-drop-database \
   --create-options \
   --set-gtid-purged=OFF \
-  tnb_test > ~/Downloads/tnb_test_structure_only_$(date +%Y%m%d_%H%M%S).sql
+  tnb-db-develop > ~/Downloads/tnb-db-develop_structure_only_$(date +%Y%m%d_%H%M%S).sql
 
 
 
@@ -78,7 +73,7 @@ Password: <your-pass>
   --no-create-info \
   --skip-lock-tables \
   --set-gtid-purged=OFF \
-  tnb_test > ~/Downloads/tnb_test_data_only_$(date +%Y%m%d_%H%M%S).sql
+  tnb-db-develop > ~/Downloads/tnb-db-develop_data_only_$(date +%Y%m%d_%H%M%S).sql
 
 
   
