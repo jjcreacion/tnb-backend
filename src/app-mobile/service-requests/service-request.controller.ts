@@ -117,20 +117,25 @@ export class RequestController {
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     if (!files || files.length === 0) {
-      throw new HttpException('No files uploaded', HttpStatus.BAD_REQUEST);
+      throw new HttpException('No se han subido archivos.', HttpStatus.BAD_REQUEST);
+    }
+
+    if (body.requestId === undefined || body.requestId === null || String(body.requestId).trim() === '') {
+      throw new HttpException('El campo "requestId" no puede estar vacío.', HttpStatus.BAD_REQUEST);
     }
 
     const requestId = parseInt(body.requestId, 10);
 
     if (isNaN(requestId)) {
-      throw new HttpException('requestId debe ser un número válido.', HttpStatus.BAD_REQUEST);
+      throw new HttpException('El "requestId" debe ser un número válido.', HttpStatus.BAD_REQUEST);
     }
-    if (body.requestId === undefined || body.requestId === null || String(body.requestId).trim() === '') {
-      throw new HttpException('requestId no puede estar vacío.', HttpStatus.BAD_REQUEST);
-    }
+
     if (requestId <= 0) {
-        throw new HttpException('requestId no válido.', HttpStatus.BAD_REQUEST);
+        throw new HttpException('El "requestId" no es válido (debe ser mayor a 0).', HttpStatus.BAD_REQUEST);
     }
+
+    console.log('Request ID recibido (numérico):', requestId);
+    console.log('Tipo de Request ID:', typeof requestId); 
 
     const imagePaths = files.map(file => {
       return `/images/service-request/${file.filename}`;
