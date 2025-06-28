@@ -24,11 +24,11 @@ export class PersonNotesService {
     const entity = this.noteRepo.create(dto);
     entity.contact = {pkContact : dto.fkContact} as ContactEntity;
     
-    // Si se proporciona un usuario, asignarlo; de lo contrario, usar el valor por defecto (42)
+    // Si se proporciona un usuario, asignarlo; de lo contrario, usar el valor por defecto (103)
     if (dto.fkUser) {
       entity.user = {pkUser : dto.fkUser} as UserEntity;
     } else {
-      entity.user = {pkUser : 42} as UserEntity; // Usuario por defecto según el comentario en la BD
+      entity.user = {pkUser : 103} as UserEntity; // Usuario 'autenticado' por defecto según el comentario en la BD
     }
     
     const saved = await this.noteRepo.save(entity);

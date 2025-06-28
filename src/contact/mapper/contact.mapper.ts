@@ -11,7 +11,21 @@ export class ContactMapper {
         dto.status = entity.status;
         dto.createdAt = entity.createdAt;
         dto.updatedAt = entity.updatedAt;
-        if(entity.person) dto.person = PersonMapper.entityToReadPersonDto(entity.person)
+        
+        if(entity.person) {
+            dto.person = PersonMapper.entityToReadPersonDto(entity.person);
+        }
+        
+        if(entity.notes) {
+            // Ordenar notas: prioritarias primero, luego por fecha de creación (más recientes primero)
+            dto.notes = entity.notes.sort((a, b) => {
+                if (a.isPriority !== b.isPriority) {
+                    return b.isPriority - a.isPriority; // Prioritarias primero
+                }
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            });
+        }
+        
         return dto;
     }
 

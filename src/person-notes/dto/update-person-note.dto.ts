@@ -3,7 +3,7 @@ import { PersonNoteEntity } from "../entities/person-note.entity";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional, IsNumber, IsString } from "class-validator";
 
-export class UpdatePersonNoteDto extends OmitType(PersonNoteEntity, ['createdAt', 'updatedAt'] ) {
+export class UpdatePersonNoteDto extends OmitType(PersonNoteEntity, ['createdAt', 'updatedAt', 'contact', 'user'] ) {
     @ApiProperty()
     @IsNumber()
     @IsOptional()

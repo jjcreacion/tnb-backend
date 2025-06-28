@@ -28,21 +28,38 @@ export class ContactService {
   }
   
   async findAll(): Promise<ReadContactDto[]> {
-    const emails = await this.emailRepo.find({ relations: ['person', 'person.emails', 'person.phones', 'person.addresses'] });
-    return emails.map(ContactMapper.entityToReadContactDto);
+    const contacts = await this.emailRepo.find({ 
+      relations: [
+        'person', 
+        'person.emails', 
+        'person.phones', 
+        'person.addresses',
+        'notes',
+        'notes.user',
+        'notes.user.person'
+      ] 
+    });
+    return contacts.map(ContactMapper.entityToReadContactDto);
   }
 
   async findOne(id: number): Promise<ReadContactDto> {
-    const email = await this.emailRepo.findOne({
+    const contact = await this.emailRepo.findOne({
       where: { pkContact: id },
-      relations: ['person', 'person.emails', 'person.phones', 'person.addresses']
+      relations: [
+        'person', 
+        'person.emails', 
+        'person.phones', 
+        'person.addresses',
+        'notes',
+        'notes.user',
+        'notes.user.person'
+      ]
     });
-    if (!email) {
+    if (!contact) {
       throw new HttpException(`Contact with ID ${id} not found`, HttpStatus.NOT_FOUND);
     }
-    return ContactMapper.entityToReadContactDto(email);
+    return ContactMapper.entityToReadContactDto(contact);
   }
-
 
   async update(dto: UpdateContactDto): Promise<{
     message: string;

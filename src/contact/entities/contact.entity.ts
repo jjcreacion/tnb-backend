@@ -1,12 +1,12 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import { PersonEntity } from "@/person/entities/person.entity";
+import { PersonNoteEntity } from "@/person-notes/entities/person-note.entity";
 
 @Entity('contact')
 export class ContactEntity {
     @PrimaryGeneratedColumn({name: 'pk_contact'})
     pkContact: number;
 
-    // CORREGIDO: relación inversa de 'addresses' a 'contacts'
     @ManyToOne(() => PersonEntity, (person) => person.contacts)
     @JoinColumn({ name: 'fk_person' })
     person: PersonEntity;
@@ -25,4 +25,7 @@ export class ContactEntity {
 
     @Column({ name:'updated_at', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
+
+    @OneToMany(() => PersonNoteEntity, (note) => note.contact)
+    notes: PersonNoteEntity[];
 }
