@@ -116,31 +116,32 @@ export class RequestController {
     @Body() body: Record<string, any>,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
+  
     if (!files || files.length === 0) {
       throw new HttpException('No se han subido archivos.', HttpStatus.BAD_REQUEST);
     }
 
-    if (body.requestId === undefined || body.requestId === null || String(body.requestId).trim() === '') {
-      throw new HttpException('El campo "requestId" no puede estar vacío.', HttpStatus.BAD_REQUEST);
+    if (body.serviceRequestId === undefined || body.serviceRequestId === null || String(body.serviceRequestId).trim() === '') {
+      throw new HttpException('El campo "serviceRequestId" no puede estar vacío.', HttpStatus.BAD_REQUEST); // Actualiza el mensaje
     }
 
-    const requestId = parseInt(body.requestId, 10);
+    const parsedRequestId = parseInt(body.serviceRequestId, 10); 
 
-    if (isNaN(requestId)) {
-      throw new HttpException('El "requestId" debe ser un número válido.', HttpStatus.BAD_REQUEST);
+    if (isNaN(parsedRequestId)) {
+      throw new HttpException('El "serviceRequestId" debe ser un número válido.', HttpStatus.BAD_REQUEST); // Actualiza el mensaje
     }
 
-    if (requestId <= 0) {
-        throw new HttpException('El "requestId" no es válido (debe ser mayor a 0).', HttpStatus.BAD_REQUEST);
+    if (parsedRequestId <= 0) {
+        throw new HttpException('El "serviceRequestId" no es válido (debe ser mayor a 0).', HttpStatus.BAD_REQUEST); // Actualiza el mensaje
     }
 
-    console.log('Request ID recibido (numérico):', requestId);
-    console.log('Tipo de Request ID:', typeof requestId); 
+    console.log('Request ID recibido (numérico):', parsedRequestId);
+    console.log('Tipo de Request ID:', typeof parsedRequestId); 
 
     const imagePaths = files.map(file => {
       return `/images/service-request/${file.filename}`;
     });
 
-    return this.requestService.saveRequestImages(requestId, imagePaths);
+    return this.requestService.saveRequestImages(parsedRequestId, imagePaths); 
   }
 }
