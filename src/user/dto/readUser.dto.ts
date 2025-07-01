@@ -11,6 +11,7 @@ export class ReadUserDto {
     validateEmail: number;
     validatePhone: number;
     status: number;
+    img_profile: string;
     createdAt: Date;
     updatedAt: Date;
 }

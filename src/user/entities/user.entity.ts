@@ -39,6 +39,9 @@ export class UserEntity {
     @Column({default: 1})
     status: number;
 
+    @Column({name:"img_profile"})
+    img_profile: string;
+
     @Column({ name:'createdAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 

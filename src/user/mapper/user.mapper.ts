@@ -15,6 +15,7 @@ export class UserMapper {
         dto.validateEmail = entity.validateEmail;
         dto.validatePhone = entity.validatePhone;
         dto.status = entity.status;
+        dto.img_profile = entity.img_profile;
         dto.createdAt = entity.createdAt;
         dto.updatedAt = entity.updatedAt;
         if(entity.person) dto.person = PersonMapper.entityToReadPersonDto(entity.person);

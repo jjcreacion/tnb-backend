@@ -1,18 +1,28 @@
-import {Controller, Get, Post, Body, ValidationPipe, Param, HttpStatus, Query, HttpException} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  ValidationPipe,
+  Param,
+  HttpStatus,
+  Query,
+  HttpException,
+  UseInterceptors,
+  UploadedFile,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { UserService } from '../service/user.service';
-import { CreateUserDto } from '../dto/createUser.dto';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
-import { ReadUserDto } from "@/user/dto/readUser.dto";
-import { ValidUsernameDto } from "@/user/dto/validUsername.dto";
-import { VerifyEmailDto } from "@/user/dto/verifyEmail.dto";
-import { ValidPhoneDto } from "@/user/dto/validPhone.dto";
-import { ValidEmailDto } from "@/user/dto/validEmail.dto";
-import { ApiOperation } from '@nestjs/swagger';
-import { UserMapper } from "@/user/mapper/user.mapper";
-import { ValidID } from "@/utils/validID";
-import { UserEntity } from '../entities/user.entity';
-import * as bcrypt from 'bcryptjs'; 
+import { VerifyEmailDto } from '../dto/verifyEmail.dto';
+import { ReadUserDto } from '@/user/dto/readUser.dto';
+import { UploadProfileImageDto } from '../dto/UploadProfileImageDto';
+import { ValidEmailDto } from '@/user/dto/validEmail.dto';
+import { ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { LoginWithEmailDto } from '../dto/loginWithEmail.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer'; 
+import { extname, join } from 'path'; 
 
 @Controller('user')
 export class UserController {
@@ -57,23 +67,79 @@ export class UserController {
     return { exists };
   }
  
-  @ApiOperation({ summary: 'Login por Email' })
-  @Post('loginWithEmail')
-  async login(@Body(new ValidationPipe()) loginDto: LoginWithEmailDto): Promise<{ accessToken: string, pkUser: number}> {
-    const user = await this.userService.findByEmail(loginDto.email);
+  
+  @ApiOperation({ summary: 'Subir imagen de perfil de usuario' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        pkUser: {
+          type: 'number',
+          description: 'El ID del usuario.',
+        },
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'La imagen de perfil a subir.',
+        },
+      },
+      required: ['pkUser', 'file'], 
+    },
+  })
+  @Post('upload-profile-image') 
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: join(__dirname, '../../../../images/profiles'),
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+          return cb(new HttpException('Solo se permiten archivos de imagen!', HttpStatus.BAD_REQUEST), false);
+        }
+        cb(null, true);
+      },
+      limits: {
+        fileSize: 5 * 1024 * 1024, 
+      },
+    })
+  )
+  async uploadProfileImage(
+    @Body(new ValidationPipe({ transform: true })) body: UploadProfileImageDto, 
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<{ message: string; filePath?: string }> {
+    const pkUser = body.pkUser;
 
-    if (!user) {
-      throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+    if (!file) {
+      throw new HttpException('No se ha subido ningún archivo.', HttpStatus.BAD_REQUEST);
     }
 
-    const isPasswordValid = await this.userService.validatePassword(loginDto.password, user.password);
-
-    if (!isPasswordValid) {
-      throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+    if (typeof pkUser !== 'number' || pkUser <= 0 || pkUser > 1000000) {
+      throw new HttpException('ID de usuario inválido o fuera de rango.', HttpStatus.BAD_REQUEST);
     }
 
-    const accessToken = await this.userService.generateJwt(user);
-    return { accessToken, pkUser: user.pkUser };
+    try {
+      const relativePath = `images/profiles/${file.filename}`;
+      await this.userService.updateProfileImagePath(pkUser, relativePath);
+
+      return {
+        message: 'Imagen de perfil subida exitosamente.',
+        filePath: relativePath,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Error al subir la imagen de perfil: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
 }

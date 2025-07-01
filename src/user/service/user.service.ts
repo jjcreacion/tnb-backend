@@ -108,4 +108,15 @@ export class UserService {
     return this.jwtService.signAsync(payload);
   }
 
+  async updateProfileImagePath(pkUser: number, imagePath: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { pkUser } });
+
+    if (!user) {
+      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    user.img_profile = imagePath;
+    await this.userRepository.save(user); 
+  }
+
 }
