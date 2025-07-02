@@ -61,6 +61,25 @@ export class UserController {
     return this.userService.verifyUserWithEmail(validParameter);
   }
 
+@ApiOperation({ summary: 'Login por Email' })
+@Post('loginWithEmail')
+async login(@Body(new ValidationPipe()) loginDto: LoginWithEmailDto): Promise<{ accessToken: string, pkUser: number }> {
+  const user = await this.userService.findByEmail(loginDto.email);
+
+  if (!user) {
+    throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+  }
+
+  const isPasswordValid = await this.userService.validatePassword(loginDto.password, user.password);
+
+  if (!isPasswordValid) {
+    throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+  }
+
+  const accessToken = await this.userService.generateJwt(user);
+  return { accessToken, pkUser: user.pkUser };
+}
+
   @ApiOperation({ summary: 'Verificar si el email existe' })
   @Get('verifyEmail')
   async verifyEmailExists(
