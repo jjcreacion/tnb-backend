@@ -1,17 +1,17 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {UserEntity} from "@/user/entities/user.entity";
 import {UserMapper} from "@/user/mapper/user.mapper";
 import {ReadUserDto} from "@/user/dto/readUser.dto";
-import {ValidUsernameDto} from "@/user/dto/validUsername.dto";
-import {ValidPhoneDto} from "@/user/dto/validPhone.dto";
 import {ValidEmailDto} from "@/user/dto/validEmail.dto";
 import { PersonEntity } from '../../person/entities/person.entity'; 
 import * as bcrypt from 'bcryptjs'; 
 import { JwtService } from '@nestjs/jwt';
-import { VerifyEmailDto } from "@/user/dto/verifyEmail.dto";
+import { PersonPhoneEntity } from '@/person-phones/entities/person-phone.entity'; 
+import { PersonAddressEntity } from '@/person-address/entities/person-address.entity';
+import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 
 @Injectable()
 export class UserService {
@@ -20,6 +20,8 @@ export class UserService {
       @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
       private userMapper : UserMapper,
       @InjectRepository(PersonEntity) private personRepository: Repository<PersonEntity>, 
+      @InjectRepository(PersonPhoneEntity) private phoneRepository: Repository<PersonPhoneEntity>,
+      @InjectRepository(PersonAddressEntity) private addressRepository: Repository<PersonAddressEntity>,
       private readonly jwtService: JwtService
   ){}
 
@@ -55,7 +57,6 @@ export class UserService {
     const readUserDto = UserMapper.entityToReadUserDto(userEntity);
     return readUserDto; 
   }
-
   
   async verifyUserWithEmail(validParameter: ValidEmailDto): Promise<{ exists: boolean, status: HttpStatus, pkUser?: number }> {
     let foundUser: UserEntity | null = null;
@@ -117,6 +118,99 @@ export class UserService {
 
     user.img_profile = imagePath;
     await this.userRepository.save(user); 
+  }
+
+  async updateUser(updateUserProfileDto: UpdateUserProfileDto ): Promise<ReadUserDto> {
+    const { pkUser, email, person } = updateUserProfileDto;
+
+    const user = await this.userRepository.findOne({
+      where: { pkUser: pkUser },
+      relations: ['person', 'person.phones', 'person.addresses'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${pkUser} no encontrado.`);
+    }
+
+    if (!user.person) {
+      throw new NotFoundException(`Persona asociada al usuario ${pkUser} no encontrada.`);
+    }
+
+    if (email) {
+      user.email = email;
+      await this.userRepository.save(user);
+    }
+
+    if (person) {
+      const { firstName, lastName, phones, addresses } = person;
+
+      if (firstName) {
+        user.person.firstName = firstName;
+      }
+      if (lastName) {
+        user.person.lastName = lastName;
+      }
+      await this.personRepository.save(user.person);
+
+      if (phones && phones.length > 0) {
+        for (const phoneDto of phones) {
+          if (phoneDto.isPrimary === 1) {
+            await this.phoneRepository.update(
+              { person: user.person, isPrimary: 1 },
+              { isPrimary: 0 },
+            );
+          }
+          let existingPhone = await this.phoneRepository.findOne({
+            where: { phone: phoneDto.phone, person: user.person },
+          });
+
+          if (existingPhone) {
+            existingPhone.isPrimary = phoneDto.isPrimary ?? existingPhone.isPrimary;
+            await this.phoneRepository.save(existingPhone);
+          } else if (phoneDto.phone) {
+            const newPhone = this.phoneRepository.create({
+              ...phoneDto,
+              person: user.person,
+              status: 1,
+            });
+            await this.phoneRepository.save(newPhone);
+          }
+        }
+      }
+
+      if (addresses && addresses.length > 0) {
+        for (const addressDto of addresses) {
+          if (addressDto.isPrimary === 1) {
+            await this.addressRepository.update(
+              { person: user.person, isPrimary: 1 },
+              { isPrimary: 0 },
+            );
+          }
+          let existingAddress = await this.addressRepository.findOne({
+            where: { address: addressDto.address, person: user.person },
+          });
+
+          if (existingAddress) {
+            existingAddress.isPrimary = addressDto.isPrimary ?? existingAddress.isPrimary;
+            await this.addressRepository.save(existingAddress);
+          } else if (addressDto.address) {
+            const newAddress = this.addressRepository.create({
+              ...addressDto,
+              person: user.person,
+              status: 1,
+            });
+            await this.addressRepository.save(newAddress);
+          }
+        }
+      }
+    }
+
+    const updatedUser = await this.userRepository.findOne({
+      where: { pkUser: pkUser },
+      relations: ['person', 'person.emails', 'person.phones', 'person.addresses'],
+    });
+
+    return updatedUser as unknown as ReadUserDto;
   }
 
 }

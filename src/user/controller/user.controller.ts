@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Body,
   ValidationPipe,
   Param,
@@ -11,6 +12,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ParseIntPipe,
+  NotFoundException
 } from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
@@ -23,6 +25,7 @@ import { LoginWithEmailDto } from '../dto/loginWithEmail.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer'; 
 import { extname, join } from 'path'; 
+import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 
 @Controller('user')
 export class UserController {
@@ -58,7 +61,7 @@ export class UserController {
     return this.userService.verifyUserWithEmail(validParameter);
   }
 
- @ApiOperation({ summary: 'Verificar si el email existe' })
+  @ApiOperation({ summary: 'Verificar si el email existe' })
   @Get('verifyEmail')
   async verifyEmailExists(
     @Query(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) validEmailDto: VerifyEmailDto
@@ -67,6 +70,25 @@ export class UserController {
     return { exists };
   }
  
+  @ApiOperation({ summary: 'Editar datos de usuario (sin actualizar email si no se proporciona)' })
+  @Patch('updateUserProfile')
+  async update(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true })) 
+    updateUserProfileDto: UpdateUserProfileDto,
+  ): Promise<ReadUserDto> {
+    try {
+      const updatedUser = await this.userService.updateUser(updateUserProfileDto);
+      return updatedUser;
+    } catch (error) {
+      if (error instanceof HttpException) { 
+        throw error; 
+      }
+      throw new HttpException(
+        'Error al actualizar el usuario: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
   
   @ApiOperation({ summary: 'Subir imagen de perfil de usuario' })
   @ApiConsumes('multipart/form-data')
