@@ -26,9 +26,15 @@ import { ContactModule } from './contact/contact.module';
 import { StatusInfoModule } from './status-info/status-info.module';
 import { MailerModule } from './mailer/mailer.module';
 import { PersonNotesModule } from './person-notes/person-notes.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'var', 'www', 'images'), 
+      serveRoot: '/images', 
+    }),
     ConfigModule.forRoot({
       validationSchema: envValidationSchema,
       isGlobal: true,
