@@ -120,6 +120,19 @@ export class UserService {
     await this.userRepository.save(user); 
   }
 
+  async resetPassword(email: string, newPasswordPlain: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado.');
+    }
+
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(newPasswordPlain, salt);
+
+    await this.userRepository.save(user);
+  }
+  
   async updateUser(updateUserProfileDto: UpdateUserProfileDto ): Promise<ReadUserDto> {
     const { pkUser, email, person } = updateUserProfileDto;
 

@@ -26,6 +26,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer'; 
 import { extname, join } from 'path'; 
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
+import { ResetPasswordDto } from '../dto/resetPassword.dto'; 
 
 @Controller('user')
 export class UserController {
@@ -104,6 +105,26 @@ async login(@Body(new ValidationPipe()) loginDto: LoginWithEmailDto): Promise<{ 
       }
       throw new HttpException(
         'Error al actualizar el usuario: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @ApiOperation({ summary: 'Cambiar la contraseña de un usuario por email' })
+  @Patch('reset-password')
+  async resetPassword(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<{ message: string }> {
+    try {
+      await this.userService.resetPassword(resetPasswordDto.email, resetPasswordDto.newPassword);
+      return { message: 'Contraseña actualizada exitosamente.' };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Error al cambiar la contraseña: ' + error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
