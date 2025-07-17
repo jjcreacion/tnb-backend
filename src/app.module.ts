@@ -18,6 +18,7 @@ import {CountryModule} from "@/country/country.module";
 import {CountryStatesModule} from "@/country-states/country-states.module";
 import {LocalityModule} from "@/locality/locality.module";
 import { ServiceRequestModule } from "@/app-mobile/service-requests/service-request.module";
+import { MobileCampaignModule } from './app-mobile/campaigns/campaigns.module';
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
 import { PersonEmailsModule } from './person-emails/person-emails.module';
 import { PersonPhonesModule } from './person-phones/person-phones.module';
@@ -79,7 +80,8 @@ import { join } from 'path';
     StatusInfoModule,
     ContactModule,
     MailerModule,
-    PersonNotesModule
+    PersonNotesModule,
+    MobileCampaignModule
   ],
   controllers: [],
   providers: [],

@@ -23,7 +23,7 @@ export class MobileCampaignService {
 
   async findOne(validId: ValidID): Promise<ReadMobileCampaignDto> {
     const entity = await this.mobileCampaignRepository.findOne({
-      where: { campaignsId: validId.id }, // Usa campaignsId, el PK de tu entidad
+      where: { campaignsId: validId.id }, 
     });
     if (!entity) {
       throw new HttpException(
@@ -99,8 +99,8 @@ export class MobileCampaignService {
       throw new HttpException(`Campaña con ID ${campaignId} no encontrada.`, HttpStatus.NOT_FOUND);
     }
 
-    campaign.imageUrl = imageUrl; // Actualiza la URL de la imagen
-    const updatedCampaign = await this.mobileCampaignRepository.save(campaign); // Guarda los cambios
+    campaign.imageUrl = imageUrl; 
+    const updatedCampaign = await this.mobileCampaignRepository.save(campaign); 
 
     return MobileCampaignMapper.entityToReadDto(updatedCampaign);
   }

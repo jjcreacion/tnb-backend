@@ -23,7 +23,7 @@ export class CreateMobileCampaignDto {
   @IsNotEmpty({ message: 'La URL de la imagen es obligatoria.' })
   @ApiProperty({
     description: 'La URL de la imagen de la campaña.',
-    example: 'https://ejemplo.com/imagen-campana.jpg',
+    example: '0101020022120.jpg',
   })
   imageUrl: string;
 
