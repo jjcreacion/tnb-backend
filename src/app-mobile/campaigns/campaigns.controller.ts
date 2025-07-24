@@ -46,6 +46,13 @@ import {
     async findAll(): Promise<ReadMobileCampaignDto[]> {
       return this.mobileCampaignService.findAll();
     }
+
+    @ApiOperation({ summary: 'Obtener todas las campañas móviles activas' })
+    @ApiResponse({ status: 200, description: 'Lista de todas las campañas móviles que están activas y dentro de su rango de fechas.', type: [ReadMobileCampaignDto] })
+    @Get('active') 
+    async findActiveCampaigns(): Promise<ReadMobileCampaignDto[]> {
+      return this.mobileCampaignService.findActiveCampaigns();
+    }
   
     @ApiOperation({ summary: 'Obtener una campaña móvil por ID' })
     @ApiResponse({ status: 200, description: 'Campaña móvil encontrada.', type: ReadMobileCampaignDto })
@@ -66,7 +73,7 @@ import {
     ): Promise<ReadMobileCampaignDto> { 
       return this.mobileCampaignService.update(id, updateMobileCampaignDto);
     }
-  
+
     @ApiOperation({ summary: 'Eliminar una campaña móvil por ID' })
     @ApiResponse({ status: 200, description: 'Campaña móvil eliminada exitosamente.' })
     @ApiResponse({ status: 404, description: 'Campaña móvil no encontrada.' })

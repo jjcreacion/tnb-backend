@@ -19,7 +19,6 @@ export class CreateMobileCampaignDto {
   })
   description?: string; 
 
-  @IsUrl({}, { message: 'La URL de la imagen debe ser una URL válida.' })
   @IsNotEmpty({ message: 'La URL de la imagen es obligatoria.' })
   @ApiProperty({
     description: 'La URL de la imagen de la campaña.',

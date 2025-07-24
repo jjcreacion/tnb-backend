@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { ValidID } from '@/utils/validID'; 
 import { RequestEntity } from './entities/campaigns.entity'; 
 import { CreateMobileCampaignDto } from './dto/create-campaigns.dto';
@@ -43,6 +43,20 @@ export class MobileCampaignService {
     return entities.map((entity) => MobileCampaignMapper.entityToReadDto(entity));
   }
 
+  async findActiveCampaigns(): Promise<ReadMobileCampaignDto[]> {
+    const currentDate = new Date();
+    const entities = await this.mobileCampaignRepository.find({
+      where: {
+        isActive: true,
+        startDate: LessThanOrEqual(currentDate), 
+        endDate: MoreThanOrEqual(currentDate),  
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+    return entities.map((entity) => MobileCampaignMapper.entityToReadDto(entity));
+  }
  
   async remove(id: number): Promise<{ message: string; status: HttpStatus }> {
     const campaignToDelete = await this.mobileCampaignRepository.findOneBy({
