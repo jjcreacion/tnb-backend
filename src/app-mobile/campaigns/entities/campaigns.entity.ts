@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('mobile_campaigns')
-export class RequestEntity {
+export class campaignEntity {
   @PrimaryGeneratedColumn({ name: 'pk_campaigns' })
   campaignsId: number;
 

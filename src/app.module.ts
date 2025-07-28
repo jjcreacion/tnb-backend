@@ -29,6 +29,7 @@ import { MailerModule } from './mailer/mailer.module';
 import { PersonNotesModule } from './person-notes/person-notes.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-interest.module'; 
 
 @Module({
   imports: [
@@ -81,7 +82,8 @@ import { join } from 'path';
     ContactModule,
     MailerModule,
     PersonNotesModule,
-    MobileCampaignModule
+    MobileCampaignModule,
+    CampaignInterestModule
   ],
   controllers: [],
   providers: [],

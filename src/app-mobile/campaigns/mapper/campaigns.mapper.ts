@@ -1,11 +1,11 @@
-import { RequestEntity } from '../entities/campaigns.entity';
+import { campaignEntity } from '../entities/campaigns.entity';
 import { CreateMobileCampaignDto } from '../dto/create-campaigns.dto';
 import { ReadMobileCampaignDto } from '../dto/read-campaigns.dto';
 import { UpdateMobileCampaignDto } from '../dto/update-campaigns.dto';
 
 export class MobileCampaignMapper {
-  static createDtoToEntity(dto: CreateMobileCampaignDto): RequestEntity {
-    const entity = new RequestEntity();
+  static createDtoToEntity(dto: CreateMobileCampaignDto): campaignEntity {
+    const entity = new campaignEntity();
     entity.title = dto.title;
     entity.description = dto.description ?? null; 
     entity.imageUrl = dto.imageUrl;
@@ -17,7 +17,7 @@ export class MobileCampaignMapper {
     return entity;
   }
 
-  static entityToReadDto(entity: RequestEntity): ReadMobileCampaignDto {
+  static entityToReadDto(entity: campaignEntity): ReadMobileCampaignDto {
     const dto = new ReadMobileCampaignDto();
     dto.campaignsId = entity.campaignsId;
     dto.title = entity.title;
@@ -31,7 +31,7 @@ export class MobileCampaignMapper {
     return dto;
   }
 
-  static updateDtoToEntity(dto: UpdateMobileCampaignDto, entity: RequestEntity): RequestEntity {
+  static updateDtoToEntity(dto: UpdateMobileCampaignDto, entity: campaignEntity): campaignEntity {
     if (dto.title !== undefined) {
       entity.title = dto.title;
     }

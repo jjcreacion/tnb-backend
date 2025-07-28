@@ -2,17 +2,23 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 import { ValidID } from '@/utils/validID'; 
-import { RequestEntity } from './entities/campaigns.entity'; 
+import { campaignEntity } from './entities/campaigns.entity'; 
 import { CreateMobileCampaignDto } from './dto/create-campaigns.dto';
 import { ReadMobileCampaignDto } from './dto/read-campaigns.dto';
 import { UpdateMobileCampaignDto } from './dto/update-campaigns.dto';
 import { MobileCampaignMapper } from './mapper/campaigns.mapper'; 
+import { MobileCampaignGateway } from './mobile-campaign.gateway';
+import { CampaignInterestService } from '../campaign-interest/campaign-interest.service';
+import { UserEntity } from '../../user/entities/user.entity'; 
+
 
 @Injectable()
 export class MobileCampaignService {
   constructor(
-    @InjectRepository(RequestEntity)
-    private readonly mobileCampaignRepository: Repository<RequestEntity>,
+    @InjectRepository(campaignEntity)
+    private readonly mobileCampaignRepository: Repository<campaignEntity>,
+    private readonly mobileCampaignGateway: MobileCampaignGateway,
+    private readonly campaignInterestService: CampaignInterestService,
   ) {}
 
   async create(createMobileCampaignDto: CreateMobileCampaignDto): Promise<ReadMobileCampaignDto> {
@@ -32,6 +38,32 @@ export class MobileCampaignService {
       );
     }
     return MobileCampaignMapper.entityToReadDto(entity);
+  }
+
+  async expressInterest(campaignId: number, userId: number | string, ipAddress?: string, userAgent?: string): Promise<void> {
+    const campaign = await this.mobileCampaignRepository.findOne({
+      where: { campaignsId: campaignId },
+    });
+  
+    if (!campaign) {
+      throw new HttpException(`Campaña con ID ${campaignId} no encontrada.`, HttpStatus.NOT_FOUND);
+    }
+  
+    const savedInterest = await this.campaignInterestService.createInterest(
+      campaignId,
+      userId, 
+      ipAddress,
+      userAgent
+    );
+    console.log('Interés guardado en DB:', savedInterest);
+    
+    this.mobileCampaignGateway.emitToBackoffice('campaignInterest', {
+      campaignId: campaign.campaignsId,
+      campaignTitle: campaign.title,
+      userId: userId, 
+      timestamp: savedInterest.expressedAt.toISOString(),
+      message: `¡Nuevo interés en la campaña '${campaign.title}' por el usuario ${userId}!`, 
+    });
   }
 
   async findAll(): Promise<ReadMobileCampaignDto[]> {
