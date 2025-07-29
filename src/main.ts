@@ -8,22 +8,21 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const allowedWebSocketOrigins = [
-    'http://localhost:12100',
-    'http://localhost:3000',
-    'http://216.246.113.71:8080',
-    null,
+  const commonAllowedOrigins = [
+    'http://localhost:12100',      
+    'http://localhost:3000',       
+    'http://216.246.113.71:8080',  
+     null, 
   ];
 
   const ioAdapter = new IoAdapter(app);
-
   const websocketPort = parseInt(process.env.PORT_WS || '12099', 10);
   
   ioAdapter.createIOServer(
     websocketPort, 
     {
       cors: {
-        origin: allowedWebSocketOrigins,
+        origin: commonAllowedOrigins,
         methods: ['GET', 'POST'],
         credentials: true,
       },
@@ -53,17 +52,15 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: commonAllowedOrigins, 
+    methods: 'GET,HEAD,PUT,PATCH,POST',
     credentials: true,
   });
-
   const appListenPort = parseInt(process.env.PORT || '12099', 10);
   await app.listen(appListenPort); 
 }
 
 bootstrap();
-
 
 /*import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
