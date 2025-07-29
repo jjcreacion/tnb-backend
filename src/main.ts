@@ -9,6 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const allowedWebSocketOrigins = [
+    'http://localhost:12100',
     'http://localhost:3000',
     'http://216.246.113.71:8080',
     null,
