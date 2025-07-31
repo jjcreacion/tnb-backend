@@ -1,33 +1,35 @@
-import { TypeOrmModule  } from '@nestjs/typeorm'
-import { ConfigModule, ConfigService  } from '@nestjs/config';
-import {envValidationSchema} from './env.schema'
+import { ServiceRequestModule } from "@/app-mobile/service-requests/service-request.module";
+import { ClientTypeModule } from "@/client-type/client-type.module";
+import { CountryStatesModule } from "@/country-states/country-states.module";
+import { CountryModule } from "@/country/country.module";
+import { LocalityModule } from "@/locality/locality.module";
+import { ServiceAddonsModule } from "@/service-addons/service-addons.module";
+import { ServicesModule } from '@/services/services.module';
+import { SubCategoryModule } from "@/sub-category/sub-Category.module";
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from "@nestjs/jwt";
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { ThrottlerModule, minutes } from '@nestjs/throttler';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
 import * as process from "process";
-import {JwtModule} from "@nestjs/jwt";
-import {ThrottlerModule, minutes} from '@nestjs/throttler'
-import {Module} from "@nestjs/common";
-import { UserModule } from './user/user.module';
+import { AuthGuard } from './auth/guard/auth.guard';
+import { CategoryModule } from './category/category.module';
+import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
+import { ContactModule } from './contact/contact.module';
+import { envValidationSchema } from './env.schema';
+import { MailerModule } from './mailer/mailer.module';
+import { PersonAddressModule } from './person-address/person-address.module';
+import { PersonEmailsModule } from './person-emails/person-emails.module';
+import { PersonNotesModule } from './person-notes/person-notes.module';
+import { PersonPhonesModule } from './person-phones/person-phones.module';
 import { PersonModule } from './person/person.module';
 import { ProfileModule } from './profile/profile.module';
-import { CategoryModule } from './category/category.module';
-import { ServicesModule } from '@/services/services.module';
 import { ServicesTypeModule } from './services-type/services-type.module';
-import {SubCategoryModule} from "@/sub-category/sub-Category.module";
-import {ServiceAddonsModule} from "@/service-addons/service-addons.module";
-import {ClientTypeModule} from "@/client-type/client-type.module";
-import {CountryModule} from "@/country/country.module";
-import {CountryStatesModule} from "@/country-states/country-states.module";
-import {LocalityModule} from "@/locality/locality.module";
-import { ServiceRequestModule } from "@/app-mobile/service-requests/service-request.module";
-import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
-import { PersonEmailsModule } from './person-emails/person-emails.module';
-import { PersonPhonesModule } from './person-phones/person-phones.module';
-import { PersonAddressModule } from './person-address/person-address.module';
-import { ContactModule } from './contact/contact.module';
 import { StatusInfoModule } from './status-info/status-info.module';
-import { MailerModule } from './mailer/mailer.module';
-import { PersonNotesModule } from './person-notes/person-notes.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -82,7 +84,10 @@ import { join } from 'path';
     PersonNotesModule
   ],
   controllers: [],
-  providers: [],
+  providers: [{
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+    }],
 })
 
 /*export class AppModule implements NestModule {

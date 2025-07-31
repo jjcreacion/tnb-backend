@@ -1,16 +1,16 @@
+import { PersonAddressEntity } from "@/person-address/entities/person-address.entity";
+import { PersonPhoneEntity } from "@/person-phones/entities/person-phone.entity";
+import { PersonEntity } from "@/person/entities/person.entity";
+import { PersonMapperModule } from "@/person/mapper/person.mapper.module";
+import { ProfileMapperModule } from "@/profile/mapper/profile.mapper.module";
+import { UserEntity } from "@/user/entities/user.entity";
+import { UserMapperModule } from "@/user/mapper/user.mapper.module";
 import { Module } from '@nestjs/common';
-import { UserService } from './service/user.service';
-import { UserController } from './controller/user.controller';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {UserEntity} from "@/user/entities/user.entity";
-import {PersonEntity} from "@/person/entities/person.entity";
-import {UserMapperModule} from "@/user/mapper/user.mapper.module";
-import {PersonMapperModule} from "@/person/mapper/person.mapper.module";
-import {ProfileMapperModule} from "@/profile/mapper/profile.mapper.module";
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PersonPhoneEntity } from "@/person-phones/entities/person-phone.entity"; 
-import { PersonAddressEntity } from "@/person-address/entities/person-address.entity"; 
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserController } from './controller/user.controller';
+import { UserService } from './service/user.service';
 
 @Module({
   imports: [
