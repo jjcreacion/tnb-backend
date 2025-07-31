@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for macos13 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
 --
 -- Host: 216.246.113.71    Database: tnb-db-develop
 -- ------------------------------------------------------
--- Server version	8.0.42-0ubuntu0.24.04.1
+-- Server version	8.0.42-0ubuntu0.24.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,16 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `tnb-db-develop`
+--
+
+/*!40000 DROP DATABASE IF EXISTS `tnb-db-develop`*/;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tnb-db-develop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `tnb-db-develop`;
 
 --
 -- Table structure for table `callcenterqueue`
@@ -37,15 +47,6 @@ CREATE TABLE `callcenterqueue` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `callcenterqueue`
---
-
-LOCK TABLES `callcenterqueue` WRITE;
-/*!40000 ALTER TABLE `callcenterqueue` DISABLE KEYS */;
-/*!40000 ALTER TABLE `callcenterqueue` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `category`
 --
 
@@ -60,18 +61,8 @@ CREATE TABLE `category` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_category`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `category`
---
-
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (18,0,'Home Specialty2','test1','2025-04-15 21:47:18','2025-04-15 21:47:18'),(25,1,'Residencial','residencial','2025-04-19 20:07:24','2025-04-19 20:07:24'),(29,1,'Contruccion','Descrip','2025-04-27 00:30:24','2025-04-27 01:05:36'),(31,1,'Electricity','dsadasdas','2025-05-11 05:07:21','2025-05-11 05:07:21');
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `client_type`
@@ -90,16 +81,6 @@ CREATE TABLE `client_type` (
   PRIMARY KEY (`pk_client_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `client_type`
---
-
-LOCK TABLES `client_type` WRITE;
-/*!40000 ALTER TABLE `client_type` DISABLE KEYS */;
-INSERT INTO `client_type` VALUES (1,1,'Residencial','Residencial','2025-04-20 11:56:49','2025-04-20 11:56:57'),(2,1,'Commercial','Commercial','2025-04-20 11:56:49','2025-04-20 18:59:54');
-/*!40000 ALTER TABLE `client_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `client_type_questions`
@@ -123,15 +104,6 @@ CREATE TABLE `client_type_questions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `client_type_questions`
---
-
-LOCK TABLES `client_type_questions` WRITE;
-/*!40000 ALTER TABLE `client_type_questions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `client_type_questions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `companies`
 --
 
@@ -147,15 +119,6 @@ CREATE TABLE `companies` (
   PRIMARY KEY (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `companies`
---
-
-LOCK TABLES `companies` WRITE;
-/*!40000 ALTER TABLE `companies` DISABLE KEYS */;
-/*!40000 ALTER TABLE `companies` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `company_departments`
@@ -176,15 +139,6 @@ CREATE TABLE `company_departments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `company_departments`
---
-
-LOCK TABLES `company_departments` WRITE;
-/*!40000 ALTER TABLE `company_departments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `company_departments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `contact`
 --
 
@@ -200,18 +154,8 @@ CREATE TABLE `contact` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_contact`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contact`
---
-
-LOCK TABLES `contact` WRITE;
-/*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-INSERT INTO `contact` VALUES (2,2,0,1,1,'2025-05-09 14:41:43','2025-05-09 14:41:43'),(7,35,0,1,1,'2025-05-16 23:40:21','2025-05-16 23:40:21'),(8,36,0,1,1,'2025-05-17 00:10:30','2025-05-17 00:10:30'),(9,37,0,1,1,'2025-05-29 02:00:29','2025-05-29 02:00:29'),(10,38,0,1,1,'2025-05-29 02:01:20','2025-05-29 02:01:20'),(11,39,0,1,1,'2025-06-08 15:32:34','2025-06-08 15:32:34'),(12,40,0,1,1,'2025-06-09 19:42:01','2025-06-09 19:42:01'),(13,41,0,1,1,'2025-06-09 19:44:19','2025-06-09 19:44:19'),(14,42,0,1,1,'2025-06-11 21:05:34','2025-06-11 21:05:34'),(15,43,0,1,1,'2025-06-21 01:27:02','2025-06-21 01:27:02'),(16,44,0,1,1,'2025-06-24 22:29:07','2025-06-24 22:29:07'),(17,45,0,1,1,'2025-06-24 22:33:32','2025-06-24 22:33:32'),(18,46,0,1,1,'2025-06-24 22:34:30','2025-06-24 22:34:30'),(19,47,0,1,1,'2025-06-24 22:36:05','2025-06-24 22:36:05'),(20,48,0,1,1,'2025-06-24 22:39:38','2025-06-24 22:39:38'),(21,49,0,1,1,'2025-06-24 22:41:34','2025-06-24 22:41:34'),(22,50,0,1,1,'2025-06-24 22:44:42','2025-06-24 22:44:42'),(23,51,0,1,1,'2025-06-24 22:45:14','2025-06-24 22:45:14'),(24,52,0,1,1,'2025-06-24 22:47:54','2025-06-24 22:47:54'),(25,53,0,1,1,'2025-06-24 22:57:02','2025-06-24 22:57:02'),(26,54,0,1,1,'2025-06-24 23:18:35','2025-06-24 23:18:35'),(27,55,0,1,1,'2025-06-25 00:27:10','2025-06-25 00:27:10');
-/*!40000 ALTER TABLE `contact` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `countries`
@@ -229,16 +173,6 @@ CREATE TABLE `countries` (
   PRIMARY KEY (`pk_country`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `countries`
---
-
-LOCK TABLES `countries` WRITE;
-/*!40000 ALTER TABLE `countries` DISABLE KEYS */;
-INSERT INTO `countries` VALUES (1,'United States',0,'2025-04-22 18:11:11','2025-06-24 20:57:49');
-/*!40000 ALTER TABLE `countries` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `country_city`
@@ -259,16 +193,6 @@ CREATE TABLE `country_city` (
   CONSTRAINT `fk_localities_state` FOREIGN KEY (`fk_state`) REFERENCES `country_states` (`pk_state`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `country_city`
---
-
-LOCK TABLES `country_city` WRITE;
-/*!40000 ALTER TABLE `country_city` DISABLE KEYS */;
-INSERT INTO `country_city` VALUES (1,1,'Dallas',1,'2025-04-23 01:38:35','2025-06-23 16:39:10'),(3,1,'Houston',1,'2025-06-23 16:49:13','2025-06-23 16:49:52');
-/*!40000 ALTER TABLE `country_city` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `country_states`
@@ -292,16 +216,6 @@ CREATE TABLE `country_states` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `country_states`
---
-
-LOCK TABLES `country_states` WRITE;
-/*!40000 ALTER TABLE `country_states` DISABLE KEYS */;
-INSERT INTO `country_states` VALUES (1,1,'111','Texas',1,'2025-04-23 01:39:34','2025-04-23 01:39:34');
-/*!40000 ALTER TABLE `country_states` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `invoices`
 --
 
@@ -320,15 +234,6 @@ CREATE TABLE `invoices` (
   CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`fk_quote`) REFERENCES `quotes` (`quote_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `invoices`
---
-
-LOCK TABLES `invoices` WRITE;
-/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `leads`
@@ -354,15 +259,6 @@ CREATE TABLE `leads` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `leads`
---
-
-LOCK TABLES `leads` WRITE;
-/*!40000 ALTER TABLE `leads` DISABLE KEYS */;
-/*!40000 ALTER TABLE `leads` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `locality_type`
 --
 
@@ -379,16 +275,6 @@ CREATE TABLE `locality_type` (
   PRIMARY KEY (`pk_type`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `locality_type`
---
-
-LOCK TABLES `locality_type` WRITE;
-/*!40000 ALTER TABLE `locality_type` DISABLE KEYS */;
-INSERT INTO `locality_type` VALUES (1,1,'Town',NULL,'2025-04-23 01:38:14','2025-04-23 01:38:14'),(2,1,'City',NULL,'2025-04-23 01:38:31','2025-04-23 01:38:31');
-/*!40000 ALTER TABLE `locality_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `menu`
@@ -415,15 +301,6 @@ CREATE TABLE `menu` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menu`
---
-
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `menu_actions`
 --
 
@@ -443,13 +320,25 @@ CREATE TABLE `menu_actions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `menu_actions`
+-- Table structure for table `mobile_campaigns`
 --
 
-LOCK TABLES `menu_actions` WRITE;
-/*!40000 ALTER TABLE `menu_actions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `menu_actions` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `mobile_campaigns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mobile_campaigns` (
+  `pk_campaigns` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `description` text,
+  `image_url` text,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_campaigns`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `mobile_service_requests`
@@ -472,18 +361,8 @@ CREATE TABLE `mobile_service_requests` (
   PRIMARY KEY (`request_id`),
   KEY `fk_user` (`fk_user`),
   CONSTRAINT `mobile_service_requests_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `users` (`pk_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mobile_service_requests`
---
-
-LOCK TABLES `mobile_service_requests` WRITE;
-/*!40000 ALTER TABLE `mobile_service_requests` DISABLE KEYS */;
-INSERT INTO `mobile_service_requests` VALUES (10,6,2,'Necesito su ayuda ','Mi casa',10.424285,-64.164938,0,'2025-05-05 22:22:27',NULL),(11,6,1,'Tengo dañado las paredes','Cumaná ',10.424285,-64.164938,0,'2025-05-05 22:30:14',NULL),(13,6,2,'Tengo filtración ','Cumaná ',10.424285,-64.164937,0,'2025-05-05 23:02:02',NULL),(14,6,7,'Piso deteriorado','Urb Antonio Jose Cumana Estado Sucre',0.000000,0.000000,0,'2025-05-14 23:28:05',NULL),(15,1,8,'Reparaciones menores en mi casa','Av El Islote Cumana Estado Sucre',0.000000,0.000000,0,'2025-05-15 00:21:42',NULL),(16,30,5,'Tengo inconvenientes en mi techo después de la lluvia ','Av los Apamates',10.424286,-64.164919,0,'2025-05-17 02:45:49',NULL),(17,30,2,'Trgthhjuh vghbh','Vujjoib',10.424286,-64.164919,0,'2025-05-17 03:02:29',NULL),(18,30,10,'Bynhyhy','Gtgvhh',10.424286,-64.164919,0,'2025-05-17 03:04:42',NULL),(19,100,5,'Test descripción ','Ur Antonio Jose',10.424269,-64.164906,0,'2025-06-08 14:51:59',NULL),(20,102,1,'This is a description','my address test 123',-17.394482,-66.171794,0,'2025-06-09 19:46:54',NULL);
-/*!40000 ALTER TABLE `mobile_service_requests` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `person`
@@ -502,18 +381,8 @@ CREATE TABLE `person` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_person`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `person`
---
-
-LOCK TABLES `person` WRITE;
-/*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,1,'Franklin Edit','Edit ','Parra edit','0000-00-00','2025-01-31 15:29:00','2025-01-31 19:41:23'),(2,1,'Johann','Jose','Gonzalez','0000-00-00','2025-01-31 19:55:26','2025-01-31 19:55:27'),(3,0,'string','string','string','0000-00-00','2025-01-31 20:49:53','2025-01-31 20:52:52'),(4,0,'string','string','string','0000-00-00','2025-01-31 20:53:02','2025-01-31 20:53:03'),(5,1,'',NULL,'','0000-00-00','2025-01-31 20:54:26','2025-01-31 20:54:27'),(6,1,'',NULL,'','0000-00-00','2025-01-31 20:57:06','2025-01-31 20:57:07'),(7,1,'',NULL,'','0000-00-00','2025-01-31 21:01:06','2025-01-31 21:01:07'),(8,1,'',NULL,'','0000-00-00','2025-01-31 21:28:16','2025-01-31 21:28:16'),(9,1,'',NULL,'','0000-00-00','2025-01-31 21:34:20','2025-01-31 21:34:21'),(10,1,'',NULL,'','0000-00-00','2025-01-31 21:48:07','2025-01-31 21:48:08'),(11,1,'',NULL,'','0000-00-00','2025-01-31 22:03:30','2025-01-31 22:03:31'),(12,1,'',NULL,'','0000-00-00','2025-01-31 22:24:03','2025-01-31 22:24:04'),(13,1,'',NULL,'','0000-00-00','2025-01-31 22:35:43','2025-01-31 22:35:44'),(15,1,'',NULL,'','0000-00-00','2025-02-04 22:19:04','2025-02-04 22:19:04'),(16,1,'',NULL,'','0000-00-00','2025-02-04 23:11:32','2025-02-04 23:11:32'),(17,1,'',NULL,'','0000-00-00','2025-02-04 23:38:47','2025-02-04 23:38:48'),(18,1,'',NULL,'','0000-00-00','2025-02-05 21:56:44','2025-02-05 21:56:49'),(19,1,'',NULL,'','0000-00-00','2025-02-06 22:23:12','2025-02-06 22:23:13'),(20,1,'',NULL,'','0000-00-00','2025-02-06 22:41:38','2025-02-06 22:41:39'),(21,1,'',NULL,'','0000-00-00','2025-02-06 22:43:08','2025-02-06 22:43:10'),(22,1,'',NULL,'','0000-00-00','2025-02-07 21:00:26','2025-02-07 21:00:26'),(23,1,'',NULL,'','0000-00-00','2025-02-07 21:02:55','2025-02-07 21:02:56'),(24,1,'',NULL,'','0000-00-00','2025-02-07 22:47:38','2025-02-07 22:47:38'),(25,1,'',NULL,'','0000-00-00','2025-02-07 23:05:03','2025-02-07 23:05:03'),(26,1,'',NULL,'','0000-00-00','2025-02-07 23:06:20','2025-02-07 23:06:20'),(27,1,'',NULL,'','0000-00-00','2025-02-12 22:55:47','2025-02-12 22:55:48'),(28,1,'',NULL,'','0000-00-00','2025-02-13 20:41:11','2025-02-13 20:41:12'),(29,1,'',NULL,'','0000-00-00','2025-02-13 20:43:52','2025-02-13 20:43:52'),(30,1,'',NULL,'','0000-00-00','2025-02-28 17:03:45','2025-02-28 17:08:43'),(31,1,'Johann','','Gonzalez',NULL,'2025-05-09 01:09:54','2025-05-09 01:09:54'),(32,1,'Sara','Luisa','Oca',NULL,'2025-05-09 01:14:43','2025-05-09 01:14:43'),(33,1,'Jimmy','Nataniel','Requena Llorentty',NULL,'2025-05-10 21:19:54','2025-05-10 21:19:54'),(34,1,'Jose','','Rodriguez',NULL,'2025-05-16 23:21:40','2025-05-16 23:21:40'),(35,1,'Yoleida','','Gamez',NULL,'2025-05-16 23:40:19','2025-05-16 23:40:19'),(36,1,'Génesis','','González',NULL,'2025-05-17 00:10:28','2025-05-17 00:10:28'),(37,1,'Johann','','González ',NULL,'2025-05-29 02:00:21','2025-05-29 02:00:21'),(38,1,'Johann','','González ',NULL,'2025-05-29 02:01:18','2025-05-29 02:01:18'),(39,1,'Test ','','Domingo ',NULL,'2025-06-08 15:32:34','2025-06-08 15:32:34'),(40,1,'Rudy','','Rojas',NULL,'2025-06-09 19:42:01','2025-06-09 19:42:01'),(41,1,'Rudy','','Rojas',NULL,'2025-06-09 19:44:19','2025-06-09 19:44:19'),(42,1,'James','','Gosling',NULL,'2025-06-11 21:05:34','2025-06-11 21:05:34'),(43,1,'Aline','','Gonzalez',NULL,'2025-06-21 01:27:02','2025-06-21 01:27:02'),(44,1,'Josh','','Smith',NULL,'2025-06-24 22:29:06','2025-06-24 22:29:06'),(45,1,'Josh','','Smith ',NULL,'2025-06-24 22:33:32','2025-06-24 22:33:32'),(46,1,'Josh','','Smith ',NULL,'2025-06-24 22:34:30','2025-06-24 22:34:30'),(47,1,'Josh','','Smith ',NULL,'2025-06-24 22:36:05','2025-06-24 22:36:05'),(48,1,'Test 2','','Test 2',NULL,'2025-06-24 22:39:37','2025-06-24 22:39:37'),(49,1,'Test3','','Test3',NULL,'2025-06-24 22:41:33','2025-06-24 22:41:33'),(50,1,'Test3','','Test3',NULL,'2025-06-24 22:44:42','2025-06-24 22:44:42'),(51,1,'Test3','','Test3',NULL,'2025-06-24 22:45:14','2025-06-24 22:45:14'),(52,1,'Test3','','Test3',NULL,'2025-06-24 22:47:53','2025-06-24 22:47:53'),(53,1,'Test 4','','Test 4',NULL,'2025-06-24 22:57:02','2025-06-24 22:57:02'),(54,1,'Test4','','Test4',NULL,'2025-06-24 23:18:35','2025-06-24 23:18:35'),(55,1,'Test t','','Test t',NULL,'2025-06-25 00:27:10','2025-06-25 00:27:10');
-/*!40000 ALTER TABLE `person` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `person_address`
@@ -536,18 +405,8 @@ CREATE TABLE `person_address` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_address`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `person_address`
---
-
-LOCK TABLES `person_address` WRITE;
-/*!40000 ALTER TABLE `person_address` DISABLE KEYS */;
-INSERT INTO `person_address` VALUES (1,2,'Urb Antonio Jose',1,1,NULL,NULL,NULL,NULL,NULL,'2025-05-08 20:44:52','2025-05-08 20:44:52'),(2,2,'Av el islote',0,1,NULL,NULL,NULL,NULL,NULL,'2025-05-08 20:45:17','2025-05-08 20:45:17'),(4,0,'string',0,1,NULL,NULL,NULL,NULL,NULL,'2025-05-17 00:03:10','2025-05-17 00:03:10'),(5,36,'Los cocos',1,1,NULL,NULL,NULL,NULL,NULL,'2025-05-17 00:10:33','2025-05-17 00:10:33'),(6,37,'Av las flores',1,1,NULL,NULL,NULL,NULL,NULL,'2025-05-29 02:00:39','2025-05-29 02:00:39'),(7,38,'Av las flores',1,1,NULL,NULL,NULL,NULL,NULL,'2025-05-29 02:01:22','2025-05-29 02:01:22'),(8,39,'CRGM+6W3, Cumaná, Sucre, Venezuela',1,1,NULL,NULL,NULL,NULL,NULL,'2025-06-08 15:32:35','2025-06-08 15:32:35'),(9,40,'Westfield 123',1,1,NULL,NULL,NULL,NULL,NULL,'2025-06-09 19:42:01','2025-06-09 19:42:01'),(10,41,'Houston 123',1,1,NULL,NULL,NULL,NULL,NULL,'2025-06-09 19:44:20','2025-06-09 19:44:20'),(11,42,'Stafford',1,1,NULL,NULL,NULL,NULL,NULL,'2025-06-11 21:05:34','2025-06-11 21:05:34'),(12,20,'Test',1,1,11.00000000,-67.00000000,1,2,2,'2025-06-21 00:58:25','2025-06-21 00:58:25'),(13,46,'Test Address ',1,1,0.00000000,0.00000000,1,1,1,'2025-06-24 22:34:31','2025-06-24 22:34:31'),(14,47,'Test Address ',1,1,0.00000000,0.00000000,1,1,1,'2025-06-24 22:36:06','2025-06-24 22:36:06'),(15,48,'Test 2',1,1,0.00000000,0.00000000,1,1,1,'2025-06-24 22:39:38','2025-06-24 22:39:38'),(16,51,'CRGM+6W3, Cumaná, Sucre, Venezuela',1,1,10.00000000,-64.00000000,0,0,0,'2025-06-24 22:45:15','2025-06-24 22:45:15'),(17,52,'75201, Dallas, Texas, United States',1,1,0.00000000,0.00000000,1,1,3,'2025-06-24 22:47:55','2025-06-24 22:47:55'),(18,53,'75201, Dallas, Texas, United States',1,1,33.00000000,-97.00000000,1,1,1,'2025-06-24 22:57:03','2025-06-24 22:57:03'),(19,54,'75201, Dallas, Texas, United States',1,1,0.00000000,0.00000000,1,1,1,'2025-06-24 23:18:36','2025-06-24 23:18:36'),(20,55,'75201, Dallas, Texas, United States',1,1,32.77666473,-96.79698944,1,1,1,'2025-06-25 00:27:11','2025-06-25 00:27:11');
-/*!40000 ALTER TABLE `person_address` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `person_answers`
@@ -570,15 +429,6 @@ CREATE TABLE `person_answers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `person_answers`
---
-
-LOCK TABLES `person_answers` WRITE;
-/*!40000 ALTER TABLE `person_answers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `person_answers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `person_emails`
 --
 
@@ -594,18 +444,8 @@ CREATE TABLE `person_emails` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `person_emails`
---
-
-LOCK TABLES `person_emails` WRITE;
-/*!40000 ALTER TABLE `person_emails` DISABLE KEYS */;
-INSERT INTO `person_emails` VALUES (1,2,'jjcreacion@gmail.com',1,1,'2025-05-08 17:34:52','2025-05-08 17:34:52'),(2,2,'string2@gmail.com',0,0,'2025-05-08 17:36:10','2025-05-08 17:38:20'),(4,36,'genesis@gmail.com',1,1,'2025-05-17 00:10:31','2025-05-17 00:10:31'),(5,37,'Johann@gmail.com',1,1,'2025-05-29 02:00:37','2025-05-29 02:00:37'),(6,38,'Johann@gmail.com',1,1,'2025-05-29 02:01:21','2025-05-29 02:01:21'),(7,39,'Tttt@gmail.com',1,1,'2025-06-08 15:32:34','2025-06-08 15:32:34'),(8,40,'rudy.rs1@gmail.com',1,1,'2025-06-09 19:42:01','2025-06-09 19:42:01'),(9,41,'rudy.rs1@gmail.com',1,1,'2025-06-09 19:44:20','2025-06-09 19:44:20'),(10,42,'rudy.hxc@gmail.com',1,1,'2025-06-11 21:05:34','2025-06-11 21:05:34'),(11,43,'alinegonzalez@gmail.com',1,1,'2025-06-21 01:27:02','2025-06-21 01:27:02'),(12,44,'Yeueuei@gmail.com',1,1,'2025-06-24 22:29:07','2025-06-24 22:29:07'),(13,45,'Yehshsh@gmail.com',1,1,'2025-06-24 22:33:32','2025-06-24 22:33:32'),(14,46,'Yehshsh@gmail.com',1,1,'2025-06-24 22:34:31','2025-06-24 22:34:31'),(15,47,'Yehshsh@gmail.com',1,1,'2025-06-24 22:36:06','2025-06-24 22:36:06'),(16,48,'ttttttt@gmail.com',1,1,'2025-06-24 22:39:38','2025-06-24 22:39:38'),(17,49,'Tuytti@gmail.com',1,1,'2025-06-24 22:41:34','2025-06-24 22:41:34'),(18,50,'Tuytti@gmail.com',1,1,'2025-06-24 22:44:42','2025-06-24 22:44:42'),(19,51,'Tuytti@gmail.com',1,1,'2025-06-24 22:45:15','2025-06-24 22:45:15'),(20,52,'Tjngjvjj@gmail.com',1,1,'2025-06-24 22:47:54','2025-06-24 22:47:54'),(21,53,'Trrttt@gmail.com',1,1,'2025-06-24 22:57:03','2025-06-24 22:57:03'),(22,54,'Jreb@gmail.com',1,1,'2025-06-24 23:18:36','2025-06-24 23:18:36'),(23,55,'Twbshhh@gmail.com',1,1,'2025-06-25 00:27:10','2025-06-25 00:27:10');
-/*!40000 ALTER TABLE `person_emails` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `person_insurance`
@@ -638,15 +478,6 @@ CREATE TABLE `person_insurance` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `person_insurance`
---
-
-LOCK TABLES `person_insurance` WRITE;
-/*!40000 ALTER TABLE `person_insurance` DISABLE KEYS */;
-/*!40000 ALTER TABLE `person_insurance` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `person_insurance_claims`
 --
 
@@ -669,13 +500,27 @@ CREATE TABLE `person_insurance_claims` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `person_insurance_claims`
+-- Table structure for table `person_notes`
 --
 
-LOCK TABLES `person_insurance_claims` WRITE;
-/*!40000 ALTER TABLE `person_insurance_claims` DISABLE KEYS */;
-/*!40000 ALTER TABLE `person_insurance_claims` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `person_notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `person_notes` (
+  `pk_note` int NOT NULL AUTO_INCREMENT,
+  `fk_contact` int DEFAULT NULL,
+  `fk_user` int DEFAULT '103' COMMENT '103 es un ID para un usuario autenticado (simulacion de autenticacion)',
+  `note` varchar(1024) DEFAULT NULL,
+  `is_priority` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_note`),
+  KEY `person_notes_contact_FK` (`fk_contact`),
+  KEY `person_notes_users_FK` (`fk_user`),
+  CONSTRAINT `person_notes_contact_FK` FOREIGN KEY (`fk_contact`) REFERENCES `contact` (`pk_contact`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `person_notes_users_FK` FOREIGN KEY (`fk_user`) REFERENCES `users` (`pk_user`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `person_phones`
@@ -693,18 +538,8 @@ CREATE TABLE `person_phones` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `person_phones`
---
-
-LOCK TABLES `person_phones` WRITE;
-/*!40000 ALTER TABLE `person_phones` DISABLE KEYS */;
-INSERT INTO `person_phones` VALUES (1,2,'0424-0884292',1,1,'2025-05-08 19:58:04','2025-05-08 19:58:04'),(2,2,'0416-00489502',0,1,'2025-05-08 19:58:59','2025-05-08 19:58:59');
-/*!40000 ALTER TABLE `person_phones` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `profile`
@@ -736,16 +571,6 @@ CREATE TABLE `profile` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `profile`
---
-
-LOCK TABLES `profile` WRITE;
-/*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES (1,2,'Client',NULL,'Client ',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'2025-04-03 12:01:12','2025-04-03 12:01:17');
-/*!40000 ALTER TABLE `profile` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `projects`
 --
 
@@ -771,15 +596,6 @@ CREATE TABLE `projects` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `projects`
---
-
-LOCK TABLES `projects` WRITE;
-/*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-/*!40000 ALTER TABLE `projects` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `prospects`
 --
 
@@ -798,15 +614,6 @@ CREATE TABLE `prospects` (
   CONSTRAINT `prospects_ibfk_1` FOREIGN KEY (`fk_lead`) REFERENCES `leads` (`lead_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `prospects`
---
-
-LOCK TABLES `prospects` WRITE;
-/*!40000 ALTER TABLE `prospects` DISABLE KEYS */;
-/*!40000 ALTER TABLE `prospects` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `quotes`
@@ -828,15 +635,6 @@ CREATE TABLE `quotes` (
   CONSTRAINT `quotes_ibfk_1` FOREIGN KEY (`fk_project`) REFERENCES `projects` (`project_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `quotes`
---
-
-LOCK TABLES `quotes` WRITE;
-/*!40000 ALTER TABLE `quotes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `quotes` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `request_assigments`
@@ -861,15 +659,6 @@ CREATE TABLE `request_assigments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `request_assigments`
---
-
-LOCK TABLES `request_assigments` WRITE;
-/*!40000 ALTER TABLE `request_assigments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `request_assigments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `request_images`
 --
 
@@ -886,18 +675,8 @@ CREATE TABLE `request_images` (
   PRIMARY KEY (`image_id`),
   KEY `request_images_mobile_service_requests_FK` (`fk_request`),
   CONSTRAINT `request_images_mobile_service_requests_FK` FOREIGN KEY (`fk_request`) REFERENCES `mobile_service_requests` (`request_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `request_images`
---
-
-LOCK TABLES `request_images` WRITE;
-/*!40000 ALTER TABLE `request_images` DISABLE KEYS */;
-INSERT INTO `request_images` VALUES (7,20,'/images/service-request/images-1750986484455-520566905.jpg',1,'2025-06-27 01:08:04','2025-06-27 01:08:04'),(8,20,'/images/service-request/images-1750986484457-484762390.png',1,'2025-06-27 01:08:05','2025-06-27 01:08:05'),(9,20,'/images/service-request/images-1751043142281-797809301.png',1,'2025-06-27 16:52:22','2025-06-27 16:52:22'),(10,20,'/images/service-request/images-1751043142286-971224691.png',1,'2025-06-27 16:52:22','2025-06-27 16:52:22'),(11,16,'/images/service-request/images-1751051473728-765423179.png',1,'2025-06-27 19:11:13','2025-06-27 19:11:13');
-/*!40000 ALTER TABLE `request_images` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `request_location`
@@ -921,16 +700,6 @@ CREATE TABLE `request_location` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `request_location`
---
-
-LOCK TABLES `request_location` WRITE;
-/*!40000 ALTER TABLE `request_location` DISABLE KEYS */;
-INSERT INTO `request_location` VALUES (1,1,'www.google.com','-1',1,NULL,'2025-04-03 12:00:53','2025-04-03 12:00:54');
-/*!40000 ALTER TABLE `request_location` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `request_priority`
 --
 
@@ -950,16 +719,6 @@ CREATE TABLE `request_priority` (
   CONSTRAINT `FK_5e9f365017a2e7a84f27cd26f31` FOREIGN KEY (`fk_request`) REFERENCES `requests` (`request_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `request_priority`
---
-
-LOCK TABLES `request_priority` WRITE;
-/*!40000 ALTER TABLE `request_priority` DISABLE KEYS */;
-INSERT INTO `request_priority` VALUES (1,'Normal','Normal',1,'2025-04-03 12:05:15','2025-04-03 12:05:18',NULL);
-/*!40000 ALTER TABLE `request_priority` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `requests`
@@ -986,16 +745,6 @@ CREATE TABLE `requests` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `requests`
---
-
-LOCK TABLES `requests` WRITE;
-/*!40000 ALTER TABLE `requests` DISABLE KEYS */;
-INSERT INTO `requests` VALUES (1,1,1,'1','0000-00-00 00:00:00','Hola Mundo asd asd asd asd asd sad asd ','2025-04-03 12:05:25','2025-04-20 17:04:53'),(2,1,1,'1','2025-04-15 19:21:56','Mundo','2025-04-14 19:22:42','2025-04-14 19:22:42');
-/*!40000 ALTER TABLE `requests` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `reviews`
 --
 
@@ -1018,15 +767,6 @@ CREATE TABLE `reviews` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `reviews`
---
-
-LOCK TABLES `reviews` WRITE;
-/*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `roles`
 --
 
@@ -1044,15 +784,6 @@ CREATE TABLE `roles` (
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `roles`
---
-
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `services`
@@ -1082,16 +813,6 @@ CREATE TABLE `services` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `services`
---
-
-LOCK TABLES `services` WRITE;
-/*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (6,6,1,1,1,'Roofx','Roofx','2025-04-22 22:07:07','2025-04-27 20:44:23'),(7,9,1,1,1,'test 1','test 1','2025-04-27 02:19:23','2025-04-27 20:49:10'),(8,6,1,1,1,'test 2','testxx','2025-04-27 02:22:02','2025-04-27 20:49:29'),(10,9,1,1,1,'test final editvvv','test final editxxxvvv','2025-04-27 20:48:44','2025-04-27 20:52:08');
-/*!40000 ALTER TABLE `services` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `services_addons`
 --
 
@@ -1116,16 +837,6 @@ CREATE TABLE `services_addons` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `services_addons`
---
-
-LOCK TABLES `services_addons` WRITE;
-/*!40000 ALTER TABLE `services_addons` DISABLE KEYS */;
-INSERT INTO `services_addons` VALUES (1,5,'test','test',1,'test',1,1,'2025-04-20 12:08:04','2025-04-23 01:06:38'),(5,6,'Techos y ventanas','test descripjjjjj',1,'contet',10,1,'2025-04-29 00:04:20','2025-04-29 14:19:02'),(7,6,'Paredes','Paredes des',0,'paredes content web',10,1,'2025-04-29 00:13:32','2025-04-29 14:31:11'),(8,6,'test add on 2cccccc','test',0,'test',34,1,'2025-04-29 00:25:42','2025-04-29 14:42:05'),(9,6,'test add on 4','ssss',1,'ssss',444,1,'2025-04-29 00:26:14','2025-04-29 00:26:14'),(11,7,'Ventanas 45grados','hhh',1,'jjjj',30,1,'2025-04-29 00:38:26','2025-04-29 14:34:51'),(12,6,'Test add on44444','fffff',0,'',0,1,'2025-04-29 02:48:02','2025-04-29 02:52:17'),(13,6,'ttttttdddddd','desdddd',0,'ddddddd',0,1,'2025-04-29 02:52:01','2025-04-29 02:55:39'),(14,7,'new add on','',0,'',0,1,'2025-04-29 14:42:36','2025-04-29 14:42:36'),(15,7,'new2 edit','',0,'',0,1,'2025-04-29 14:44:31','2025-04-29 14:44:47'),(16,8,'Nuevo','',0,'',0,1,'2025-04-29 14:51:03','2025-04-29 14:51:03'),(17,8,'Nuevo Edit 2','edit des',1,'edit 2',30,1,'2025-04-29 14:51:06','2025-04-29 14:56:20');
-/*!40000 ALTER TABLE `services_addons` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `services_type`
 --
 
@@ -1144,16 +855,6 @@ CREATE TABLE `services_type` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `services_type`
---
-
-LOCK TABLES `services_type` WRITE;
-/*!40000 ALTER TABLE `services_type` DISABLE KEYS */;
-INSERT INTO `services_type` VALUES (1,1,'Tipo1','Tipo 1','2025-04-20 11:58:49','2025-04-20 11:58:49');
-/*!40000 ALTER TABLE `services_type` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `state_counties`
 --
 
@@ -1168,15 +869,6 @@ CREATE TABLE `state_counties` (
   PRIMARY KEY (`countie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `state_counties`
---
-
-LOCK TABLES `state_counties` WRITE;
-/*!40000 ALTER TABLE `state_counties` DISABLE KEYS */;
-/*!40000 ALTER TABLE `state_counties` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `status_info`
@@ -1195,15 +887,6 @@ CREATE TABLE `status_info` (
   PRIMARY KEY (`pk_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `status_info`
---
-
-LOCK TABLES `status_info` WRITE;
-/*!40000 ALTER TABLE `status_info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `status_info` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `sub_category`
@@ -1227,16 +910,6 @@ CREATE TABLE `sub_category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sub_category`
---
-
-LOCK TABLES `sub_category` WRITE;
-/*!40000 ALTER TABLE `sub_category` DISABLE KEYS */;
-INSERT INTO `sub_category` VALUES (5,25,0,'stringww','stringww','2025-04-20 17:58:01','2025-04-27 01:13:00'),(6,25,0,'Test update name','Test update Descrip','2025-04-20 18:02:34','2025-04-21 13:44:29'),(9,18,1,'Sub Category','test','2025-04-22 23:26:46','2025-04-22 23:26:46'),(10,18,1,'Sub Category Home','test f','2025-04-22 23:28:55','2025-04-22 23:29:30'),(11,25,1,'Test newwwwww','Test neweeee','2025-04-27 01:21:01','2025-04-27 01:21:30');
-/*!40000 ALTER TABLE `sub_category` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_service_localities`
 --
 
@@ -1253,15 +926,6 @@ CREATE TABLE `user_service_localities` (
   PRIMARY KEY (`relation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_service_localities`
---
-
-LOCK TABLES `user_service_localities` WRITE;
-/*!40000 ALTER TABLE `user_service_localities` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_service_localities` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user_services`
@@ -1282,15 +946,6 @@ CREATE TABLE `user_services` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_services`
---
-
-LOCK TABLES `user_services` WRITE;
-/*!40000 ALTER TABLE `user_services` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_services` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
@@ -1308,21 +963,12 @@ CREATE TABLE `users` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `img_profile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_user`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,2,1,'a1',1,0,0,'alexismorales86@gmail.com','a1','','2025-01-31 22:03:30','2025-01-31 22:03:30'),(3,13,1,'a2',0,0,0,'','','','2025-01-31 22:35:43','2025-01-31 22:35:44'),(5,15,1,'a3',1,1,0,'','','','2025-02-04 22:19:04','2025-02-04 22:19:04'),(6,16,1,'a4',1,0,0,'jesusconde@gmail.com','','','2025-02-04 23:11:32','2025-02-04 23:11:33'),(7,17,1,'a5',1,0,0,'','','','2025-02-04 23:38:47','2025-02-04 23:38:48'),(8,18,1,'a6',1,1,0,'','','','2025-02-05 21:56:44','2025-02-05 21:56:50'),(9,19,1,'a7',1,0,0,'','','','2025-02-06 22:23:12','2025-02-06 22:23:13'),(10,20,1,'a8',0,0,0,'','','','2025-02-06 22:41:38','2025-02-06 22:41:39'),(11,21,1,'a9',1,0,0,'','','','2025-02-06 22:43:08','2025-02-06 22:43:10'),(12,22,1,'a10',1,0,0,'','','','2025-02-07 21:00:26','2025-02-07 21:00:26'),(13,23,1,'a11',1,0,0,'','','','2025-02-07 21:02:55','2025-02-07 21:02:56'),(14,24,1,'a12',1,0,0,'','','','2025-02-07 22:47:38','2025-02-07 22:47:40'),(15,25,1,'a13',1,0,0,'','','','2025-02-07 23:05:03','2025-02-07 23:05:04'),(16,26,1,'a14',1,0,0,'','','','2025-02-07 23:06:20','2025-02-07 23:06:20'),(17,27,1,'a15',1,0,0,'','','','2025-02-12 22:55:47','2025-02-12 22:55:48'),(18,28,1,'a16',1,0,0,'','','','2025-02-13 20:41:11','2025-02-13 20:41:12'),(19,29,1,'a17',1,0,0,'','','','2025-02-13 20:43:52','2025-02-13 20:43:53'),(20,30,1,'a18',1,0,0,'','','','2025-02-28 17:03:45','2025-02-28 17:08:47'),(21,NULL,1,NULL,1,0,0,'jjcreacion@gmail.com','12345678',NULL,'2025-05-09 02:24:55','2025-05-09 02:24:55'),(24,2,1,NULL,1,0,0,'string@gmail.com','12345678',NULL,'2025-05-09 02:56:48','2025-05-09 02:56:48'),(25,2,1,NULL,1,0,0,'string3@gmail.com','12345678',NULL,'2025-05-09 03:37:24','2025-05-09 03:37:24'),(26,2,1,NULL,1,0,0,'string5@gmail.com','$2b$10$ZYWcnHd2GobydzodjwEZkulTyw2UmFdPrSo3ZAsKezfYhzzy1huaS',NULL,'2025-05-09 03:43:57','2025-05-09 03:43:57'),(27,33,1,NULL,1,0,0,'jimrequena@bolivianotech.com','$2b$10$CGOc1O40zfpp1hPtOuEvFOJsRLJO0szFvQmaT5eycgO.kV621SBJS',NULL,'2025-05-10 21:21:27','2025-05-10 21:21:27'),(28,2,1,NULL,1,0,0,'saraoca@gmail.com','$2b$10$EX9fp3heeJEtVHDdLCH6/.HRikhZDhjV/mOPlUoRsqJqVS1WR5fYK',NULL,'2025-05-13 02:00:55','2025-05-13 02:00:55'),(29,35,1,NULL,1,0,0,'Yoleida@gmail.com','$2b$10$nUFB7.zC3kGFPTIzxVrDz.iFaKbXQX8MsuJirGbkpexCIS8TVeF76',NULL,'2025-05-16 23:40:25','2025-05-16 23:40:25'),(30,36,1,NULL,1,0,0,'genesis@gmail.com','$2b$10$NlgQNbQbpNQ53OAcGOFKzu.EVIUOz.4Hq4NjLooszjEUo69YXvluu',NULL,'2025-05-17 00:10:34','2025-05-17 00:10:34'),(31,38,1,NULL,1,0,0,'Johann@gmail.com','$2b$10$ulG/6dgummFDbdZhJEVodeQc7v0H1fZ61uGvC6p8SuUqyvNGdVnjK',NULL,'2025-05-29 02:01:27','2025-05-29 02:01:27'),(100,34,1,NULL,1,0,0,'aaron@gmail.com','$2b$10$ufAO8P4iphT/UlR/G5mf9.l4cmg.AbUODOdhYmL2ViZCT8qMzwgVq',NULL,'2025-05-29 23:39:35','2025-05-29 23:39:35'),(101,39,1,NULL,1,0,0,'Tttt@gmail.com','$2b$10$QYQqztypnlwNbeVDPKwA/OGxN3ylxtVAiDKCwetfdZ8KdRibdTR6y',NULL,'2025-06-08 15:32:35','2025-06-08 15:32:35'),(102,41,1,NULL,1,0,0,'rudy.rs1@gmail.com','$2b$10$i7PQA5zJyIrZa/TgJ0BKI.PsObAUHvENV/BQRHEEIHdJwz8P/rumS','65123456','2025-06-09 19:44:20','2025-06-09 19:44:20'),(103,42,1,NULL,1,0,0,'rudy.hxc@gmail.com','$2b$10$yqS/0Ttz3biICqDH8rfGfOK26pXEClZHpojUjueapt6AdCssuEE..','797123456','2025-06-11 21:05:35','2025-06-11 21:05:35'),(104,47,1,NULL,1,0,0,'Yehshsh@gmail.com','$2b$10$uGUHwMtsnIXbDv8gbnO2D.0J0N4FZuv97vM.HJPxOw/MH28yq7tEa',NULL,'2025-06-24 22:36:06','2025-06-24 22:36:06'),(105,48,1,NULL,1,0,0,'ttttttt@gmail.com','$2b$10$L9TfSj7rpUXpaa.Qd7vtFOmtN/wj2X3xBBDPayaU19nvGIAQspqeS',NULL,'2025-06-24 22:39:38','2025-06-24 22:39:38'),(106,51,1,NULL,1,0,0,'Tuytti@gmail.com','$2b$10$7vbj6ostLck677KatFfsGO/N/NFl6DKoMr01Eq02QEiqjW5oYEgwy',NULL,'2025-06-24 22:45:15','2025-06-24 22:45:15'),(107,52,1,NULL,1,0,0,'Tjngjvjj@gmail.com','$2b$10$0FJyuSvX59rlbyet54TMNuik8pebeCmf3Jkk2nBDiUp88CnvVbiw.',NULL,'2025-06-24 22:47:56','2025-06-24 22:47:56'),(108,53,1,NULL,1,0,0,'Trrttt@gmail.com','$2b$10$7Os.qSuj2FaGSN26BhQNiOGXQ1ks6yT0T7A7AK5FFWdYlcWrZXbOq',NULL,'2025-06-24 22:57:03','2025-06-24 22:57:03'),(109,54,1,NULL,1,0,0,'Jreb@gmail.com','$2b$10$8Xo2WCG3F3e6pYI3nMEy8.isF8dBZa5odbOyL.sOh3RPFjXCYOg6m',NULL,'2025-06-24 23:18:37','2025-06-24 23:18:37'),(110,55,1,NULL,1,0,0,'Twbshhh@gmail.com','$2b$10$q/5/9BzP0M2coz8Tm2fO6.fLdc8Jtu.3NbLAh2TQ9gn2klv2q9bO6',NULL,'2025-06-25 00:27:11','2025-06-25 00:27:11');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping events for database 'tnb-db-develop'
@@ -1341,4 +987,31 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-27 18:28:53
+-- Dump completed on 2025-07-24 16:26:57
+
+-- Tabla de permisos (acciones sobre módulos)
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `permission_id` INT NOT NULL AUTO_INCREMENT,
+  `module` VARCHAR(50) NOT NULL,         -- Ej: 'services', 'users', 'requests'
+  `action` VARCHAR(20) NOT NULL,         -- Ej: 'create', 'read', 'update', 'delete'
+  `description` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`permission_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Relación roles-permisos (qué puede hacer cada rol)
+CREATE TABLE IF NOT EXISTS `role_permissions` (
+  `role_id` INT NOT NULL,
+  `permission_id` INT NOT NULL,
+  PRIMARY KEY (`role_id`, `permission_id`),
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`permission_id`) REFERENCES `permissions`(`permission_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Relación usuarios-roles (un usuario puede tener varios roles)
+CREATE TABLE IF NOT EXISTS `user_roles` (
+  `user_id` INT NOT NULL,
+  `role_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `role_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`pk_user`) ON DELETE CASCADE,
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

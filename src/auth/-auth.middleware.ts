@@ -1,6 +1,6 @@
-import {HttpException, HttpStatus, Injectable, NestMiddleware, NotFoundException} from '@nestjs/common';
-import {Request, Response} from "express";
-import {AuthService} from "@/auth/auth.service";
+import { AuthService } from "@/auth/auth.service";
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response } from "express";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -22,7 +22,7 @@ export class AuthMiddleware implements NestMiddleware {
     /*if (!payload) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }*/
-
+    console.log(`autmiddleware`);
     next();
   }
 }
