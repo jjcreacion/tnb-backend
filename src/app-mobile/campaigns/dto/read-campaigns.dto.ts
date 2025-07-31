@@ -18,7 +18,7 @@ export class ReadMobileCampaignDto {
         example: 'Descuentos exclusivos en todos nuestros productos durante el mes de abril.',
         required: false, 
     })
-    description?: string;
+    description: string | null;
 
     @ApiProperty({
         description: 'La URL de la imagen principal de la campaña.',

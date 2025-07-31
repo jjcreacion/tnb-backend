@@ -48,4 +48,14 @@ export class CampaignInterestService {
       where: { campaignId },
     });
   }
+
+  async findLast10Interests(): Promise<CampaignInterestEntity[]> {
+    return this.campaignInterestRepository.find({
+      order: { expressedAt: 'DESC' }, 
+      take: 10,
+      relations: ['user', 'campaign'], 
+    });
+  }
+
+  
 }

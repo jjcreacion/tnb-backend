@@ -21,16 +21,23 @@ import { ReadMobileCampaignDto } from './dto/read-campaigns.dto';
 import { CreateMobileCampaignDto } from './dto/create-campaigns.dto';
 import { UploadCampaignImageDto } from './dto/upload-image.dto';
 import { MobileCampaignService } from './campaigns.service';
+import { CampaignInterestService } from '../campaign-interest/campaign-interest.service';
+
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
+import { ReadCampaignInterestDto } from '../campaign-interest/dto/read-campaigns-interest.dto';
+
 
 
 @ApiTags('Campañas App Mobile')
 @Controller('mobile-campaigns')
 export class MobileCampaignController {
-  constructor(private readonly mobileCampaignService: MobileCampaignService) {}
+  constructor(
+    private readonly mobileCampaignService: MobileCampaignService,
+    private readonly CampaignInterestService: CampaignInterestService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Crear una nueva campaña móvil' })
@@ -111,6 +118,13 @@ export class MobileCampaignController {
   @Delete(":id")
   async remove(@Param("id",ParseIntPipe) id: number): Promise<{ message: string, status: HttpStatus }> {
     return this.mobileCampaignService.remove(id);
+  }
+
+  @Get('interests/last-10')
+  @ApiOperation({ summary: 'Obtener los 10 intereses de campaña más recientes' })
+  @ApiResponse({ status: 200, description: 'Lista de los últimos 10 intereses registrados.', type: [ReadCampaignInterestDto] })
+  async findLast10Interests(): Promise<ReadCampaignInterestDto[]> {
+    return this.CampaignInterestService.findLast10Interests();
   }
 
   @Post('upload-image/:campaignId')

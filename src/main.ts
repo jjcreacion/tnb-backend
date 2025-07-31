@@ -14,7 +14,7 @@ async function bootstrap() {
   );
 
   app.useWebSocketAdapter(new IoAdapter(app)); 
-
+ 
   const configSwagger = new DocumentBuilder()
       .setTitle('Documentación TNB-Backend')
       .setDescription('Se busca facilitar la información de los endpoints disponibles para ...')
@@ -42,6 +42,6 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(process.env.PORT ?? 5641);
+  await app.listen(process.env.PORT ?? 12099);
 }
 bootstrap();

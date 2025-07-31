@@ -21,7 +21,7 @@ export class MobileCampaignMapper {
     const dto = new ReadMobileCampaignDto();
     dto.campaignsId = entity.campaignsId;
     dto.title = entity.title;
-    dto.description = entity.description ?? undefined; 
+    dto.description = entity.description || null; 
     dto.imageUrl = entity.imageUrl;
     dto.startDate = entity.startDate;
     dto.endDate = entity.endDate;
