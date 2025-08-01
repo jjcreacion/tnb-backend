@@ -61,6 +61,7 @@ export class MobileCampaignService {
       campaignId: campaign.campaignsId,
       campaignTitle: campaign.title,
       userId: userId, 
+      userEmail:savedInterest.user.email,
       timestamp: savedInterest.expressedAt.toISOString(),
       message: `¡Nuevo interés en la campaña '${campaign.title}' por el usuario ${userId}!`, 
     });
