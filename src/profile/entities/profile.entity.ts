@@ -69,14 +69,12 @@ export class ProfileEntity {
     })
     updatedAt: Date;
 
-    // Relación con User - AQUÍ va el @JoinColumn porque profile tiene la FK
+    // Un Profile pertenece a un User
     @OneToOne(() => UserEntity, (user) => user.profile)
     @JoinColumn({ name: 'fk_user' })
     user: UserEntity;
 
-    // También puedes exponer la FK como propiedad si la necesitas
-    @Column({ name: 'fk_user', nullable: true })
-    fkUser: number;
+;
 }
 
 

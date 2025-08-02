@@ -14,7 +14,7 @@ export class UserEntity {
     @JoinColumn({ name: 'fk_person' })
     person: PersonEntity;
 
-    // Relación inversa - NO tiene @JoinColumn porque la FK está en profile
+    // un User tiene un Profile
     @OneToOne(() => ProfileEntity, (profile) => profile.user)
     profile: ProfileEntity;
 
@@ -42,11 +42,11 @@ export class UserEntity {
     @Column({ name: "img_profile" })
     img_profile: string;
 
-    @Column({ 
-        type: 'json', 
-        default: () => "'[\"user\"]'" 
+     @Column({
+        type: "set",
+        enum: Role,
+        default: [Role.CLIENT]
     })
-    roles: Role[];
 
     @Column({ 
         name: 'createdAt', 

@@ -52,7 +52,7 @@ import { UserModule } from './user/user.module';
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_SCHEMA,
         entities: [__dirname  + "/**/*.entity{.ts,.js}"], 
-        synchronize: true,
+        synchronize: false,
       }),
     }),
     JwtModule.register({

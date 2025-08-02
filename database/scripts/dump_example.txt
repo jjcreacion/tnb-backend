@@ -74,7 +74,3 @@ Password: <your-pass>
   --skip-lock-tables \
   --set-gtid-purged=OFF \
   tnb-db-develop > ~/Downloads/tnb-db-develop_data_only_$(date +%Y%m%d_%H%M%S).sql
-
-
-mkdir -p database/scripts/dump/$(date +%Y%m%d_%H%M%S) && mysqldump --user=tnb-admin --password='TnbAxZtax25@*' --host=216.246.113.71 --port=3306 --default-character-set=utf8 --no-tablespaces --column-statistics=0 --no-create-info --skip-lock-tables --quick --disable-keys --extended-insert --set-gtid-purged=OFF --databases tnb-db-develop > database/scripts/dump/$(date +%Y%m%d_%H%M%S)/tnb-db-develop_data_only.sql  
-
