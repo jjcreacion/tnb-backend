@@ -21,7 +21,7 @@
 
 /*!40000 DROP DATABASE IF EXISTS `tnb-db-develop`*/;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tnb-db-develop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tnb-db-develop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `tnb-db-develop`;
 
@@ -44,6 +44,28 @@ CREATE TABLE `callcenterqueue` (
   KEY `fk_person` (`fk_person`) USING BTREE,
   CONSTRAINT `callcenterqueue_ibfk_1` FOREIGN KEY (`fk_person`) REFERENCES `person` (`pk_person`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `campaign_interests`
+--
+
+DROP TABLE IF EXISTS `campaign_interests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `campaign_interests` (
+  `pk_interests` int NOT NULL AUTO_INCREMENT,
+  `campaign_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `expressed_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text,
+  PRIMARY KEY (`pk_interests`),
+  KEY `campaign_interests_mobile_campaigns_FK` (`campaign_id`),
+  KEY `campaign_interests_users_FK` (`user_id`),
+  CONSTRAINT `campaign_interests_mobile_campaigns_FK` FOREIGN KEY (`campaign_id`) REFERENCES `mobile_campaigns` (`pk_campaigns`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `campaign_interests_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`pk_user`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -955,7 +977,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `pk_user` int NOT NULL AUTO_INCREMENT,
   `fk_person` int DEFAULT NULL,
-  `fk_profile` int DEFAULT '1',
+  `fk_profile` int DEFAULT '1' COMMENT 'Este atributo deberia eliminarse:\nLa relacion es Uno a Uno: Un User tiene Un Profile\ny Un Profile pertenece a un User; para que se cumpla esa premisa, el `fk` de User debe ir en `Profile`',
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '1',
   `validate_email` int NOT NULL DEFAULT '0',
@@ -987,31 +1009,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-24 16:26:57
-
--- Tabla de permisos (acciones sobre módulos)
-CREATE TABLE IF NOT EXISTS `permissions` (
-  `permission_id` INT NOT NULL AUTO_INCREMENT,
-  `module` VARCHAR(50) NOT NULL,         -- Ej: 'services', 'users', 'requests'
-  `action` VARCHAR(20) NOT NULL,         -- Ej: 'create', 'read', 'update', 'delete'
-  `description` VARCHAR(255) DEFAULT NULL,
-  PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Relación roles-permisos (qué puede hacer cada rol)
-CREATE TABLE IF NOT EXISTS `role_permissions` (
-  `role_id` INT NOT NULL,
-  `permission_id` INT NOT NULL,
-  PRIMARY KEY (`role_id`, `permission_id`),
-  FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`) ON DELETE CASCADE,
-  FOREIGN KEY (`permission_id`) REFERENCES `permissions`(`permission_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Relación usuarios-roles (un usuario puede tener varios roles)
-CREATE TABLE IF NOT EXISTS `user_roles` (
-  `user_id` INT NOT NULL,
-  `role_id` INT NOT NULL,
-  PRIMARY KEY (`user_id`, `role_id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`pk_user`) ON DELETE CASCADE,
-  FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Dump completed on 2025-08-01 16:00:57

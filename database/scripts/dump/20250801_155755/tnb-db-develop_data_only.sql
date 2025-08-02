@@ -19,7 +19,7 @@
 -- Current Database: `tnb-db-develop`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tnb-db-develop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tnb-db-develop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `tnb-db-develop`;
 
@@ -30,6 +30,16 @@ USE `tnb-db-develop`;
 LOCK TABLES `callcenterqueue` WRITE;
 /*!40000 ALTER TABLE `callcenterqueue` DISABLE KEYS */;
 /*!40000 ALTER TABLE `callcenterqueue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping data for table `campaign_interests`
+--
+
+LOCK TABLES `campaign_interests` WRITE;
+/*!40000 ALTER TABLE `campaign_interests` DISABLE KEYS */;
+INSERT INTO `campaign_interests` VALUES (1,10,31,'2025-07-28 13:52:18','::ffff:127.0.0.1','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(2,19,31,'2025-07-28 14:46:24','::ffff:127.0.0.1','okhttp/4.12.0'),(3,21,31,'2025-07-28 14:46:48','::ffff:127.0.0.1','okhttp/4.12.0'),(4,10,31,'2025-07-28 14:47:51','::ffff:127.0.0.1','okhttp/4.12.0'),(5,19,31,'2025-07-28 14:48:02','::ffff:127.0.0.1','okhttp/4.12.0'),(6,21,31,'2025-07-28 15:10:10','::ffff:127.0.0.1','okhttp/4.12.0'),(7,21,31,'2025-07-30 15:33:49','::ffff:127.0.0.1','okhttp/4.12.0'),(8,21,111,'2025-08-01 12:35:03','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(9,24,28,'2025-08-01 12:44:10','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(10,24,28,'2025-08-01 12:46:36','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(11,24,28,'2025-08-01 12:47:36','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(12,21,28,'2025-08-01 12:47:50','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(13,10,31,'2025-08-01 12:58:07','::ffff:127.0.0.1','okhttp/4.12.0'),(14,19,6,'2025-08-01 13:01:00','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(15,19,6,'2025-08-01 13:04:23','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(16,19,6,'2025-08-01 13:05:26','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(17,19,6,'2025-08-01 13:07:32','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(18,19,6,'2025-08-01 13:09:07','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(19,19,30,'2025-08-01 13:09:47','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(20,10,31,'2025-08-01 13:31:14','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(21,10,31,'2025-08-01 13:42:27','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(22,10,31,'2025-08-01 13:42:39','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0'),(23,10,31,'2025-08-01 13:50:06','::ffff:192.168.1.37','Mozilla/5.0 (X11; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0');
+/*!40000 ALTER TABLE `campaign_interests` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -171,7 +181,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `mobile_campaigns` WRITE;
 /*!40000 ALTER TABLE `mobile_campaigns` DISABLE KEYS */;
-INSERT INTO `mobile_campaigns` VALUES (10,'Tu Tiempo Vale Oro x','Deja que nuestra app se encargue de tus tareas mientras tú disfrutas de lo que realmente importa.edit','/images/campaigns/campaign-1753369157472-772740856.jpg','2025-07-22 00:00:00','2025-07-31 00:00:00',1,'2025-07-23 12:48:37','2025-07-24 10:59:17'),(19,'Tu Vida, Simplificada: Soluciones al Alcance de tu Mano','Menos tareas, más vida. Tu tiempo es oro, déjanos encárgarnos del resto','/images/campaigns/campaign-1753297622969-586064736.png','2025-07-21 00:00:00','2025-07-31 00:00:00',1,'2025-07-23 15:06:48','2025-07-23 15:07:02'),(20,'Expertos Confiables a un Clic: Calidad y Seguridad Garantizada','Tranquilidad garantizada. Profesionales verificados a tu disposición.','/images/campaigns/campaign-1753297827548-7300898.png','2025-07-01 00:00:00','2025-07-23 00:00:00',1,'2025-07-23 15:10:18','2025-07-24 10:25:45'),(21,'Tu Comunidad, Tu App: Impulsa lo Local, Conéctate Fácil','Apoya tu comunidad. Encuentra talentos locales a tu puerta.','/images/campaigns/campaign-1753298568398-315556693.png','2025-07-08 00:00:00','2025-07-31 00:00:00',1,'2025-07-23 15:22:38','2025-07-23 15:22:48'),(24,'Oferta Navideña edit','Descrption edit','/images/campaigns/campaign-1753370118677-583303320.png','2025-11-14 23:00:00','2026-01-05 23:00:00',1,'2025-07-24 11:12:36','2025-07-24 11:15:18');
+INSERT INTO `mobile_campaigns` VALUES (10,'Tu Tiempo Vale Oro x','Deja que nuestra app se encargue de tus tareas mientras tú disfrutas de lo que realmente importa.edit','/images/campaigns/campaign-1753369157472-772740856.jpg','2025-07-22 00:00:00','2025-08-31 00:00:00',1,'2025-07-23 12:48:37','2025-08-01 12:53:58'),(19,'Tu Vida, Simplificada: Soluciones al Alcance de tu Mano','Menos tareas, más vida. Tu tiempo es oro, déjanos encárgarnos del resto','/images/campaigns/campaign-1753297622969-586064736.png','2025-07-21 00:00:00','2025-08-31 00:00:00',1,'2025-07-23 15:06:48','2025-08-01 12:54:35'),(20,'Expertos Confiables a un Clic: Calidad y Seguridad Garantizada','Tranquilidad garantizada. Profesionales verificados a tu disposición.','/images/campaigns/campaign-1753297827548-7300898.png','2025-07-01 00:00:00','2025-07-23 00:00:00',1,'2025-07-23 15:10:18','2025-07-24 10:25:45'),(21,'Tu Comunidad, Tu App: Impulsa lo Local, Conéctate Fácil','Apoya tu comunidad. Encuentra talentos locales a tu puerta.','/images/campaigns/campaign-1753298568398-315556693.png','2025-07-08 00:00:00','2025-07-31 00:00:00',1,'2025-07-23 15:22:38','2025-07-23 15:22:48'),(24,'Oferta Navideña','Descrption edit','/images/campaigns/campaign-1753370118677-583303320.png','2025-08-01 23:00:00','2026-01-05 23:00:00',1,'2025-07-24 11:12:36','2025-08-01 12:54:23');
 /*!40000 ALTER TABLE `mobile_campaigns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -461,47 +471,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-24 17:06:50
-
--- Poblar roles
-INSERT INTO roles (role_id, name, description) VALUES
-(1, 'Super Admin', 'Acceso total al sistema'),
-(2, 'Administrador', 'Gestión administrativa'),
-(3, 'Manager', 'Coordinador de equipos'),
-(4, 'Agente', 'Operador de servicios'),
-(5, 'Proveedor', 'Prestador de servicios'),
-(6, 'Cliente', 'Usuario final');
-
--- Poblar permisos
-INSERT INTO permissions (permission_id, module, action, description) VALUES
-(1, 'users', 'read', 'Ver usuarios'),
-(2, 'users', 'update', 'Editar usuarios'),
-(3, 'services', 'create', 'Crear servicios'),
-(4, 'services', 'read', 'Ver servicios'),
-(5, 'services', 'update', 'Editar servicios'),
-(6, 'services', 'delete', 'Eliminar servicios'),
-(7, 'requests', 'create', 'Crear solicitudes'),
-(8, 'requests', 'read', 'Ver solicitudes'),
-(9, 'requests', 'update', 'Editar solicitudes'),
-(10, 'requests', 'delete', 'Eliminar solicitudes');
-
--- Asignar permisos a roles (ejemplo básico)
-INSERT INTO role_permissions (role_id, permission_id) VALUES
-(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10), -- Super Admin: todos
-(2,1),(2,2),(2,4),(2,5),(2,8),(2,9),                          -- Admin: gestión y consulta
-(3,4),(3,5),(3,8),(3,9),                                      -- Manager: servicios y solicitudes
-(4,4),(4,8),(4,9),                                            -- Agente: consulta y edición
-(5,4),(5,8),                                                  -- Proveedor: solo consulta
-(6,8);                                                        -- Cliente: solo ver solicitudes
-
--- Asignar roles a usuarios (ejemplo, puedes ajustar según tu lógica)
--- Ejemplo: usuario 1 es Super Admin, usuario 21 es Cliente, usuario 27 es Proveedor, usuario 31 es Manager
-INSERT INTO user_roles (user_id, role_id) VALUES
-(1,1),    -- Super Admin
-(21,6),   -- Cliente
-(27,5),   -- Proveedor
-(31,3),   -- Manager
-(30,4),   -- Agente
-(100,5),  -- Proveedor
-(102,4),  -- Agente
-(108,6);  -- Cliente
+-- Dump completed on 2025-08-01 16:02:13

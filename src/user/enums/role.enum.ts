@@ -1,5 +1,11 @@
-
+// role.enum.ts
 export enum Role {
-  USER = 'user',
   ADMIN = 'admin',
+  MANAGER = 'manager',
+  AGENT = 'agent',
+  PROVIDER = 'provider',
+  CLIENT = 'client', // lead
+  SUPPORT = 'support',
+  MARKETING = 'marketing',
+  FINANCE = 'finance',
 }

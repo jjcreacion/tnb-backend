@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
 --
--- Host: 216.246.113.71    Database: tnb-db-develop
+-- Host:<VPS-IP>    Database: tnb-db-develop
 -- ------------------------------------------------------
 -- Server version	8.0.42-0ubuntu0.24.04.2
 
