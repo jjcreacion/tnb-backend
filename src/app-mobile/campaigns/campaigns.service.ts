@@ -55,12 +55,12 @@ export class MobileCampaignService {
       ipAddress,
       userAgent
     );
-    console.log('Interés guardado en DB:', savedInterest);
     
     this.mobileCampaignGateway.emitToBackoffice('campaignInterest', {
       campaignId: campaign.campaignsId,
       campaignTitle: campaign.title,
       userId: userId, 
+      contactIdentifier: savedInterest.user.person.contacts[0].pkContact,//<-----Aqui
       userEmail:savedInterest.user.email,
       timestamp: savedInterest.expressedAt.toISOString(),
       message: `¡Nuevo interés en la campaña '${campaign.title}' por el usuario ${userId}!`, 

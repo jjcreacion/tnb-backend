@@ -16,19 +16,23 @@ export class CampaignInterestService {
 
   async createInterest(
     campaignId: number,
-    userId: number | string, 
+    userId: number | string,
     ipAddress?: string,
     userAgent?: string
   ): Promise<CampaignInterestEntity> {
-    const user = await this.userRepository.findOne({ where: { pkUser: userId as any } }); 
+    const user = await this.userRepository.findOne({
+      where: { pkUser: userId as any },
+      relations: ['person', 'person.contacts'], 
+    });
+
     if (!user) {
       throw new HttpException(`Usuario con ID ${userId} no encontrado.`, HttpStatus.NOT_FOUND);
     }
 
     const newInterest = this.campaignInterestRepository.create({
       campaignId,
-      user, 
-      fkUserId: user.pkUser as number, 
+      user,
+      fkUserId: user.pkUser as number,
       ipAddress,
       userAgent,
     });
