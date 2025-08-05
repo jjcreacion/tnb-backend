@@ -51,4 +51,6 @@ export class UserEntity {
     // relación con mobile service requests
     @OneToMany(() => RequestEntity, (request) => request.fkUser)
     serviceRequests: RequestEntity[];
+
+    
 }

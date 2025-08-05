@@ -9,6 +9,7 @@ import {
   } from 'typeorm';
   import { campaignEntity } from '../../campaigns/entities/campaigns.entity'; 
   import { UserEntity } from '../../../user/entities/user.entity';
+
   
   @Entity('campaign_interests') 
   export class CampaignInterestEntity {

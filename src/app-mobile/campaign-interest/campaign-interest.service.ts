@@ -38,7 +38,7 @@ export class CampaignInterestService {
    async findInterestsByCampaign(campaignId: number): Promise<CampaignInterestEntity[]> {
     return this.campaignInterestRepository.find({
       where: { campaignId },
-      relations: ['user', 'campaign'], 
+      relations: ['user', 'campaign', 'user.person', 'user.person.contacts'], 
       order: { expressedAt: 'DESC' },
     });
   }
@@ -53,7 +53,7 @@ export class CampaignInterestService {
     return this.campaignInterestRepository.find({
       order: { expressedAt: 'DESC' }, 
       take: 10,
-      relations: ['user', 'campaign'], 
+      relations: ['user', 'campaign', 'user.person', 'user.person.contacts'], 
     });
   }
 
