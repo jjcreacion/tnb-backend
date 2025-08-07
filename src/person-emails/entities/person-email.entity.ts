@@ -1,5 +1,4 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
 import {PersonEntity} from "@/person/entities/person.entity";
 
 

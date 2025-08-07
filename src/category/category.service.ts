@@ -7,8 +7,8 @@
  import {CreateCategoryDto} from "@/category/dto/create-category.dto";
  import {ReadCategoryDto} from "@/category/dto/read-category.dto";
  import {UpdateCategoryDto} from "@/category/dto/update-category.dto";
- import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
- import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
+ import {ReadSubCategoryDto} from "@/sub-category/dto/read-sub-category.dto";
+ import {SubCategoryMapper} from "@/sub-category/mapper/sub-category.mapper";
 
  @Injectable()
  export class CategoryService {

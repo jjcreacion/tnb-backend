@@ -1,11 +1,10 @@
 import {AddonsEntity} from "@/service-addons/entity/addons.entity";
-import {ServicesEntity} from "@/services/entity/services.entity";
-import {ClientTypeEntity} from "@/client-type/entities/clientType.entity";
 import {UpdateAddonsDto} from "@/service-addons/dto/update-addons.dto";
 import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
-import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
 import {CreateAddonsDto} from "@/service-addons/dto/create-addons.dto";
-import {ServicesMapper} from "@/services/mapper/services.mapper";
+
+import { SubCategoryMapper } from "@/sub-category/mapper/sub-category.mapper";
+import { SubCategoryEntity } from "@/sub-category/entity/sub-category.entity";
 
 export class ServiceAddonMapper {
     static entityToReadServiceAddonDto(entity: AddonsEntity): ReadAddonsDto {
@@ -19,9 +18,9 @@ export class ServiceAddonMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
-        if(entity.service){
-            responseDto.fkService = entity.service.pkService;
-            responseDto.service=ServicesMapper.entityToReadServiceDto(entity.service)
+        if(entity.subCategory){
+            responseDto.fkService = entity.subCategory.pkSubCategory;
+            responseDto.subCategory=SubCategoryMapper.entityToReadServiceDto(entity.subCategory)
         }
         return responseDto;
     }
@@ -39,7 +38,7 @@ export class ServiceAddonMapper {
         entity.updatedAt = dto.updatedAt;
 
         if (dto.fkService) {
-            entity.service = { pkService: dto.fkService } as ServicesEntity;
+            entity.subCategory = { pkSubCategory: dto.fkService } as SubCategoryEntity;
         }
 
 
@@ -53,7 +52,7 @@ export class ServiceAddonMapper {
         entity.description = dto.description;
         entity.contentWeb = dto.contentWeb;
         entity.price = dto.price;
-        entity.service = { pkService: dto.fkService } as ServicesEntity;
+        entity.subCategory = { pkSubCategory: dto.fkService } as SubCategoryEntity;
 
         return entity;
     }
@@ -70,9 +69,8 @@ export class ServiceAddonMapper {
         entity.createdAt = dto.createdAt as Date;
         entity.updatedAt = dto.updatedAt as Date;
         if (dto.fkService) {
-            entity.service = { pkService: dto.fkService } as ServicesEntity;
+            entity.subCategory = { pkSubCategory: dto.fkService } as SubCategoryEntity;
         }
-
 
         return entity;
     }

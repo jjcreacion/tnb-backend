@@ -1,14 +1,14 @@
-import {ApiProperty, OmitType, PartialType} from '@nestjs/swagger';
-import {ServicesEntity} from "@/services/entity/services.entity";
-import {IsNotEmpty, IsNumber, IsString} from "class-validator";
+import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
+import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class UpdateServicesDto extends OmitType(ServicesEntity,
+export class UpdateSubCategoryDto extends OmitType(SubCategoryEntity,
     ['createdAt','updatedAt','addons']
 ) {
 
     @ApiProperty()
     @IsNumber()
-    pkService: number;
+    pkSubCategory: number;
 
     @ApiProperty()@IsString()@IsNotEmpty()
     name: string;

@@ -1,6 +1,5 @@
 import { CategoryEntity } from '../entities/category.entity';
 import {ReadCategoryDto} from "@/category/dto/read-category.dto";
-import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
 
 export class CategoryMapper {
     static entityToReadCategoryDto(entity: CategoryEntity): ReadCategoryDto {
@@ -15,18 +14,7 @@ export class CategoryMapper {
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
-
-        if(entity.subCategory){
-            if(Array.isArray(entity.subCategory)){
-
-                responseDto.subCategory= entity.subCategory.map( (sub)=>
-                     SubCategoryMapper.entityToReadSubCategoryDto(sub)
-                )
-            }else{
-                responseDto.subCategory=SubCategoryMapper.entityToReadSubCategoryDto(entity.subCategory);
-            }
-        }
-        
+   
         return responseDto;
     }
     static readCategoryDtoToEntity(dto: ReadCategoryDto): CategoryEntity {
@@ -39,6 +27,5 @@ export class CategoryMapper {
         entity.updatedAt = dto.updatedAt;
         return entity;
     }
-
 
 }

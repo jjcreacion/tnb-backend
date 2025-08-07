@@ -9,7 +9,7 @@ import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
 export class ServiceAddonController {
 
   constructor(private readonly serviceAddonService: ServiceAddonService) {}
-
+/*
   @Post()
   async create(
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -49,5 +49,5 @@ export class ServiceAddonController {
   @Get("getAllByService/:pkService")
   async findByService(@Param("pkService",ParseIntPipe) pkService : number){
     return this.serviceAddonService.findOAllByService(pkService)
-  }
+  }*/
 }

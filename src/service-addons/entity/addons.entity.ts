@@ -1,7 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {ServicesEntity} from "@/services/entity/services.entity";
-import {ClientTypeEntity} from "@/client-type/entities/clientType.entity";
-import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
+import { SubCategoryEntity } from "@/sub-category/entity/sub-category.entity";
 
 
 @Entity('services_addons')
@@ -36,9 +34,7 @@ export class AddonsEntity {
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
 
-    @ManyToOne(() => ServicesEntity, (service) => service.addons)
+    @ManyToOne(() => SubCategoryEntity, (subCategory) => subCategory.addons)
     @JoinColumn({ name: 'fk_service' })
-    service: ServicesEntity;
-
-
+    subCategory: SubCategoryEntity;
 }

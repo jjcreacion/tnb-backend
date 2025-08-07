@@ -1,7 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ClientTypeEntity } from '@/client-type/entities/clientType.entity';
-import { SubCategoryEntity } from '@/sub-category/entity/subCategory.entity';
-
 
 @Entity('client_type_questions')
 export class QuestionEnTity {

@@ -11,8 +11,7 @@ import {RequestImageEntity} from "@/request/entities/requestImages.entity";
 import {RequestPriorityEntity} from "@/request/entities/requestPriority.entity";
 import {PersonModule} from "@/person/person.module";
 import {CategoryModule} from "@/category/category.module";
-import {SubCategoryModule} from "@/sub-category/sub-Category.module";
-import {ServicesModule} from "@/services/services.module";
+import {SubCategoryModule} from "@/sub-category/sub-category.module";
 import {CountryModule} from "@/country/country.module";
 import {CountryStatesModule} from "@/country-states/country-states.module";
 import {LocalityModule} from "@/locality/locality.module";
@@ -23,7 +22,6 @@ import {OptionalParseIntPipe} from "@/utils/pipes/optional-parse-int.pipe";
   imports: [
       CategoryModule,
       SubCategoryModule,
-      ServicesModule,
       CountryModule,
       CountryStatesModule,
       LocalityModule,

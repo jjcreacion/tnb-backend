@@ -9,9 +9,8 @@ import { UserModule } from './user/user.module';
 import { PersonModule } from './person/person.module';
 import { ProfileModule } from './profile/profile.module';
 import { CategoryModule } from './category/category.module';
-import { ServicesModule } from '@/services/services.module';
 import { ServicesTypeModule } from './services-type/services-type.module';
-import {SubCategoryModule} from "@/sub-category/sub-Category.module";
+import {SubCategoryModule} from "@/sub-category/sub-category.module";
 import {ServiceAddonsModule} from "@/service-addons/service-addons.module";
 import {ClientTypeModule} from "@/client-type/client-type.module";
 import {CountryModule} from "@/country/country.module";
@@ -66,8 +65,9 @@ import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-
     UserModule,
     PersonModule,
     ProfileModule,
-    CategoryModule,SubCategoryModule,
-    ServicesModule,ServicesTypeModule,
+    CategoryModule,
+    SubCategoryModule,
+    ServicesTypeModule,
     ClientTypeModule,
     ServiceAddonsModule,
     ServiceRequestModule,

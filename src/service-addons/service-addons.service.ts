@@ -7,9 +7,10 @@ import {ValidID} from "@/utils/validID";
 import {UpdateAddonsDto} from "@/service-addons/dto/update-addons.dto";
 import {ReadAddonsDto} from "@/service-addons/dto/read-addons.dto";
 import {CreateAddonsDto} from "@/service-addons/dto/create-addons.dto";
-import {CategoryServicesService} from "@/services/services.service";
-import {ServicesEntity} from "@/services/entity/services.entity";
-import {ServicesMapper} from "@/services/mapper/services.mapper";
+
+import { SubCategoryService } from '@/sub-category/sub-category.service';
+import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
+
 
 @Injectable()
 export class ServiceAddonService {
@@ -17,17 +18,18 @@ export class ServiceAddonService {
   constructor(
       @InjectRepository(AddonsEntity)
       private readonly serviceAddonRepository: Repository<AddonsEntity>,
-      private readonly categoryServicesService : CategoryServicesService
+      private readonly subCategoryService : SubCategoryService
   ) {}
 
+  /*
   async create (createServiceAddonDto : CreateAddonsDto): Promise<ReadAddonsDto> {
     let entity = this.serviceAddonRepository.create(createServiceAddonDto);
 
-    let service = await this.categoryServicesService.findOne(new ValidID(createServiceAddonDto.fkService));
+    let service = await this.subCategoryService.findOne(new ValidID(createServiceAddonDto.fkService));
 
     if(!service){ throw new HttpException(`Service  with ID ${createServiceAddonDto.fkService} not found`, HttpStatus.NOT_FOUND);}
 
-    entity.service = { pkService : service.pkService  } as ServicesEntity;
+    entity.subCategory = { pkSubCategory : service.pkService  } as SubCategoryEntity;
 
 
     return ServiceAddonMapper.entityToReadServiceAddonDto(
@@ -109,7 +111,7 @@ export class ServiceAddonService {
     return serviceWithAddons;
 
   }
-
+*/
 
 
 }
