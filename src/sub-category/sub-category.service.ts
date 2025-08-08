@@ -52,7 +52,7 @@ export class SubCategoryService {
 
      const entityWithCategory = await this.subCategoryRepository.findOne({
        where: { pkSubCategory: savedEntity.pkSubCategory },
-       relations: ['subCategory', 'subCategory.category', 'clientType', 'serviceType'],
+       relations: ['category', 'clientType', 'serviceType'],
      });
 
      if (!entityWithCategory) {
@@ -62,24 +62,36 @@ export class SubCategoryService {
      return SubCategoryMapper.entityToReadServiceDto(entityWithCategory);
    }
    
-/*
+
   async findOne (validId : ValidID): Promise<ReadSubCategoryDto>{
-    const entity = await this.categoryServicesRepository.findOne({
-       where: {pkService : validId.id},
-       relations : ['subCategory','addons','clientType','serviceType']
+    const entity = await this.subCategoryRepository.findOne({
+       where: {pkSubCategory : validId.id},
+       relations : ['category','addons','clientType','serviceType']
     },)
     if(!entity){throw new HttpException(`CategoryServices with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);}
 
     return SubCategoryMapper.entityToReadServiceDto(entity);
   }
 
-  async findAll ():Promise<ReadSubCategoryDto[]>{
-    return this.categoryServicesRepository.find().then(subs =>
-        subs.map( (subCate) =>
-            SubCategoryMapper.entityToReadServiceDto(subCate)
-        ))
+  async find(): Promise<ReadSubCategoryDto[]> {
+    const subCategories = await this.subCategoryRepository.find();
+  
+    return subCategories.map((subCate) =>
+      SubCategoryMapper.entityToReadServiceDto(subCate),
+    );
   }
 
+  async findAll(): Promise<ReadSubCategoryDto[]> {
+    const subCategories = await this.subCategoryRepository.find({
+      relations: ['category', 'addons', 'clientType', 'serviceType'],
+    });
+  
+    return subCategories.map((subCate) =>
+      SubCategoryMapper.entityToReadServiceDto(subCate),
+    );
+  }
+
+/*
   async findAllWithChildrens ():Promise<ReadSubCategoryDto[]>{
     return this.categoryServicesRepository.find(
         {relations : ['subCategory','subCategory.category','serviceType','clientType']}

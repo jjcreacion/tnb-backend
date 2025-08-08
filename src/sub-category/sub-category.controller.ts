@@ -7,7 +7,7 @@ import {ReadSubCategoryDto} from "@/sub-category/dto/read-sub-category.dto";
 import {CreateSubCategoryDto} from "@/sub-category/dto/create-sub-category.dto";
 
 
-@Controller('service')
+@Controller('sub_category')
 export class SubCategoryController {
 
   constructor(private readonly subCategoryService: SubCategoryService) {}
@@ -16,12 +16,19 @@ export class SubCategoryController {
   async create(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) createSubCategoryDto: CreateSubCategoryDto) {
     return this.subCategoryService.create(createSubCategoryDto);
   }
-/*
+
   @Get("findAll")
   async findAll ():Promise<ReadSubCategoryDto[]>{
     return this.subCategoryService.findAll();
   }
 
+  @Get("find")
+  async find ():Promise<ReadSubCategoryDto[]>{
+    return this.subCategoryService.find();
+  }
+
+
+/*
   @Get("findAllWithChildrens")
   async findAllWithChildrens ():Promise<ReadSubCategoryDto[]>{
     return this.subCategoryService.findAllWithChildrens();
