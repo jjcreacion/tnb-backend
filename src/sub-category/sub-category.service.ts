@@ -68,7 +68,7 @@ export class SubCategoryService {
        where: {pkSubCategory : validId.id},
        relations : ['category','addons','clientType','serviceType']
     },)
-    if(!entity){throw new HttpException(`CategoryServices with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);}
+    if(!entity){throw new HttpException(`Sub Category with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);}
 
     return SubCategoryMapper.entityToReadServiceDto(entity);
   }
@@ -91,17 +91,25 @@ export class SubCategoryService {
     );
   }
 
-/*
-  async findAllWithChildrens ():Promise<ReadSubCategoryDto[]>{
-    return this.categoryServicesRepository.find(
-        {relations : ['subCategory','subCategory.category','serviceType','clientType']}
-    ).then(subs =>
-        subs.map( (subCate) =>
-            SubCategoryMapper.entityToReadServiceDto(subCate)
-        ))
+  async remove (validID : ValidID): Promise<{ message: string; status: HttpStatus }> {
+    const found = await this.subCategoryRepository.findOneBy({pkSubCategory:validID.id})
+
+    if(!found) return { message: "Sub Category Not found", status: HttpStatus.NOT_FOUND }
+
+    const responseDeleted = await this.subCategoryRepository.remove(
+        found
+    );
+
+    if(!responseDeleted) return { message: "Sub Category Deleted", status: HttpStatus.NOT_MODIFIED }
+
+    return {
+      message: "Sub category Deleted",
+      status: HttpStatus.OK
+    };
   }
 
-  async findOneWithAddons (pkService: number):Promise<ReadSubCategoryDto>{
+/*
+   async findOneWithAddons (pkService: number):Promise<ReadSubCategoryDto>{
     const entity = await this.categoryServicesRepository.findOne({
       where: {pkService:pkService},
           relations : ['addons']
@@ -110,30 +118,12 @@ export class SubCategoryService {
 
     return SubCategoryMapper.entityToReadServiceDto(entity)
   }
-
-
-  async remove (validID : ValidID): Promise<{ message: string; status: HttpStatus }> {
-    const found = await this.categoryServicesRepository.findOneBy({pkService:validID.id})
-
-    if(!found) return { message: "CategoryServices Not found", status: HttpStatus.NOT_FOUND }
-
-    const responseDeleted = await this.categoryServicesRepository.remove(
-        found
-    );
-
-    if(!responseDeleted) return { message: "CategoryServices Deleted", status: HttpStatus.NOT_MODIFIED }
-
-    return {
-      message: "CategoryServices Deleted",
-      status: HttpStatus.OK
-    };
-  }
-
+*/
 
 async update (updateSubCategoryDto:UpdateSubCategoryDto): Promise< {
      message: string; status: HttpStatus , service : ReadSubCategoryDto | null
    }> {
-     const entity = await this.categoryServicesRepository.findOne({
+     const entity = await this.subCategoryRepository.findOne({
        where: {pkSubCategory : updateSubCategoryDto.pkSubCategory}
      });
      if(!entity){throw new HttpException(`Sub category with ID ${updateSubCategoryDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);}
@@ -147,31 +137,31 @@ async update (updateSubCategoryDto:UpdateSubCategoryDto): Promise< {
      const serviceType = await this.serviceTypeSerive.findOne(new ValidID(updateSubCategoryDto.fkServiceType));
      if(!serviceType)   throw new HttpException(`Sub category Type with ID ${updateSubCategoryDto.fkServiceType} not found`, HttpStatus.NOT_FOUND);
 
-     const merge = await this.categoryServicesRepository.merge(
+     const merge = await this.subCategoryRepository.merge(
          entity,updateSubCategoryDto
      );
 
      entity.serviceType = { pkType: serviceType.pkType } as ServicesTypeEntity;
      entity.clientType = { pkType: clientType.pkType } as ClientTypeEntity;
-     entity.Category = { pkCategory: subCategoryDto.pkCategory } as CategoryEntity;
+     entity.category = { pkCategory: subCategoryDto.pkCategory } as CategoryEntity;
 
-     const updateResult = await this.categoryServicesRepository.save(entity);
+     const updateResult = await this.subCategoryRepository.save(entity);
 
-     const updatedEntityWithCategory = await this.categoryServicesRepository.findOne({
-       where: { pkService: updateResult.pkService },
-       relations: ['subCategory', 'subCategory.category', 'clientType', 'serviceType'],
+     const updatedEntityWithCategory = await this.subCategoryRepository.findOne({
+       where: { pkSubCategory: updateResult.pkSubCategory },
+       relations : ['category','addons','clientType','serviceType']
      });
 
      if (!updatedEntityWithCategory) {
-       return { message: "CategoryServices Updated", status: HttpStatus.OK, service: null };
+       return { message: "Sub Category Updated", status: HttpStatus.OK, service: null };
      }
 
      return {
-       message: "CategoryServices Updated",
+       message: "Sub Category Updated",
        status: HttpStatus.OK,
        service: SubCategoryMapper.entityToReadServiceDto(updatedEntityWithCategory)
      };
    }
-*/
+
 
 }

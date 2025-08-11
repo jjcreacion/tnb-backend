@@ -27,18 +27,11 @@ export class SubCategoryController {
     return this.subCategoryService.find();
   }
 
-
-/*
-  @Get("findAllWithChildrens")
-  async findAllWithChildrens ():Promise<ReadSubCategoryDto[]>{
-    return this.subCategoryService.findAllWithChildrens();
-  }
-
-  @Delete(":id")
+   @Delete(":id")
   async remove (@Param("id",ParseIntPipe) id:number) {
     return this.subCategoryService.remove(new ValidID(id));
   }
-
+  
   @Patch()
   async update (
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -50,6 +43,6 @@ export class SubCategoryController {
   @Get(":id")
   async getOne (@Param("id",ParseIntPipe) id:number){
     return this.subCategoryService.findOne(new ValidID(id));
-  }*/
+  }
 
 }
