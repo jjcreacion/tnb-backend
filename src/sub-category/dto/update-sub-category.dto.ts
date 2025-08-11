@@ -20,7 +20,7 @@ export class UpdateSubCategoryDto extends OmitType(SubCategoryEntity,
     status: number;
 
     @ApiProperty()@IsNumber()
-    fkSubCategory: number;
+    fkCategory: number;
 
     @IsNumber()@ApiProperty()
     @IsNotEmpty({ message: 'Fk client type cannot be empty' })

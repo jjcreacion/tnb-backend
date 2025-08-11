@@ -126,10 +126,10 @@ async update (updateSubCategoryDto:UpdateSubCategoryDto): Promise< {
      const entity = await this.subCategoryRepository.findOne({
        where: {pkSubCategory : updateSubCategoryDto.pkSubCategory}
      });
-     if(!entity){throw new HttpException(`Sub category with ID ${updateSubCategoryDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);}
+     if(!entity){throw new HttpException(`Sub category with ID ${updateSubCategoryDto.fkCategory} not found`, HttpStatus.NOT_FOUND);}
 
-     const subCategoryDto =await this.CategoryService.findOne(new ValidID(updateSubCategoryDto.fkSubCategory));
-     if(!subCategoryDto) throw new HttpException(`Category with ID ${updateSubCategoryDto.fkSubCategory} not found`, HttpStatus.NOT_FOUND);
+     const subCategoryDto =await this.CategoryService.findOne(new ValidID(updateSubCategoryDto.fkCategory));
+     if(!subCategoryDto) throw new HttpException(`Category with ID ${updateSubCategoryDto.fkCategory} not found`, HttpStatus.NOT_FOUND);
 
      const clientType =  await this.clientTypeSerive.findOne(new ValidID(updateSubCategoryDto.fkClientType));
      if(!clientType) throw new HttpException(`client Type with ID ${updateSubCategoryDto.fkClientType} not found`, HttpStatus.NOT_FOUND);
