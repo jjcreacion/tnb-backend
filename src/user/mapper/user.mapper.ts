@@ -1,8 +1,8 @@
 // user.mapper.ts
-import { UserEntity } from '../entities/user.entity';
 import { PersonMapper } from '@/person/mapper/person.mapper';
-import { ReadUserDto } from '@/user/dto/readUser.dto';
 import { CreateUserDto } from '@/user/dto/createUser.dto';
+import { ReadUserDto } from '@/user/dto/readUser.dto';
+import { UserEntity } from '../entities/user.entity';
 
 export class UserMapper {
 

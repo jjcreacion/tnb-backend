@@ -1,115 +1,152 @@
-import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
-import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {UserEntity} from "@/user/entities/user.entity";
-import {UserMapper} from "@/user/mapper/user.mapper";
-import {ReadUserDto} from "@/user/dto/readUser.dto";
-import {ValidEmailDto} from "@/user/dto/validEmail.dto";
-import { PersonEntity } from '../../person/entities/person.entity'; 
-import * as bcrypt from 'bcryptjs'; 
-import { JwtService } from '@nestjs/jwt';
-import { PersonPhoneEntity } from '@/person-phones/entities/person-phone.entity'; 
 import { PersonAddressEntity } from '@/person-address/entities/person-address.entity';
+import { PersonPhoneEntity } from '@/person-phones/entities/person-phone.entity';
+import { ReadUserDto } from '@/user/dto/readUser.dto';
+import { ValidEmailDto } from '@/user/dto/validEmail.dto';
+import { UserEntity } from '@/user/entities/user.entity';
+import { UserMapper } from '@/user/mapper/user.mapper';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcryptjs';
+import { Repository } from 'typeorm';
+import { PersonEntity } from '../../person/entities/person.entity';
+import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 
 @Injectable()
 export class UserService {
-
   constructor(
-      @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
-      private userMapper : UserMapper,
-      @InjectRepository(PersonEntity) private personRepository: Repository<PersonEntity>, 
-      @InjectRepository(PersonPhoneEntity) private phoneRepository: Repository<PersonPhoneEntity>,
-      @InjectRepository(PersonAddressEntity) private addressRepository: Repository<PersonAddressEntity>,
-      private readonly jwtService: JwtService
-  ){}
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
+    private userMapper: UserMapper,
+    @InjectRepository(PersonEntity)
+    private personRepository: Repository<PersonEntity>,
+    @InjectRepository(PersonPhoneEntity)
+    private phoneRepository: Repository<PersonPhoneEntity>,
+    @InjectRepository(PersonAddressEntity)
+    private addressRepository: Repository<PersonAddressEntity>,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async createWithEmail(createUserWithEmailDto: CreateUserWithEmailDto): Promise<ReadUserDto> {
+  async createWithEmail(
+    createUserWithEmailDto: CreateUserWithEmailDto,
+  ): Promise<ReadUserDto> {
     const entity = this.userRepository.create(createUserWithEmailDto);
-  
-    entity.person = { pkPerson: createUserWithEmailDto.fkPerson } as PersonEntity;
-    
-    const salt = await bcrypt.genSalt(); 
+
+    entity.person = {
+      pkPerson: createUserWithEmailDto.fkPerson,
+    } as PersonEntity;
+
+    const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(entity.password, salt);
     entity.password = hashedPassword;
-  
+
     const savedUser = await this.userRepository.save(entity);
     return UserMapper.entityToReadUserDto(savedUser);
   }
 
   async findAll(): Promise<ReadUserDto[]> {
     const responseUsers = await this.userRepository.find({
-      relations: ['person', 'person.emails', 'person.phones', 'person.addresses'],
+      relations: [
+        'person',
+        'person.emails',
+        'person.phones',
+        'person.addresses',
+      ],
     });
     return responseUsers.map((user) => UserMapper.entityToReadUserDto(user));
   }
 
   async findOneBy(id: number): Promise<ReadUserDto> {
     const userEntity = await this.userRepository.findOne({
-      where: { pkUser: id }, 
-      relations: ['person', 'person.emails', 'person.phones', 'person.addresses', 'profile'], 
+      where: { pkUser: id },
+      relations: [
+        'person',
+        'person.emails',
+        'person.phones',
+        'person.addresses',
+        'profile',
+      ],
     });
 
     if (!userEntity) {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
     const readUserDto = UserMapper.entityToReadUserDto(userEntity);
-    return readUserDto; 
+    console.log(readUserDto, '--------readUserDto in findOneBy');
+    return readUserDto;
   }
-  
-  async verifyUserWithEmail(validParameter: ValidEmailDto): Promise<{ exists: boolean, status: HttpStatus, pkUser?: number }> {
+
+  async verifyUserWithEmail(
+    validParameter: ValidEmailDto,
+  ): Promise<{ exists: boolean; status: HttpStatus; pkUser?: number }> {
     let foundUser: UserEntity | null = null;
 
     if (validParameter instanceof ValidEmailDto) {
       foundUser = await this.userRepository.findOneBy({
-        email: validParameter.email
+        email: validParameter.email,
       });
     }
-   
+
     if (!foundUser) {
       return {
         exists: false,
-        status: HttpStatus.NOT_FOUND
+        status: HttpStatus.NOT_FOUND,
       };
     }
 
     return {
       exists: true,
       status: HttpStatus.FOUND,
-      pkUser: foundUser.pkUser
+      pkUser: foundUser.pkUser,
     };
   }
 
-   async verifyEmail(email: string): Promise<boolean> {
+  async verifyEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findOne({ where: { email } });
     return !!user;
   }
 
-  async findOneWithUser (pkUser: number):Promise<ReadUserDto>{
+  async findOneWithUser(pkUser: number): Promise<ReadUserDto> {
     const entity = await this.userRepository.findOne({
-      where: {pkUser:pkUser},
-          relations : ['addons']
-    })
-    if(!entity){throw new HttpException(`Request with ID ${pkUser} not found`, HttpStatus.NOT_FOUND);}
+      where: { pkUser: pkUser },
+      relations: ['addons'],
+    });
+    if (!entity) {
+      throw new HttpException(
+        `Request with ID ${pkUser} not found`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
-    return UserMapper.entityToReadUserDto(entity)
+    return UserMapper.entityToReadUserDto(entity);
   }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async validatePassword(password: string, hashedPasswordFromDb: string): Promise<boolean> {
+  async validatePassword(
+    password: string,
+    hashedPasswordFromDb: string,
+  ): Promise<boolean> {
     return bcrypt.compare(password, hashedPasswordFromDb);
   }
 
   async generateJwt(user: UserEntity): Promise<string> {
-    const payload = { sub: user.pkUser, email: user.email }; 
+    const payload = { sub: user.pkUser, email: user.email , roles: user.roles };
     return this.jwtService.signAsync(payload);
   }
 
-  async updateProfileImagePath(pkUser: number, imagePath: string): Promise<void> {
+  async updateProfileImagePath(
+    pkUser: number,
+    imagePath: string,
+  ): Promise<void> {
     const user = await this.userRepository.findOne({ where: { pkUser } });
 
     if (!user) {
@@ -117,10 +154,12 @@ export class UserService {
     }
 
     user.img_profile = imagePath;
-    await this.userRepository.save(user); 
+    await this.userRepository.save(user);
   }
 
-  async updateUser(updateUserProfileDto: UpdateUserProfileDto ): Promise<ReadUserDto> {
+  async updateUser(
+    updateUserProfileDto: UpdateUserProfileDto,
+  ): Promise<ReadUserDto> {
     const { pkUser, email, person } = updateUserProfileDto;
 
     const user = await this.userRepository.findOne({
@@ -133,7 +172,9 @@ export class UserService {
     }
 
     if (!user.person) {
-      throw new NotFoundException(`Persona asociada al usuario ${pkUser} no encontrada.`);
+      throw new NotFoundException(
+        `Persona asociada al usuario ${pkUser} no encontrada.`,
+      );
     }
 
     if (email) {
@@ -165,7 +206,8 @@ export class UserService {
           });
 
           if (existingPhone) {
-            existingPhone.isPrimary = phoneDto.isPrimary ?? existingPhone.isPrimary;
+            existingPhone.isPrimary =
+              phoneDto.isPrimary ?? existingPhone.isPrimary;
             await this.phoneRepository.save(existingPhone);
           } else if (phoneDto.phone) {
             const newPhone = this.phoneRepository.create({
@@ -191,7 +233,8 @@ export class UserService {
           });
 
           if (existingAddress) {
-            existingAddress.isPrimary = addressDto.isPrimary ?? existingAddress.isPrimary;
+            existingAddress.isPrimary =
+              addressDto.isPrimary ?? existingAddress.isPrimary;
             await this.addressRepository.save(existingAddress);
           } else if (addressDto.address) {
             const newAddress = this.addressRepository.create({
@@ -207,10 +250,14 @@ export class UserService {
 
     const updatedUser = await this.userRepository.findOne({
       where: { pkUser: pkUser },
-      relations: ['person', 'person.emails', 'person.phones', 'person.addresses'],
+      relations: [
+        'person',
+        'person.emails',
+        'person.phones',
+        'person.addresses',
+      ],
     });
 
     return updatedUser as unknown as ReadUserDto;
   }
-
 }

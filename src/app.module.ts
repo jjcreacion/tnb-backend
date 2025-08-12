@@ -16,6 +16,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import * as process from "process";
 import { AuthGuard } from './auth/guard/auth.guard';
+import { RolesGuard } from './auth/guard/roles.guard';
 import { CategoryModule } from './category/category.module';
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
 import { ContactModule } from './contact/contact.module';
@@ -87,6 +88,9 @@ import { UserModule } from './user/user.module';
   providers: [{
     provide: APP_GUARD,
     useClass: AuthGuard,
+    }, {
+    provide: APP_GUARD,
+    useClass: RolesGuard,
     }],
 })
 

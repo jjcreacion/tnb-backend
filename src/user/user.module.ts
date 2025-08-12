@@ -24,11 +24,12 @@ import { UserService } from './service/user.service';
         useFactory: async (configService: ConfigService) => ({
           secret: configService.get<string>('JWT_SECRET'), 
           signOptions: { expiresIn: '12h' }, 
-        }),
       }),
+    })
   ],
   controllers: [UserController],
   providers: [UserService],
   exports:[ProfileMapperModule, UserService]
 })
 export class UserModule {}
+
