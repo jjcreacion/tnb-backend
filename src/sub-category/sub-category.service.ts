@@ -108,17 +108,16 @@ export class SubCategoryService {
     };
   }
 
-/*
-   async findOneWithAddons (pkService: number):Promise<ReadSubCategoryDto>{
-    const entity = await this.categoryServicesRepository.findOne({
-      where: {pkService:pkService},
+
+  async findOneWithAddons (pkService: number):Promise<ReadSubCategoryDto>{
+  const entity = await this.subCategoryRepository.findOne({
+      where: {pkSubCategory:pkService},
           relations : ['addons']
     })
     if(!entity){throw new HttpException(`CategoryServices with ID ${pkService} not found`, HttpStatus.NOT_FOUND);}
 
     return SubCategoryMapper.entityToReadServiceDto(entity)
   }
-*/
 
 async update (updateSubCategoryDto:UpdateSubCategoryDto): Promise< {
      message: string; status: HttpStatus , service : ReadSubCategoryDto | null

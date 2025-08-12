@@ -21,15 +21,14 @@ export class ServiceAddonService {
       private readonly subCategoryService : SubCategoryService
   ) {}
 
-  /*
   async create (createServiceAddonDto : CreateAddonsDto): Promise<ReadAddonsDto> {
     let entity = this.serviceAddonRepository.create(createServiceAddonDto);
 
-    let service = await this.subCategoryService.findOne(new ValidID(createServiceAddonDto.fkService));
+    let subCategory = await this.subCategoryService.findOne(new ValidID(createServiceAddonDto.fkService));
 
-    if(!service){ throw new HttpException(`Service  with ID ${createServiceAddonDto.fkService} not found`, HttpStatus.NOT_FOUND);}
+    if(!subCategory){ throw new HttpException(`Service  with ID ${createServiceAddonDto.fkService} not found`, HttpStatus.NOT_FOUND);}
 
-    entity.subCategory = { pkSubCategory : service.pkService  } as SubCategoryEntity;
+    entity.subCategory = { pkSubCategory : subCategory.pkSubCategory  } as SubCategoryEntity;
 
 
     return ServiceAddonMapper.entityToReadServiceAddonDto(
@@ -42,7 +41,6 @@ export class ServiceAddonService {
   async findOne (validId : ValidID): Promise<ReadAddonsDto> {
     const entity = await this.serviceAddonRepository.findOne({
       where: { pkAddon: validId.id },
-      relations: ['service'],
     });
     if(!entity){
       throw new HttpException(`Service Addon with ID ${validId.id} not found`, HttpStatus.NOT_FOUND);
@@ -104,14 +102,13 @@ export class ServiceAddonService {
 
   async findOAllByService (pkService:number){
 
-    const serviceWithAddons = await this.categoryServicesService.findOneWithAddons(pkService);
+    const serviceWithAddons = await this.subCategoryService.findOneWithAddons(pkService);
 
     if(!serviceWithAddons){throw new HttpException(`Service with ID ${pkService} not found`, HttpStatus.NOT_FOUND);}
 
     return serviceWithAddons;
 
   }
-*/
 
 
 }

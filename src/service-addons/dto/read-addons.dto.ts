@@ -2,7 +2,7 @@ import { ReadSubCategoryDto } from "@/sub-category/dto/read-sub-category.dto";
 
 export class ReadAddonsDto {
     pkAddon: number;
-    isReail: number;
+    isRetail: number;
     name: string;
     description: string;
     contentWeb: string;
