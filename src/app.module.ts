@@ -15,6 +15,7 @@ import { ThrottlerModule, minutes } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import * as process from "process";
+import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { RolesGuard } from './auth/guard/roles.guard';
 import { CategoryModule } from './category/category.module';
@@ -64,6 +65,7 @@ import { UserModule } from './user/user.module';
       ttl: minutes(1),
       limit: 10,
     }]),
+    AuthModule,
     UserModule,
     PersonModule,
     ProfileModule,
