@@ -22,7 +22,6 @@ import { CreateMobileCampaignDto } from './dto/create-campaigns.dto';
 import { UploadCampaignImageDto } from './dto/upload-image.dto';
 import { MobileCampaignService } from './campaigns.service';
 import { CampaignInterestService } from '../campaign-interest/campaign-interest.service';
-
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';

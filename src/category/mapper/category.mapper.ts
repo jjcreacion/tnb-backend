@@ -11,6 +11,7 @@ export class CategoryMapper {
         responseDto.pkCategory = entity.pkCategory;
         responseDto.name = entity.name;
         responseDto.description = entity.description;
+        responseDto.imagePath = entity.imagePath; 
         responseDto.status = entity.status;
         responseDto.createdAt = entity.createdAt;
         responseDto.updatedAt = entity.updatedAt;
@@ -22,6 +23,7 @@ export class CategoryMapper {
         entity.pkCategory = dto.pkCategory;
         entity.name = dto.name;
         entity.description = dto.description;
+        entity.imagePath = dto.imagePath;
         entity.status = dto.status;
         entity.createdAt = dto.createdAt;
         entity.updatedAt = dto.updatedAt;

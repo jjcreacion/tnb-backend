@@ -13,6 +13,8 @@ export class SubCategoryMapper {
             dto.pkSubCategory= entity.pkSubCategory;
             dto.name= entity.name;
             dto.description= entity.description;
+            dto.priceFrom = entity.priceFrom;
+            dto.priceTo = entity.priceTo;
             dto.status= entity.status;
             dto.createdAt= entity.createdAt;
             dto.updatedAt= entity.updatedAt;
@@ -40,6 +42,8 @@ export class SubCategoryMapper {
         const entity = new SubCategoryEntity();
         entity.name = dto.name;
         entity.description = dto.description;
+        entity.priceFrom = dto.priceFrom;
+        entity.priceTo = dto.priceTo;
         return entity;
     }
 
@@ -48,6 +52,8 @@ export class SubCategoryMapper {
         entity.pkSubCategory = dto.pkSubCategory;
         entity.name = dto.name;
         entity.description = dto.description;
+        entity.priceFrom = dto.priceFrom ?? entity.priceFrom;
+        entity.priceTo = dto.priceTo ?? entity.priceTo;
         entity.status = dto.status;
         entity.createdAt = dto.createdAt;
         entity.updatedAt = dto.updatedAt;

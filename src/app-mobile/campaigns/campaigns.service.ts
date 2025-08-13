@@ -9,8 +9,6 @@ import { UpdateMobileCampaignDto } from './dto/update-campaigns.dto';
 import { MobileCampaignMapper } from './mapper/campaigns.mapper'; 
 import { MobileCampaignGateway } from './mobile-campaign.gateway';
 import { CampaignInterestService } from '../campaign-interest/campaign-interest.service';
-import { UserEntity } from '../../user/entities/user.entity'; 
-import { ReadCampaignInterestDto } from '../campaign-interest/dto/read-campaigns-interest.dto';
 
 @Injectable()
 export class MobileCampaignService {

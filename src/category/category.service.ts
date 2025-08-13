@@ -101,4 +101,19 @@
          status: HttpStatus.OK
      };
    }
+
+    async updateCategoryImageUrl(categoryId: number, imageUrl: string): Promise<ReadCategoryDto> {
+       const category = await this.categoryRepository.findOne({
+         where: { pkCategory: categoryId },
+       });
+   
+       if (!category) {
+         throw new HttpException(`Campaña con ID ${categoryId} no encontrada.`, HttpStatus.NOT_FOUND);
+       }
+   
+       category.imagePath = imageUrl; 
+       const updatedCampaign = await this.categoryRepository.save(category); 
+   
+       return CategoryMapper.entityToReadCategoryDto(updatedCampaign);
+     }
  }

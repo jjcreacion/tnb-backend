@@ -31,6 +31,12 @@ export class SubCategoryEntity {
     @Column({name:"description",nullable:true, type:"varchar"})
     description: string;
 
+    @Column({ name: "price_from", type: "decimal", precision: 10, scale: 2, nullable: true })
+    priceFrom: number;
+
+    @Column({ name: "price_to", type: "decimal", precision: 10, scale: 2, nullable: true })
+    priceTo: number;
+
     @Column({default: 1})
     status: number;
 

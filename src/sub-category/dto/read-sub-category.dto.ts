@@ -11,6 +11,8 @@ export class ReadSubCategoryDto extends OmitType(SubCategoryEntity,
     pkSubCategory: number;
     name: string;
     description: string;
+    priceFrom: number;
+    priceTo: number;
     status: number;
     createdAt: Date;
     updatedAt: Date;

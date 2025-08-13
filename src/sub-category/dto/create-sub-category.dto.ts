@@ -28,4 +28,14 @@ export class CreateSubCategoryDto extends OmitType(SubCategoryEntity,
     @IsNotEmpty({ message: 'Fk service type cannot be empty' })
     fkServiceType : number;
 
+    @IsOptional()
+    @IsNumber({}, { message: 'priceFrom must be a number' })
+    @ApiProperty({ required: false })
+    priceFrom: number;
+
+    @IsOptional()
+    @IsNumber({}, { message: 'priceTo must be a number' })
+    @ApiProperty({ required: false })
+    priceTo: number;
+
 }

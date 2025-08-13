@@ -16,6 +16,9 @@ export class CategoryEntity {
     @Column({name:"description",nullable:true, type:"varchar"})
     description: string;
 
+    @Column({ name: 'imagePath', nullable: true, type: 'varchar' })
+    imagePath: string;
+
     @Column({default: 1})
     status: number;
 
