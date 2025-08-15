@@ -62,26 +62,19 @@
      return CategoryMapper.entityToReadCategoryDto(category);
    }
 
-   async update(updateCategoryDto: UpdateCategoryDto): Promise< {
-       message: string; status: HttpStatus , category : ReadCategoryDto | null
-   }> {
-     const foundCategory = await this.categoryRepository.findOneBy({
-       pkCategory: updateCategoryDto.pkCategory,
-     });
+   async update(updateCategoryDto: UpdateCategoryDto): Promise<ReadCategoryDto> {
+    const foundCategory = await this.categoryRepository.findOneBy({
+      pkCategory: updateCategoryDto.pkCategory,
+    });
 
-     if (!foundCategory) {
-       throw new HttpException('Category Not Found', HttpStatus.NOT_FOUND);
-     }
+    if (!foundCategory) {
+      throw new HttpException('Category Not Found', HttpStatus.NOT_FOUND);
+    }
 
-     this.categoryRepository.merge(foundCategory, updateCategoryDto);
-     const updatedCategory = await this.categoryRepository.save(foundCategory);
-     return {
-         message: "SubCategory Updated" ,
-         status: HttpStatus.OK,
-         category: CategoryMapper.entityToReadCategoryDto(updatedCategory)
-     };
-
-   }
+    this.categoryRepository.merge(foundCategory, updateCategoryDto);
+    const updatedCategory = await this.categoryRepository.save(foundCategory);
+    return CategoryMapper.entityToReadCategoryDto(updatedCategory);
+  }
 
    async remove(id : number): Promise<{ message: string; status: HttpStatus }> {
       const categoryToDelete = await this.categoryRepository.findOneBy(

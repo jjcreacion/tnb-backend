@@ -35,6 +35,14 @@ export class CategoryController {
     return this.categoryService.create(createCategoryDto);
   }
 
+  @Patch()
+  async update(
+      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+      updateCategoryDto: UpdateCategoryDto
+  ):Promise<ReadCategoryDto> {
+    return this.categoryService.update(updateCategoryDto);
+  }
+
   @Get('findAll')
   async findAll(): Promise<ReadCategoryDto[]> {
     return this.categoryService.findAll();
@@ -45,20 +53,11 @@ export class CategoryController {
     return this.categoryService.findAllWithChildrens();
   }
 
-
   @Get('findOne/:id')
   async findOne(
       @Param("id") id : number
   ): Promise<ReadCategoryDto> {
     return this.categoryService.findOne(new ValidID(id));
-  }
-
-  @Patch()
-  async update(
-      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-      updateCategoryDto: UpdateCategoryDto
-  ):Promise<{ message: string; status: HttpStatus; category: ReadCategoryDto | null }> {
-    return this.categoryService.update(updateCategoryDto);
   }
 
   @Delete(":id")
