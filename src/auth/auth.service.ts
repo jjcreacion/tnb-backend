@@ -19,168 +19,170 @@ export class AuthService {
   ) {}
 
   async generateToken(payload: any): Promise<string> {
-    console.log(`-----------------------generatetoken`);
     return this.jwtService.sign(payload);
   }
 
   async verifyToken(token: string): Promise<any> {
-    console.log(`------------------------verifyToken`);
     try {
       return await this.jwtService.verify(token);
     } catch (error) {
-      return null; // O puedes lanzar una excepción si prefieres manejarla en el middleware
+      return null; // You can throw an exception if you prefer to handle it in the middleware
     }
   }
 
-  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<{ message: string }> {
+  async forgotPassword(
+    forgotPasswordDto: ForgotPasswordDto,
+  ): Promise<{ message: string }> {
     const { email } = forgotPasswordDto;
-    
-    // Buscar el usuario por email
-    const user = await this.userRepository.findOne({ 
+
+    // Search for user by email
+    const user = await this.userRepository.findOne({
       where: { email },
-      relations: ['person']
+      relations: ['person'],
     });
 
     if (!user) {
-      // Por seguridad, no revelamos si el email existe o no
-      return { message: 'Si el email existe, recibirás instrucciones para restablecer tu contraseña' };
+      // For security reasons, we don't reveal whether the email exists or not
+      return {
+        message:
+          'If the email exists, you will receive instructions to reset your password',
+      };
     }
 
     try {
-      // Generar token temporal para reset (válido por 1 hora)
+      // Generate temporary reset token (valid for 1 hour)
       const resetToken = this.jwtService.sign(
-        { 
-          sub: user.pkUser, 
-          email: user.email, 
-          type: 'password-reset' 
+        {
+          sub: user.pkUser,
+          email: user.email,
+          type: 'password-reset',
         },
-        { expiresIn: '1h' }
+        { expiresIn: '1h' },
       );
 
-      // Enviar email con el token
-      const userName = user.person ? `${user.person.firstName} ${user.person.lastName}`.trim() : undefined;
-      
+      // Send email with token
+      const userName = user.person
+        ? `${user.person.firstName} ${user.person.lastName}`.trim()
+        : undefined;
+
       await this.mailerService.sendPasswordReset({
         email: user.email,
         token: resetToken,
         userName: userName || user.email,
       });
 
-      return { message: 'Si el email existe, recibirás instrucciones para restablecer tu contraseña' };
+      return {
+        message:
+          'If the email exists, you will receive instructions to reset your password',
+      };
     } catch (error) {
-      console.error('Error en forgot password:', error);
+      console.error('Error in forgot password:', error);
       throw new HttpException(
-        'Error interno del servidor',
+        'Internal server error',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
+  async resetPassword(
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<{ message: string }> {
     const { token, password } = resetPasswordDto;
 
     try {
-      // Verificar y decodificar el token
+      // Verify and decode the token
       const decoded = this.jwtService.verify(token);
-      
-      // Verificar que es un token de reset de contraseña
+
+      // Verify that it's a password reset token
       if (decoded.type !== 'password-reset') {
-        throw new HttpException(
-          'Token inválido',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);
       }
 
-      // Buscar el usuario
-      const user = await this.userRepository.findOne({ 
-        where: { pkUser: decoded.sub } 
+      // Find the user
+      const user = await this.userRepository.findOne({
+        where: { pkUser: decoded.sub },
       });
 
       if (!user) {
-        throw new HttpException(
-          'Usuario no encontrado',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
 
-      // Verificar que el email del token coincide con el del usuario
+      // Verify that the token email matches the user's email
       if (user.email !== decoded.email) {
-        throw new HttpException(
-          'Token inválido',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST);
       }
 
-      // Generar hash de la nueva contraseña
+      // Generate hash for new password
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      // Actualizar la contraseña en la base de datos
+      // Update password in database
       await this.userRepository.update(
         { pkUser: user.pkUser },
-        { password: hashedPassword }
+        { password: hashedPassword },
       );
 
-      return { message: 'Contraseña restablecida exitosamente' };
-
+      return { message: 'Password reset successfully' };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       }
-      
-      // El token probablemente expiró o es inválido
+
+      // Token probably expired or is invalid
       throw new HttpException(
-        'Token inválido o expirado',
+        'Invalid or expired token',
         HttpStatus.BAD_REQUEST,
       );
     }
   }
 
-  async changePassword(changePasswordDto: ChangePasswordDto): Promise<{ message: string }> {
+  async changePassword(
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<{ message: string }> {
     const { pkUser, currentPassword, newPassword } = changePasswordDto;
 
-    // Buscar el usuario
-    const user = await this.userRepository.findOne({ 
-      where: { pkUser } 
+    // Find the user
+    const user = await this.userRepository.findOne({
+      where: { pkUser },
     });
 
     if (!user) {
-      throw new HttpException(
-        'Usuario no encontrado',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // Verificar la contraseña actual
-    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
-    
+    // Verify current password
+    const isCurrentPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
+
     if (!isCurrentPasswordValid) {
       throw new HttpException(
-        'Contraseña actual incorrecta',
+        'Current password is incorrect',
         HttpStatus.UNAUTHORIZED,
       );
     }
 
-    // Verificar que la nueva contraseña no sea igual a la actual
+    // Verify that new password is different from current one
     const isSamePassword = await bcrypt.compare(newPassword, user.password);
-    
+
     if (isSamePassword) {
       throw new HttpException(
-        'La nueva contraseña debe ser diferente a la actual',
+        'New password must be different from current password',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    // Generar hash de la nueva contraseña
+    // Generate hash for new password
     const salt = await bcrypt.genSalt();
     const hashedNewPassword = await bcrypt.hash(newPassword, salt);
 
-    // Actualizar la contraseña en la base de datos
+    // Update password in database
     await this.userRepository.update(
       { pkUser },
-      { password: hashedNewPassword }
+      { password: hashedNewPassword },
     );
 
-    return { message: 'Contraseña cambiada exitosamente' };
+    return { message: 'Password changed successfully' };
   }
 }

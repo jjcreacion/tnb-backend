@@ -1,10 +1,10 @@
 import {
-    Body,
-    Controller,
-    HttpCode,
-    HttpStatus,
-    Post,
-    ValidationPipe,
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
@@ -22,26 +22,26 @@ export class AuthController {
   @Post('forgot-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Solicitar restablecimiento de contraseña',
+    summary: 'Request password reset',
     description:
-      'Envía un email con instrucciones para restablecer la contraseña',
+      'Send an email with instructions to reset the password',
   })
   @ApiResponse({
     status: 200,
-    description: 'Email enviado exitosamente (si el email existe)',
+    description: 'Email sent successfully (if the email exists)',
     schema: {
       properties: {
         message: {
           type: 'string',
           example:
-            'Si el email existe, recibirás instrucciones para restablecer tu contraseña',
+            'If the email exists, you will receive instructions to reset your password',
         },
       },
     },
   })
   @ApiResponse({
     status: 500,
-    description: 'Error interno del servidor',
+    description: 'Internal server error',
   })
   async forgotPassword(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -54,29 +54,29 @@ export class AuthController {
   @Post('reset-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Restablecer contraseña con token',
+    summary: 'Reset password with token',
     description:
-      'Usa el token recibido por email para establecer una nueva contraseña',
+      'Use the token received by email to set a new password',
   })
   @ApiResponse({
     status: 200,
-    description: 'Contraseña restablecida exitosamente',
+    description: 'Password reset successfully',
     schema: {
       properties: {
         message: {
           type: 'string',
-          example: 'Contraseña restablecida exitosamente',
+          example: 'Password reset successfully',
         },
       },
     },
   })
   @ApiResponse({
     status: 400,
-    description: 'Token inválido o expirado',
+    description: 'Invalid or expired token',
   })
   @ApiResponse({
     status: 404,
-    description: 'Usuario no encontrado',
+    description: 'User not found',
   })
   async resetPassword(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -88,33 +88,33 @@ export class AuthController {
   @Post('change-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Cambiar contraseña actual',
+    summary: 'Change current password',
     description:
-      'Permite al usuario cambiar su contraseña proporcionando la contraseña actual',
+      'Allows the user to change their password by providing the current password',
   })
   @ApiResponse({
     status: 200,
-    description: 'Contraseña cambiada exitosamente',
+    description: 'Password changed successfully',
     schema: {
       properties: {
         message: {
           type: 'string',
-          example: 'Contraseña cambiada exitosamente',
+          example: 'Password changed successfully',
         },
       },
     },
   })
   @ApiResponse({
     status: 400,
-    description: 'La nueva contraseña debe ser diferente a la actual',
+    description: 'New password must be different from current password',
   })
   @ApiResponse({
     status: 401,
-    description: 'Contraseña actual incorrecta',
+    description: 'Current password is incorrect',
   })
   @ApiResponse({
     status: 404,
-    description: 'Usuario no encontrado',
+    description: 'User not found',
   })
   async changePassword(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))

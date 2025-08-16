@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MailerModule } from '../mailer/mailer.module';
+import { UserEntity } from '../user/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserEntity } from '../user/entities/user.entity';
-import { MailerModule } from '../mailer/mailer.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'your-secret-key',
+      secret: process.env.JWT_SECRET || 'secret-key-#@#$**@',
       signOptions: { expiresIn: '24h' }, // Token por defecto para login
     }),
     MailerModule,

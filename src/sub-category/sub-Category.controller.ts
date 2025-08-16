@@ -1,9 +1,9 @@
-import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe} from "@nestjs/common";
-import {CreateSubCategoryDto} from "@/sub-category/dto/createSubCategory.dto";
-import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
-import {ValidID} from "@/utils/validID";
-import {UpdateSubCategoryDto} from "@/sub-category/dto/updateSubCategory.dto";
-import {SubCategoryService} from "@/sub-category/sub-Category.service";
+import { CreateSubCategoryDto } from "@/sub-category/dto/createSubCategory.dto";
+import { ReadSubCategoryDto } from "@/sub-category/dto/readSubCategory.dto";
+import { UpdateSubCategoryDto } from "@/sub-category/dto/updateSubCategory.dto";
+import { SubCategoryService } from "@/sub-category/sub-Category.service";
+import { ValidID } from "@/utils/validID";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from "@nestjs/common";
 
 
 @Controller('subCategory')
@@ -23,6 +23,8 @@ export class SubCategoryController {
         return this.subCategoryService.findAll();
     }
 
+    // @Roles(Role.CLIENT)
+    // @Public()
     @Get("alldata")
     async findAllWithCategoryInfo(): Promise<ReadSubCategoryDto[]> {
         return this.subCategoryService.findAllWithCategory();

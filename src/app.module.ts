@@ -16,7 +16,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import * as process from "process";
 import { AuthModule } from './auth/auth.module';
-import { AuthGuard } from './auth/guard/auth.guard';
 import { RolesGuard } from './auth/guard/roles.guard';
 import { CategoryModule } from './category/category.module';
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
@@ -32,6 +31,7 @@ import { ProfileModule } from './profile/profile.module';
 import { ServicesTypeModule } from './services-type/services-type.module';
 import { StatusInfoModule } from './status-info/status-info.module';
 import { UserModule } from './user/user.module';
+import { AuthGuard } from './auth/guard/auth.guard';
 
 @Module({
   imports: [
@@ -87,13 +87,17 @@ import { UserModule } from './user/user.module';
     PersonNotesModule
   ],
   controllers: [],
-  providers: [{
+  providers: [
+    {
     provide: APP_GUARD,
     useClass: AuthGuard,
-    }, {
+    }
+    ,
+     {
     provide: APP_GUARD,
     useClass: RolesGuard,
-    }],
+    }
+  ],
 })
 
 /*export class AppModule implements NestModule {
