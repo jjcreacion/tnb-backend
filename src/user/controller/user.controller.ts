@@ -18,16 +18,15 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
-import { Roles } from '../../auth/decorators/role.decorator';
 import { Public } from '../../auth/guard/public.decorators';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { LoginWithEmailDto } from '../dto/loginWithEmail.dto';
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 import { UploadProfileImageDto } from '../dto/UploadProfileImageDto';
 import { VerifyEmailDto } from '../dto/verifyEmail.dto';
-import { Role } from '../enums/role.enum';
 import { UserService } from '../service/user.service';
 
+// @Roles(Role.ADMIN)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -43,7 +42,6 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Lista Completa de Usuarios ' })
-  @Roles(Role.CLIENT)
   // @Public()
   @Get('findAll')
   findAll() {
@@ -74,7 +72,7 @@ export class UserController {
   @Post('loginWithEmail')
   async login(
     @Body(new ValidationPipe()) loginDto: LoginWithEmailDto,
-  ): Promise<{ accessToken: string; pkUser: number }> {
+  ): Promise<{ accessToken: string; pkUser: number; roles?: string[] }> {
     const user = await this.userService.findByEmail(loginDto.email);
 
     if (!user) {
@@ -97,7 +95,13 @@ export class UserController {
     }
 
     const accessToken = await this.userService.generateJwt(user);
-    return { accessToken, pkUser: user.pkUser };
+
+    // Si el usuario tiene roles, inclúyelos en la respuesta
+    return {
+      accessToken,
+      pkUser: user.pkUser,
+      roles: user.roles || [], // Ajusta según tu estructura de datos
+    };
   }
 
   @Public()

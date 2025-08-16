@@ -5,7 +5,7 @@ import { SubCategoryService } from "@/sub-category/sub-Category.service";
 import { ValidID } from "@/utils/validID";
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from "@nestjs/common";
 
-
+// @Roles(Role.CLIENT) // Aplica a todos los métodos del controlador
 @Controller('subCategory')
 export class SubCategoryController {
 
@@ -23,7 +23,6 @@ export class SubCategoryController {
         return this.subCategoryService.findAll();
     }
 
-    // @Roles(Role.CLIENT)
     // @Public()
     @Get("alldata")
     async findAllWithCategoryInfo(): Promise<ReadSubCategoryDto[]> {
