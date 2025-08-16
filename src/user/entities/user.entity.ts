@@ -2,12 +2,12 @@ import { RequestEntity } from '@/app-mobile/service-requests/entities/service-re
 import { PersonEntity } from '@/person/entities/person.entity';
 import { ProfileEntity } from '@/profile/entities/profile.entity';
 import {
-    Column,
-    Entity,
-    JoinColumn,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from '../enums/role.enum';
 

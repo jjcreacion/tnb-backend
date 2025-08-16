@@ -129,6 +129,10 @@ export class UserService {
 
   async findByEmail(email: string): Promise<UserEntity | null> {
     return this.userRepository.findOne({ where: { email } });
+    //    return this.userRepository.findOne({
+    //   where: { email },
+    //   select: ['pkUser', 'email', 'password', 'roles'] //
+    // });
   }
 
   async validatePassword(
@@ -139,7 +143,7 @@ export class UserService {
   }
 
   async generateJwt(user: UserEntity): Promise<string> {
-    const payload = { sub: user.pkUser, email: user.email , roles: user.roles };
+    const payload = { sub: user.pkUser, email: user.email, roles: user.roles };
     return this.jwtService.signAsync(payload);
   }
 
