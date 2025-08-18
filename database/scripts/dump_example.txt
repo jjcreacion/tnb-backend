@@ -74,7 +74,3 @@ Password: <your-pass>
   --skip-lock-tables \
   --set-gtid-purged=OFF \
   tnb-db-develop > ~/Downloads/tnb-db-develop_data_only_$(date +%Y%m%d_%H%M%S).sql
-
-
-  
-

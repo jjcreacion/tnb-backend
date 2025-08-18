@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for macos13 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
 --
--- Host: localhost    Database: tnb-db-develop
+-- Host:<VPS-IP>    Database: tnb-db-develop
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.42-0ubuntu0.24.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,16 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `tnb-db-develop`
+--
+
+/*!40000 DROP DATABASE IF EXISTS `tnb-db-develop`*/;
+
+-- CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tnb-db-develop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `tnb-db-develop`;
 
 --
 -- Table structure for table `callcenterqueue`
@@ -37,6 +47,28 @@ CREATE TABLE `callcenterqueue` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `campaign_interests`
+--
+
+DROP TABLE IF EXISTS `campaign_interests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `campaign_interests` (
+  `pk_interests` int NOT NULL AUTO_INCREMENT,
+  `campaign_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `expressed_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text,
+  PRIMARY KEY (`pk_interests`),
+  KEY `campaign_interests_mobile_campaigns_FK` (`campaign_id`),
+  KEY `campaign_interests_users_FK` (`user_id`),
+  CONSTRAINT `campaign_interests_mobile_campaigns_FK` FOREIGN KEY (`campaign_id`) REFERENCES `mobile_campaigns` (`pk_campaigns`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `campaign_interests_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`pk_user`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `category`
 --
 
@@ -51,7 +83,7 @@ CREATE TABLE `category` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_category`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +176,7 @@ CREATE TABLE `contact` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_contact`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,6 +194,26 @@ CREATE TABLE `countries` (
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_country`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `country_city`
+--
+
+DROP TABLE IF EXISTS `country_city`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `country_city` (
+  `pk_city` int NOT NULL AUTO_INCREMENT,
+  `fk_state` int NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_city`) USING BTREE,
+  KEY `fk_localities_state` (`fk_state`),
+  CONSTRAINT `fk_localities_state` FOREIGN KEY (`fk_state`) REFERENCES `country_states` (`pk_state`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,29 +281,6 @@ CREATE TABLE `leads` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `localities`
---
-
-DROP TABLE IF EXISTS `localities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `localities` (
-  `pk_locality` int NOT NULL AUTO_INCREMENT,
-  `fk_locality_type` int NOT NULL,
-  `fk_state` int NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` tinyint(1) DEFAULT '1',
-  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`pk_locality`) USING BTREE,
-  KEY `fk_localities_state` (`fk_state`),
-  KEY `fk_localities_type` (`fk_locality_type`),
-  CONSTRAINT `fk_localities_state` FOREIGN KEY (`fk_state`) REFERENCES `country_states` (`pk_state`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_localities_type` FOREIGN KEY (`fk_locality_type`) REFERENCES `locality_type` (`pk_type`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `locality_type`
 --
 
@@ -313,6 +342,27 @@ CREATE TABLE `menu_actions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `mobile_campaigns`
+--
+
+DROP TABLE IF EXISTS `mobile_campaigns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `mobile_campaigns` (
+  `pk_campaigns` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `description` text,
+  `image_url` text,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_campaigns`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `mobile_service_requests`
 --
 
@@ -333,7 +383,7 @@ CREATE TABLE `mobile_service_requests` (
   PRIMARY KEY (`request_id`),
   KEY `fk_user` (`fk_user`),
   CONSTRAINT `mobile_service_requests_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `users` (`pk_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -353,7 +403,7 @@ CREATE TABLE `person` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_person`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,10 +419,15 @@ CREATE TABLE `person_address` (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `is_primary` tinyint(1) DEFAULT NULL,
   `status` int NOT NULL DEFAULT '1',
+  `latitude` decimal(10,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
+  `country` int DEFAULT NULL,
+  `state` int DEFAULT NULL,
+  `city` int DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_address`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -411,7 +466,7 @@ CREATE TABLE `person_emails` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -467,6 +522,29 @@ CREATE TABLE `person_insurance_claims` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `person_notes`
+--
+
+DROP TABLE IF EXISTS `person_notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `person_notes` (
+  `pk_note` int NOT NULL AUTO_INCREMENT,
+  `fk_contact` int DEFAULT NULL,
+  `fk_user` int DEFAULT '103' COMMENT '103 es un ID para un usuario autenticado (simulacion de autenticacion)',
+  `note` varchar(1024) DEFAULT NULL,
+  `is_priority` tinyint(1) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pk_note`),
+  KEY `person_notes_contact_FK` (`fk_contact`),
+  KEY `person_notes_users_FK` (`fk_user`),
+  CONSTRAINT `person_notes_contact_FK` FOREIGN KEY (`fk_contact`) REFERENCES `contact` (`pk_contact`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `person_notes_users_FK` FOREIGN KEY (`fk_user`) REFERENCES `users` (`pk_user`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `person_phones`
 --
 
@@ -482,7 +560,7 @@ CREATE TABLE `person_phones` (
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -611,15 +689,15 @@ DROP TABLE IF EXISTS `request_images`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request_images` (
   `image_id` int NOT NULL AUTO_INCREMENT,
-  `fk_request` int DEFAULT NULL,
+  `fk_request` int NOT NULL,
   `url_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '1',
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`image_id`),
-  UNIQUE KEY `REL_a483806960918e167d2252e7fb` (`fk_request`),
-  CONSTRAINT `FK_a483806960918e167d2252e7fb8` FOREIGN KEY (`fk_request`) REFERENCES `requests` (`request_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `request_images_mobile_service_requests_FK` (`fk_request`),
+  CONSTRAINT `request_images_mobile_service_requests_FK` FOREIGN KEY (`fk_request`) REFERENCES `mobile_service_requests` (`request_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -899,7 +977,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `pk_user` int NOT NULL AUTO_INCREMENT,
   `fk_person` int DEFAULT NULL,
-  `fk_profile` int DEFAULT '1',
+  `fk_profile` int DEFAULT '1' COMMENT 'Este atributo deberia eliminarse:\nLa relacion es Uno a Uno: Un User tiene Un Profile\ny Un Profile pertenece a un User; para que se cumpla esa premisa, el `fk` de User debe ir en `Profile`',
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` int NOT NULL DEFAULT '1',
   `validate_email` int NOT NULL DEFAULT '0',
@@ -907,18 +985,19 @@ CREATE TABLE `users` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `img_profile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`pk_user`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping events for database 'tnb_test'
+-- Dumping events for database 'tnb-db-develop'
 --
 
 --
--- Dumping routines for database 'tnb_test'
+-- Dumping routines for database 'tnb-db-develop'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -930,4 +1009,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-06 19:22:32
+-- Dump completed on 2025-08-01 16:00:57

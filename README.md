@@ -103,10 +103,15 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 -- Create the `.env` file in the project's root directory
 Example:
 ```env
-PORT=3000
+PORT=3000 # port of the application (backend)
 DATABASE_HOST=localhost
 DATABASE_PORT=3306
 DATABASE_USERNAME=root
 DATABASE_PASSWORD=
-DATABASE_SCHEMA=tnb_db_develop
+DATABASE_SCHEMA=tnb-db-develop
+JWT_SECRET=
+FRONTEND_URL=   #https://ip:port
+CORS_ORIGINS=   #https://ip:port
+# List of allowed origins for CORS, separated by commas
+# Example: CORS_ORIGINS=https://example.com,http://localhost:3000
 ```

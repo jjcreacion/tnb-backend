@@ -1,40 +1,44 @@
-import { TypeOrmModule  } from '@nestjs/typeorm'
-import { ConfigModule, ConfigService  } from '@nestjs/config';
-import {envValidationSchema} from './env.schema'
-import * as process from "process";
-import {JwtModule} from "@nestjs/jwt";
-import {ThrottlerModule, minutes} from '@nestjs/throttler'
-import {Module} from "@nestjs/common";
-import { UserModule } from './user/user.module';
+import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-interest.module';
+import { ServiceRequestModule } from '@/app-mobile/service-requests/service-request.module';
+import { ClientTypeModule } from '@/client-type/client-type.module';
+import { CountryStatesModule } from '@/country-states/country-states.module';
+import { CountryModule } from '@/country/country.module';
+import { LocalityModule } from '@/locality/locality.module';
+import { ServiceAddonsModule } from '@/service-addons/service-addons.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { ThrottlerModule, minutes } from '@nestjs/throttler';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
+import * as process from 'process';
+import { MobileCampaignModule } from './app-mobile/campaigns/campaigns.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthGuard } from './auth/guard/auth.guard';
+import { RolesGuard } from './auth/guard/roles.guard';
+import { CategoryModule } from './category/category.module';
+import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
+import { ContactModule } from './contact/contact.module';
+import { envValidationSchema } from './env.schema';
+import { MailerModule } from './mailer/mailer.module';
+import { PersonAddressModule } from './person-address/person-address.module';
+import { PersonEmailsModule } from './person-emails/person-emails.module';
+import { PersonNotesModule } from './person-notes/person-notes.module';
+import { PersonPhonesModule } from './person-phones/person-phones.module';
 import { PersonModule } from './person/person.module';
 import { ProfileModule } from './profile/profile.module';
-import { CategoryModule } from './category/category.module';
 import { ServicesTypeModule } from './services-type/services-type.module';
-import {SubCategoryModule} from "@/sub-category/sub-category.module";
-import {ServiceAddonsModule} from "@/service-addons/service-addons.module";
-import {ClientTypeModule} from "@/client-type/client-type.module";
-import {CountryModule} from "@/country/country.module";
-import {CountryStatesModule} from "@/country-states/country-states.module";
-import {LocalityModule} from "@/locality/locality.module";
-import { ServiceRequestModule } from "@/app-mobile/service-requests/service-request.module";
-import { MobileCampaignModule } from './app-mobile/campaigns/campaigns.module';
-import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
-import { PersonEmailsModule } from './person-emails/person-emails.module';
-import { PersonPhonesModule } from './person-phones/person-phones.module';
-import { PersonAddressModule } from './person-address/person-address.module';
-import { ContactModule } from './contact/contact.module';
 import { StatusInfoModule } from './status-info/status-info.module';
-import { MailerModule } from './mailer/mailer.module';
-import { PersonNotesModule } from './person-notes/person-notes.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
-import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-interest.module'; 
+import { SubCategoryModule } from './sub-category/sub-category.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'var', 'www', 'images'), 
-      serveRoot: '/images', 
+      rootPath: join(__dirname, '..', '..', 'var', 'www', 'images'),
+      serveRoot: '/images',
     }),
     ConfigModule.forRoot({
       validationSchema: envValidationSchema,
@@ -46,11 +50,11 @@ import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql',
         host: process.env.DATABASE_HOST,
-        port: configService.get<number>('DATABASE_PORT'), 
+        port: configService.get<number>('DATABASE_PORT'),
         username: process.env.DATABASE_USERNAME,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_SCHEMA,
-        entities: [__dirname  + "/**/*.entity{.ts,.js}"], 
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: false,
       }),
     }),
@@ -58,10 +62,13 @@ import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
-    ThrottlerModule.forRoot([{
-      ttl: minutes(1),
-      limit: 10,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: minutes(1),
+        limit: 10,
+      },
+    ]),
+    AuthModule,
     UserModule,
     PersonModule,
     ProfileModule,
@@ -83,10 +90,19 @@ import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-
     MailerModule,
     PersonNotesModule,
     MobileCampaignModule,
-    CampaignInterestModule
+    CampaignInterestModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 
 /*export class AppModule implements NestModule {
@@ -94,6 +110,4 @@ import { CampaignInterestModule } from '@/app-mobile/campaign-interest/campaign-
     consumer.apply(AuthMiddleware).forRoutes("*")
   }
 }*/
-export class AppModule   {
-
-}
+export class AppModule {}
