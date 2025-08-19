@@ -7,7 +7,6 @@ import { LocalityModule } from '@/locality/locality.module';
 import { ServiceAddonsModule } from '@/service-addons/service-addons.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule, minutes } from '@nestjs/throttler';
@@ -16,8 +15,6 @@ import { join } from 'path';
 import * as process from 'process';
 import { MobileCampaignModule } from './app-mobile/campaigns/campaigns.module';
 import { AuthModule } from './auth/auth.module';
-import { AuthGuard } from './auth/guard/auth.guard';
-import { RolesGuard } from './auth/guard/roles.guard';
 import { CategoryModule } from './category/category.module';
 import { ClientTypeQuestionsModule } from './client-type-questions/client-type-questions.module';
 import { ContactModule } from './contact/contact.module';
@@ -94,14 +91,14 @@ import { UserModule } from './user/user.module';
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard,
+    // },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
   ],
 })
 
