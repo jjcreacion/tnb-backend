@@ -1,4 +1,6 @@
 import { RequestEntity } from '../entities/service-request.entity';
+import { CategoryEntity } from '@/category/entities/category.entity';
+import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
 import { CreateRequestDto } from '../dto/create-request.dto';
 import { ReadRequestDto } from '../dto/read-request.dto';
 import { UpdateRequestDto } from '../dto/update-request.dt';
@@ -8,7 +10,8 @@ export class RequestMapper {
   static createRequestDtoToEntity(dto: CreateRequestDto): RequestEntity {
     const entity = new RequestEntity();
     entity.fkUser = { pkUser: dto.fkUser } as UserEntity;
-    entity.serviceType = dto.serviceType;
+    entity.fkCategory = { pkCategory: dto.fkCategory } as CategoryEntity;
+    entity.fkSubCategory = { pkSubCategory: dto.fkSubCategory } as SubCategoryEntity;
     entity.serviceDescription = dto.serviceDescription;
     entity.address = dto.address;
     entity.latitude = dto.latitude;
@@ -20,7 +23,8 @@ export class RequestMapper {
   static entityToReadRequestDto(entity: RequestEntity): ReadRequestDto {
     const dto = new ReadRequestDto();
     dto.requestId = entity.requestId;
-    dto.serviceType = entity.serviceType;
+    dto.fkCategory = { pkCategory: dto.fkCategory } as any;
+    dto.fkSubCategory = { pkSubCategory: dto.fkSubCategory } as any;
     dto.serviceDescription = entity.serviceDescription;
     dto.address = entity.address;
     dto.latitude = entity.latitude;
@@ -38,7 +42,8 @@ export class RequestMapper {
     if (dto.fkUser) {
       entity.fkUser = { user_id: dto.fkUser } as any;
     }
-    entity.serviceType = dto.serviceType;
+    entity.fkCategory = { pkCategory: dto.fkCategory } as any;
+    entity.fkSubCategory = { pkSubCategory: dto.fkSubCategory } as any;
     entity.serviceDescription = dto.serviceDescription;
     entity.address = dto.address;
     entity.latitude = dto.latitude;

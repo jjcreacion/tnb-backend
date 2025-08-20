@@ -1,9 +1,12 @@
 import {ReadUserDto} from "@/user/dto/readUser.dto";
+import { ReadCategoryDto } from "@/category/dto/read-category.dto";
+import { ReadSubCategoryDto } from "@/sub-category/dto/read-sub-category.dto";
 
 export class ReadRequestDto {
     requestId: number;
-    serviceType: number;
     serviceDescription: string;
+    fkCategory: ReadCategoryDto;
+    fkSubCategory?: ReadSubCategoryDto; 
     address: string;
     latitude: number;
     longitude: number;

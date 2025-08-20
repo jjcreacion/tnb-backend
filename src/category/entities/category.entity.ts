@@ -1,5 +1,6 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {SubCategoryEntity} from "@/sub-category/entity/sub-category.entity";
+import { RequestEntity } from '@/app-mobile/service-requests/entities/service-request.entity';
 
 @Entity('category')
 export class CategoryEntity {
@@ -27,4 +28,7 @@ export class CategoryEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
+
+    @OneToMany(() => RequestEntity, (request) => request.fkCategory)
+    serviceRequests: RequestEntity[];
 }

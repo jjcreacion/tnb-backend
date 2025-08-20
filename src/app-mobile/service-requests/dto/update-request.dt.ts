@@ -15,7 +15,12 @@ export class UpdateRequestDto {
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  serviceType: number;
+  fkCategory: number;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty()
+  fkSubCategory: number;
 
   @IsOptional()
   @IsString()

@@ -8,9 +8,13 @@ export class CreateRequestDto {
   fkUser: number;
 
   @IsNumber({}, { message: 'User ID must be a number' })
-  @IsNotEmpty({ message: 'Service type is required' })
+  @IsNotEmpty({ message: 'Category is required' })
   @ApiProperty()
-  serviceType: number;
+  fkCategory: number;
+
+  @IsOptional()
+  @ApiProperty()
+  fkSubCategory: number;
 
   @IsOptional()
   @IsString({ message: 'Service description must be a string' })

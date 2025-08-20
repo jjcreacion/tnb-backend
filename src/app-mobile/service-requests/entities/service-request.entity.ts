@@ -9,6 +9,8 @@ import {
     OneToMany
   } from 'typeorm';
   import { UserEntity } from '@/user/entities/user.entity'; 
+  import { CategoryEntity } from '@/category/entities/category.entity';
+  import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
   import { RequestImageEntity } from '@/request-images/entities/request-image.entity'; 
   
   @Entity('mobile_service_requests')
@@ -20,10 +22,14 @@ import {
     @JoinColumn({ name: 'fk_user' })
     fkUser: UserEntity;
   
-    // CORREGIDO: de decimal a int
-    @Column({ name: 'service_type', type: 'int' })
-    serviceType: number;
-  
+    @ManyToOne(() => CategoryEntity, (category) => category.serviceRequests)
+    @JoinColumn({ name: 'fk_user' })
+    fkCategory: CategoryEntity;
+
+    @ManyToOne(() => SubCategoryEntity, (subCategory) => subCategory.serviceRequests)
+    @JoinColumn({ name: 'fk_user' })
+    fkSubCategory: SubCategoryEntity;
+
     @Column({ name: 'service_description', type: 'text', nullable: true })
     serviceDescription: string;
   

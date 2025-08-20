@@ -3,6 +3,7 @@ import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 import { CategoryEntity } from "@/category/entities/category.entity";
 import {ServicesTypeEntity} from "@/services-type/entity/services-type.entity";
 import {ClientTypeEntity} from "@/client-type/entities/clientType.entity";
+import { RequestEntity } from '@/app-mobile/service-requests/entities/service-request.entity';
 
 @Entity('sub_category')
 export class SubCategoryEntity {
@@ -45,5 +46,8 @@ export class SubCategoryEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
+
+    @OneToMany(() => RequestEntity, (request) => request.fkSubCategory)
+    serviceRequests: RequestEntity[];
 
 }
