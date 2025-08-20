@@ -22,6 +22,11 @@ export class SubCategoryController {
     return this.subCategoryService.findAll();
   }
 
+  @Get("by-category/:id")
+  async findByCategoryId(@Param("id", ParseIntPipe) id: number): Promise<ReadSubCategoryDto[]> {
+    return this.subCategoryService.findByCategoryId(id);
+  }
+
   @Get("find")
   async find ():Promise<ReadSubCategoryDto[]>{
     return this.subCategoryService.find();

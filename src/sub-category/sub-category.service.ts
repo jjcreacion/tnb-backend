@@ -62,6 +62,19 @@ export class SubCategoryService {
      return SubCategoryMapper.entityToReadServiceDto(entityWithCategory);
    }
    
+   async findByCategoryId(categoryId: number): Promise<ReadSubCategoryDto[]> {
+    const subCategories = await this.subCategoryRepository.find({
+      where: { category: { pkCategory: categoryId } }
+    });
+
+    if (!subCategories.length) {
+      throw new HttpException(`No subcategories found for category with ID ${categoryId}`, HttpStatus.NOT_FOUND);
+    }
+  
+    return subCategories.map((subCate) =>
+      SubCategoryMapper.entityToReadServiceDto(subCate),
+    );
+  }
 
   async findOne (validId : ValidID): Promise<ReadSubCategoryDto>{
     const entity = await this.subCategoryRepository.findOne({
