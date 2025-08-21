@@ -23,11 +23,11 @@ import {
     fkUser: UserEntity;
   
     @ManyToOne(() => CategoryEntity, (category) => category.serviceRequests)
-    @JoinColumn({ name: 'fk_user' })
+    @JoinColumn({ name: 'fk_category' })
     fkCategory: CategoryEntity;
 
     @ManyToOne(() => SubCategoryEntity, (subCategory) => subCategory.serviceRequests)
-    @JoinColumn({ name: 'fk_user' })
+    @JoinColumn({ name: 'fk_sub_category' })
     fkSubCategory: SubCategoryEntity;
 
     @Column({ name: 'service_description', type: 'text', nullable: true })

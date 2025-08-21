@@ -23,8 +23,8 @@ export class RequestMapper {
   static entityToReadRequestDto(entity: RequestEntity): ReadRequestDto {
     const dto = new ReadRequestDto();
     dto.requestId = entity.requestId;
-    dto.fkCategory = { pkCategory: dto.fkCategory } as any;
-    dto.fkSubCategory = { pkSubCategory: dto.fkSubCategory } as any;
+    dto.fkCategory = entity.fkCategory as any;
+    dto.fkSubCategory = entity.fkSubCategory as any;
     dto.serviceDescription = entity.serviceDescription;
     dto.address = entity.address;
     dto.latitude = entity.latitude;
