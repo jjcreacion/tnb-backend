@@ -1,5 +1,5 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {PersonEntity} from "@/person/entities/person.entity";
+import { PersonEntity } from "@/person/entities/person.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('person_address')
 export class PersonAddressEntity {
@@ -12,6 +12,9 @@ export class PersonAddressEntity {
 
     @Column({name:"address",nullable:false, type:"varchar"})
     address: string;
+
+    @Column({name:"address_line_2", nullable:true, type:"varchar", length:255})
+    addressLine2?: string;
 
     @Column({name:"is_primary",default: 0})
     isPrimary: number;
