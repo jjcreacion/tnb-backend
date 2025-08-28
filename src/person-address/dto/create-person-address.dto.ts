@@ -1,7 +1,7 @@
 import { OmitType } from '@nestjs/mapped-types';
-import { PersonAddressEntity } from '../entities/person-address.entity';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { PersonAddressEntity } from '../entities/person-address.entity';
 
 export class CreatePersonAddressDto extends OmitType(PersonAddressEntity, [
     'pkAddress', 'status', 'createdAt', 'updatedAt', 'person',
@@ -15,6 +15,11 @@ export class CreatePersonAddressDto extends OmitType(PersonAddressEntity, [
     @IsNotEmpty()
     @ApiProperty()
     address: string;
+
+    @IsString()
+    @IsOptional()
+    @ApiProperty({ required: false })
+    addressLine2?: string;
 
     @ApiProperty()
     @IsNumber()
