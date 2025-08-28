@@ -1,13 +1,12 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {ServicesEntity} from "@/services/entity/services.entity";
-import {SubCategoryEntity} from "@/sub-category/entity/subCategory.entity";
+import {SubCategoryEntity} from "@/sub-category/entity/sub-category.entity";
+import { RequestEntity } from '@/app-mobile/service-requests/entities/service-request.entity';
 
 @Entity('category')
 export class CategoryEntity {
 
     @PrimaryGeneratedColumn({name: 'pk_category'})
     pkCategory: number;
-
 
     @OneToMany(() => SubCategoryEntity, (subCategory) => subCategory.category)
     subCategory: SubCategoryEntity | SubCategoryEntity[];
@@ -18,6 +17,9 @@ export class CategoryEntity {
     @Column({name:"description",nullable:true, type:"varchar"})
     description: string;
 
+    @Column({ name: 'imagePath', nullable: true, type: 'varchar' })
+    imagePath: string;
+
     @Column({default: 1})
     status: number;
 
@@ -26,4 +28,7 @@ export class CategoryEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
+
+    @OneToMany(() => RequestEntity, (request) => request.fkCategory)
+    serviceRequests: RequestEntity[];
 }

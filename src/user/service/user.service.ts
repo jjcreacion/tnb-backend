@@ -78,7 +78,6 @@ export class UserService {
       throw new HttpException('User Not Found', HttpStatus.NOT_FOUND);
     }
     const readUserDto = UserMapper.entityToReadUserDto(userEntity);
-    console.log(readUserDto, '--------readUserDto in findOneBy');
     return readUserDto;
   }
 
@@ -161,9 +160,20 @@ export class UserService {
     await this.userRepository.save(user);
   }
 
-  async updateUser(
-    updateUserProfileDto: UpdateUserProfileDto,
-  ): Promise<ReadUserDto> {
+  async resetPassword(email: string, newPasswordPlain: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado.');
+    }
+
+    const salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(newPasswordPlain, salt);
+
+    await this.userRepository.save(user);
+  }
+  
+  async updateUser(updateUserProfileDto: UpdateUserProfileDto ): Promise<ReadUserDto> {
     const { pkUser, email, person } = updateUserProfileDto;
 
     const user = await this.userRepository.findOne({

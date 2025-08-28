@@ -7,8 +7,8 @@
  import {CreateCategoryDto} from "@/category/dto/create-category.dto";
  import {ReadCategoryDto} from "@/category/dto/read-category.dto";
  import {UpdateCategoryDto} from "@/category/dto/update-category.dto";
- import {ReadSubCategoryDto} from "@/sub-category/dto/readSubCategory.dto";
- import {SubCategoryMapper} from "@/sub-category/mapper/subCategory.mapper";
+ import {ReadSubCategoryDto} from "@/sub-category/dto/read-sub-category.dto";
+ import {SubCategoryMapper} from "@/sub-category/mapper/sub-category.mapper";
 
  @Injectable()
  export class CategoryService {
@@ -62,26 +62,19 @@
      return CategoryMapper.entityToReadCategoryDto(category);
    }
 
-   async update(updateCategoryDto: UpdateCategoryDto): Promise< {
-       message: string; status: HttpStatus , category : ReadCategoryDto | null
-   }> {
-     const foundCategory = await this.categoryRepository.findOneBy({
-       pkCategory: updateCategoryDto.pkCategory,
-     });
+   async update(updateCategoryDto: UpdateCategoryDto): Promise<ReadCategoryDto> {
+    const foundCategory = await this.categoryRepository.findOneBy({
+      pkCategory: updateCategoryDto.pkCategory,
+    });
 
-     if (!foundCategory) {
-       throw new HttpException('Category Not Found', HttpStatus.NOT_FOUND);
-     }
+    if (!foundCategory) {
+      throw new HttpException('Category Not Found', HttpStatus.NOT_FOUND);
+    }
 
-     this.categoryRepository.merge(foundCategory, updateCategoryDto);
-     const updatedCategory = await this.categoryRepository.save(foundCategory);
-     return {
-         message: "SubCategory Updated" ,
-         status: HttpStatus.OK,
-         category: CategoryMapper.entityToReadCategoryDto(updatedCategory)
-     };
-
-   }
+    this.categoryRepository.merge(foundCategory, updateCategoryDto);
+    const updatedCategory = await this.categoryRepository.save(foundCategory);
+    return CategoryMapper.entityToReadCategoryDto(updatedCategory);
+  }
 
    async remove(id : number): Promise<{ message: string; status: HttpStatus }> {
       const categoryToDelete = await this.categoryRepository.findOneBy(
@@ -101,4 +94,19 @@
          status: HttpStatus.OK
      };
    }
+
+    async updateCategoryImageUrl(categoryId: number, imageUrl: string): Promise<ReadCategoryDto> {
+       const category = await this.categoryRepository.findOne({
+         where: { pkCategory: categoryId },
+       });
+   
+       if (!category) {
+         throw new HttpException(`Campaña con ID ${categoryId} no encontrada.`, HttpStatus.NOT_FOUND);
+       }
+   
+       category.imagePath = imageUrl; 
+       const updatedCampaign = await this.categoryRepository.save(category); 
+   
+       return CategoryMapper.entityToReadCategoryDto(updatedCampaign);
+     }
  }

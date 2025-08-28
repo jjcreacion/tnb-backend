@@ -3,11 +3,11 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {AddonsEntity} from "@/service-addons/entity/addons.entity";
 import {ServiceAddonController} from "@/service-addons/service-addons.controller";
 import {ServiceAddonService} from "@/service-addons/service-addons.service";
-import {ServicesModule} from "@/services/services.module";
+import { SubCategoryModule } from '@/sub-category/sub-category.module';
 
 @Module({
   imports: [
-      ServicesModule,
+    SubCategoryModule,
     TypeOrmModule.forFeature([AddonsEntity]),
   ],
   controllers: [ServiceAddonController],

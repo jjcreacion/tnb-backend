@@ -1,49 +1,53 @@
-import { CreateSubCategoryDto } from "@/sub-category/dto/createSubCategory.dto";
-import { ReadSubCategoryDto } from "@/sub-category/dto/readSubCategory.dto";
-import { UpdateSubCategoryDto } from "@/sub-category/dto/updateSubCategory.dto";
-import { SubCategoryService } from "@/sub-category/sub-Category.service";
-import { ValidID } from "@/utils/validID";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from "@nestjs/common";
 
-// @Roles(Role.CLIENT) // Aplica a todos los métodos del controlador
-@Controller('subCategory')
+import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe} from "@nestjs/common";
+import {ValidID} from "@/utils/validID";
+import {UpdateSubCategoryDto} from "@/sub-category/dto/update-sub-category.dto";
+import {SubCategoryService} from "@/sub-category/sub-category.service";
+import {ReadSubCategoryDto} from "@/sub-category/dto/read-sub-category.dto";
+import {CreateSubCategoryDto} from "@/sub-category/dto/create-sub-category.dto";
+
+
+@Controller('sub_category')
 export class SubCategoryController {
 
-    constructor(private readonly subCategoryService: SubCategoryService) {}
+  constructor(private readonly subCategoryService: SubCategoryService) {}
 
-    @Post()
-    async create(
-        @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-        createSubCategoryDto: CreateSubCategoryDto) {
-       return this.subCategoryService.create(createSubCategoryDto);
-    }
+  @Post()
+  async create(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) createSubCategoryDto: CreateSubCategoryDto) {
+    return this.subCategoryService.create(createSubCategoryDto);
+  }
 
-    @Get("findAll")
-    async findAll ():Promise<ReadSubCategoryDto[]>{
-        return this.subCategoryService.findAll();
-    }
+  @Get("findAll")
+  async findAll ():Promise<ReadSubCategoryDto[]>{
+    return this.subCategoryService.findAll();
+  }
 
-    // @Public()
-    @Get("alldata")
-    async findAllWithCategoryInfo(): Promise<ReadSubCategoryDto[]> {
-        return this.subCategoryService.findAllWithCategory();
-    }
+  @Get("by-category/:id")
+  async findByCategoryId(@Param("id", ParseIntPipe) id: number): Promise<ReadSubCategoryDto[]> {
+    return this.subCategoryService.findByCategoryId(id);
+  }
 
-    @Delete(":id")
-    async remove (@Param("id",ParseIntPipe) id : number) {
-        return this.subCategoryService.remove(new ValidID(id));
-    }
+  @Get("find")
+  async find ():Promise<ReadSubCategoryDto[]>{
+    return this.subCategoryService.find();
+  }
 
-    @Patch()
-    async update (
-        @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-        updateSubCategoryDto:UpdateSubCategoryDto) {
-        return this.subCategoryService.update(updateSubCategoryDto);
-    }
+   @Delete(":id")
+  async remove (@Param("id",ParseIntPipe) id:number) {
+    return this.subCategoryService.remove(new ValidID(id));
+  }
+  
+  @Patch()
+  async update (
+      @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+          readCategoryServicesDto:UpdateSubCategoryDto
+  ) {
+    return this.subCategoryService.update(readCategoryServicesDto);
+  }
 
-    @Get("findOne/:id")
-    async getOne(@Param("id",ParseIntPipe) id:number){
-        return this.subCategoryService.findOne(new ValidID(id));
-    }
+  @Get(":id")
+  async getOne (@Param("id",ParseIntPipe) id:number){
+    return this.subCategoryService.findOne(new ValidID(id));
+  }
 
 }

@@ -1,0 +1,46 @@
+
+* Administrador (admin)
+Gestión de usuarios, servicios, categorías, reportes y soporte.
+
+* Coordinador/Manager (manager)
+Asigna tareas, supervisa equipos, gestiona proyectos y revisa el avance de solicitudes.
+ 
+* Agente/Operador (agent) // telemarketer
+Atiende solicitudes, gestiona leads, realiza seguimiento y actualiza estados de tareas.
+
+* Proveedor/Prestador de Servicios (provider)
+Recibe y gestiona asignaciones, actualiza el estado de sus servicios, sube evidencias (fotos, notas).
+
+* Cliente/Usuario Final (client) // lead
+Solicita servicios, consulta estado, califica y deja comentarios.
+
+* Soporte/Técnico (support)
+Atiende incidencias técnicas, ayuda a usuarios y resuelve problemas internos.
+
+* Marketing (marketing)
+Gestiona campañas, notificaciones y comunicaciones.
+
+* Finanzas/Facturación (finance)
+Acceso a reportes de pagos, facturas y cobros.
+
+
+
+--================================
+ALTER TABLE users
+ADD COLUMN roles SET(
+  'admin', 
+  'manager', 
+  'agent', 
+  'provider',
+  'client',
+  'support',
+  'marketing', 
+  'finance' 
+) NOT NULL DEFAULT 'client';
+--===============================
+
+
+
+
+Tip:
+Implementar permisos granulares (CRUD: crear, leer, actualizar, eliminar) por módulo, usando una tabla de permisos por rol, para mayor flexibilidad.

@@ -1,14 +1,14 @@
-import {ApiProperty, OmitType, PartialType} from '@nestjs/swagger';
-import {ServicesEntity} from "@/services/entity/services.entity";
-import {IsNotEmpty, IsNumber, IsString} from "class-validator";
+import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
+import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
+import { IsNotEmpty, IsNumber, IsString, IsOptional } from "class-validator";
 
-export class UpdateServicesDto extends OmitType(ServicesEntity,
+export class UpdateSubCategoryDto extends OmitType(SubCategoryEntity,
     ['createdAt','updatedAt','addons']
 ) {
 
     @ApiProperty()
     @IsNumber()
-    pkService: number;
+    pkSubCategory: number;
 
     @ApiProperty()@IsString()@IsNotEmpty()
     name: string;
@@ -16,11 +16,21 @@ export class UpdateServicesDto extends OmitType(ServicesEntity,
     @ApiProperty()@IsString()@IsNotEmpty()
     description: string;
 
+    @ApiProperty()
+    @IsOptional()
+    @IsNumber()
+    priceFrom: number;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsNumber()
+    priceTo: number;
+
     @ApiProperty()@IsNumber()
     status: number;
 
     @ApiProperty()@IsNumber()
-    fkSubCategory: number;
+    fkCategory: number;
 
     @IsNumber()@ApiProperty()
     @IsNotEmpty({ message: 'Fk client type cannot be empty' })

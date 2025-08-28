@@ -1,6 +1,5 @@
 import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import {ApiProperty, OmitType} from "@nestjs/swagger";
-import {RequestEntity} from "@/request/entities/request.entity";
 import {CategoryEntity} from "@/category/entities/category.entity";
 
 export class CreateCategoryDto extends OmitType(CategoryEntity, [

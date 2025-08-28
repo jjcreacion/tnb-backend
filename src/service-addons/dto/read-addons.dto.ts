@@ -1,8 +1,8 @@
-import {ReadServicesDto} from "@/services/dto/read-services.dto";
+import { ReadSubCategoryDto } from "@/sub-category/dto/read-sub-category.dto";
 
 export class ReadAddonsDto {
     pkAddon: number;
-    isReail: number;
+    isRetail: number;
     name: string;
     description: string;
     contentWeb: string;
@@ -11,5 +11,5 @@ export class ReadAddonsDto {
     createdAt: Date;
     updatedAt: Date;
     fkService: number;
-    service : ReadServicesDto;
+    subCategory : ReadSubCategoryDto;
 }

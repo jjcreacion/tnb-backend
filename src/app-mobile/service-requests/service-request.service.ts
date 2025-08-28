@@ -31,7 +31,7 @@ export class RequestService {
   async findOne(validId: ValidID): Promise<ReadRequestDto> {
     const entity = await this.requestRepository.findOne({
       where: { requestId: validId.id },
-      relations: ['fkUser'],
+      relations: ['fkUser', 'fkCategory', 'fkSubCategory'],
     });
     if (!entity) {
       throw new HttpException(
@@ -44,7 +44,7 @@ export class RequestService {
 
   async findAll(): Promise<ReadRequestDto[]> {
     const entities = await this.requestRepository.find({
-      relations: ['fkUser'],
+      relations: ['fkUser', 'fkCategory', 'fkSubCategory'],
       order: {
         createdAt: 'DESC', 
       },

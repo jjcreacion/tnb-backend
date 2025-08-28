@@ -12,12 +12,7 @@ import {RequestImagesService} from "@/request/services/requestImages.service";
 import {ValidID} from "@/utils/validID";
 import {ReadRequestFormDto} from "@/request/dto/read-request-form.dto";
 import {CountryService} from "@/country/country.service";
-import {CountryStateService} from "@/country-states/country-states.service";
-import {LocalityService} from "@/locality/locality.service";
 import {CategoryService} from "@/category/category.service";
-import {SubCategoryService} from "@/sub-category/sub-Category.service";
-import {ServiceAddonService} from "@/service-addons/service-addons.service";
-import {CategoryServicesService} from "@/services/services.service";
 
 @Injectable()
 export class RequestService {
@@ -30,12 +25,7 @@ export class RequestService {
       private locationService: RequestLocationService,
       private imagesService: RequestImagesService,
       private readonly countriesService : CountryService,
-      private readonly statesService : CountryStateService,
-      private readonly localitiesServices : LocalityService,
       private readonly categoriesService : CategoryService,
-      private readonly subCategoriesService : SubCategoryService,
-      private readonly categoryServicesService :CategoryServicesService,
-      private readonly addonsService : ServiceAddonService
   ){}
 
 

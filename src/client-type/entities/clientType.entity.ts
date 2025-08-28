@@ -1,6 +1,5 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {ServicesEntity} from "@/services/entity/services.entity";
-import { SubCategoryEntity } from '@/sub-category/entity/subCategory.entity';
+import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
 import {QuestionEnTity} from "@/client-type-questions/entities/client-type-question.entity";
 
 
@@ -10,8 +9,8 @@ export class ClientTypeEntity {
     @PrimaryGeneratedColumn({name: 'pk_client_type'})
     pkType: number;
 
-    @OneToMany(() => ServicesEntity, (service) => service.clientType)
-    service: ServicesEntity | ServicesEntity[];
+    @OneToMany(() => SubCategoryEntity, (subCategory) => subCategory.clientType)
+    service: SubCategoryEntity | SubCategoryEntity[];
 
     @OneToMany(() => QuestionEnTity, (question) => question.clientType)
     questions : QuestionEnTity;
@@ -30,7 +29,4 @@ export class ClientTypeEntity {
 
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
-
-
-
 }

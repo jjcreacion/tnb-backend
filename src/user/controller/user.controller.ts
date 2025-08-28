@@ -21,6 +21,7 @@ import { extname, join } from 'path';
 import { Public } from '../../auth/guard/public.decorators';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { LoginWithEmailDto } from '../dto/loginWithEmail.dto';
+import { ResetPasswordDto } from '../dto/resetPassword.dto';
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 import { UploadProfileImageDto } from '../dto/UploadProfileImageDto';
 import { VerifyEmailDto } from '../dto/verifyEmail.dto';
@@ -140,6 +141,29 @@ export class UserController {
       }
       throw new HttpException(
         'Error al actualizar el usuario: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @ApiOperation({ summary: 'Cambiar la contraseña de un usuario por email' })
+  @Patch('reset-password')
+  async resetPassword(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<{ message: string }> {
+    try {
+      await this.userService.resetPassword(
+        resetPasswordDto.email,
+        resetPasswordDto.newPassword,
+      );
+      return { message: 'Contraseña actualizada exitosamente.' };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Error al cambiar la contraseña: ' + error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
