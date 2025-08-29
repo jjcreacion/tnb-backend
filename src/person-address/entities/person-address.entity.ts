@@ -16,6 +16,9 @@ export class PersonAddressEntity {
     @Column({name:"address_line_2", nullable:true, type:"varchar", length:255})
     addressLine2?: string;
 
+    @Column({name:"zip_code", nullable:true, type:"varchar", length:100})
+    zipCode?: string;
+
     @Column({name:"is_primary",default: 0})
     isPrimary: number;
 

@@ -4,6 +4,7 @@ export class ReadPersonAddressDto {
     pkAddress: number;
     address: string;
     addressLine2?: string;
+    zipCode?: string;
     isPrimary: number;
     status: number;
     latitude: number;
