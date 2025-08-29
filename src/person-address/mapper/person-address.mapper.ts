@@ -8,6 +8,7 @@ export class PersonAddressMapper {
         dto.pkAddress = entity.pkAddress;
         dto.address = entity.address;
         dto.addressLine2 = entity.addressLine2;
+        dto.zipCode = entity.zipCode;
         dto.isPrimary = entity.isPrimary;
         dto.status = entity.status;
         dto.latitude = entity.latitude; 
@@ -26,6 +27,7 @@ export class PersonAddressMapper {
         entity.pkAddress = dto.pkAddress;
         entity.address = dto.address;
         entity.addressLine2 = dto.addressLine2;
+        entity.zipCode = dto.zipCode;
         entity.isPrimary = dto.isPrimary;
         entity.status = dto.status;
         entity.latitude = dto.latitude; 

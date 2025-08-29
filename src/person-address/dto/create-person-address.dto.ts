@@ -21,6 +21,11 @@ export class CreatePersonAddressDto extends OmitType(PersonAddressEntity, [
     @ApiProperty({ required: false })
     addressLine2?: string;
 
+    @IsString()
+    @IsOptional()
+    @ApiProperty({ required: false })
+    zipCode?: string;
+
     @ApiProperty()
     @IsNumber()
     isPrimary : number;
