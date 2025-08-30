@@ -19,6 +19,7 @@ import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { Public } from '../../auth/guard/public.decorators';
+import { CreateUserDto } from '../dto/createUser.dto';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { LoginWithEmailDto } from '../dto/loginWithEmail.dto';
 import { ResetPasswordDto } from '../dto/resetPassword.dto';
@@ -33,9 +34,19 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Public()
+  @ApiOperation({ summary: 'Crear Usuario' })
+  @Post('create')
+  create(
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    createUserDto: CreateUserDto,
+  ): Promise<ReadUserDto> {
+    return this.userService.create(createUserDto);
+  }
+
+  @Public()
   @ApiOperation({ summary: 'Crear Usuario Por Email' })
   @Post('createWithEmail')
-  create(
+  createWithEmail(
     @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     createUserWithEmailDto: CreateUserWithEmailDto,
   ): Promise<ReadUserDto> {

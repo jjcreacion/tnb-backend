@@ -1,5 +1,6 @@
-import { IsString, IsNotEmpty, IsEmail, MinLength, IsNumber, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
+import { Role } from '../enums/role.enum';
 
 export class CreateUserWithEmailDto {
 
@@ -18,5 +19,26 @@ export class CreateUserWithEmailDto {
     @IsNotEmpty({ message: 'The password is required' })
     @MinLength(8, { message: 'The password must be at least 8 characters long' })
     password: string;
+
+    @ApiProperty({ type: [String], enum: Role, isArray: true, required: false })
+    @IsOptional()
+    @IsArray()
+    @IsEnum(Role, { each: true })
+    roles?: Role[];
+
+    @ApiProperty({ required: false, default: 0 })
+    @IsOptional()
+    @IsNumber()
+    validateEmail?: number;
+
+    @ApiProperty({ required: false, default: 0 })
+    @IsOptional()
+    @IsNumber()
+    validatePhone?: number;
+
+    @ApiProperty({ required: false, default: 1 })
+    @IsOptional()
+    @IsNumber()
+    status?: number;
 
 }

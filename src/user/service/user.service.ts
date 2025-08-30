@@ -3,18 +3,20 @@ import { PersonPhoneEntity } from '@/person-phones/entities/person-phone.entity'
 import { ReadUserDto } from '@/user/dto/readUser.dto';
 import { ValidEmailDto } from '@/user/dto/validEmail.dto';
 import { UserEntity } from '@/user/entities/user.entity';
+import { Role } from '@/user/enums/role.enum';
 import { UserMapper } from '@/user/mapper/user.mapper';
 import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
+    HttpException,
+    HttpStatus,
+    Injectable,
+    NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { PersonEntity } from '../../person/entities/person.entity';
+import { CreateUserDto } from '../dto/createUser.dto';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 
@@ -33,18 +35,52 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async create(
+    createUserDto: CreateUserDto,
+  ): Promise<UserEntity> {
+    const entity = this.userRepository.create(createUserDto);
+
+    // If fkPerson is provided, assign the person relationship
+    if (createUserDto.fkPerson) {
+      const personEntity = await this.personRepository.findOne({
+        where: { pkPerson: createUserDto.fkPerson },
+      });
+      if (personEntity) {
+        entity.person = personEntity;
+      }
+    }
+
+    // Set default values for fields not provided in DTO
+    entity.roles = createUserDto.roles || [Role.CLIENT];
+    entity.validateEmail = createUserDto.validateEmail || 0;
+    entity.validatePhone = createUserDto.validatePhone || 0;
+    entity.status = createUserDto.status || 1;
+
+    return await this.userRepository.save(entity);
+  }
+
   async createWithEmail(
     createUserWithEmailDto: CreateUserWithEmailDto,
   ): Promise<ReadUserDto> {
     const entity = this.userRepository.create(createUserWithEmailDto);
 
-    entity.person = {
-      pkPerson: createUserWithEmailDto.fkPerson,
-    } as PersonEntity;
+    // Establecer relaciones opcionales si se proporcionan
+    if (createUserWithEmailDto.fkPerson) {
+      entity.person = {
+        pkPerson: createUserWithEmailDto.fkPerson,
+      } as PersonEntity;
+    }
 
+    // Hash de la contraseña
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(entity.password, salt);
     entity.password = hashedPassword;
+
+    // Establecer valores por defecto si no se proporcionan
+    entity.roles = createUserWithEmailDto.roles || [Role.CLIENT];
+    entity.validateEmail = createUserWithEmailDto.validateEmail || 0;
+    entity.validatePhone = createUserWithEmailDto.validatePhone || 0;
+    entity.status = createUserWithEmailDto.status || 1;
 
     const savedUser = await this.userRepository.save(entity);
     return UserMapper.entityToReadUserDto(savedUser);
@@ -57,6 +93,7 @@ export class UserService {
         'person.emails',
         'person.phones',
         'person.addresses',
+        'profile',
       ],
     });
     return responseUsers.map((user) => UserMapper.entityToReadUserDto(user));
