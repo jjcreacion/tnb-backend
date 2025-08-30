@@ -66,9 +66,9 @@ export class AuthService {
         : undefined;
 
       await this.mailerService.sendPasswordReset({
-        email: user.email,
+        email: user.email || '',
         token: resetToken,
-        userName: userName || user.email,
+        userName: userName || user.email || 'User',
       });
 
       return {
