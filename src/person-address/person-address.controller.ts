@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe } from '@nestjs/common';
-import { PersonAddressService } from './person-address.service';
-import { CreatePersonAddressDto } from './dto/create-person-address.dto';
 import { ReadPersonAddressDto } from "@/person-address/dto/read-person-address.dto";
-import { UpdatePersonAddressDto } from './dto/update-person-address.dto';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { CreatePersonAddressDto } from './dto/create-person-address.dto';
+import { UpdatePersonAddressDto } from './dto/update-person-address.dto';
+import { PersonAddressService } from './person-address.service';
 
 @Controller('person-address')
 export class PersonAddressController {

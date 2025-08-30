@@ -34,5 +34,7 @@ export class UpdatePersonAddressDto extends OmitType(PersonAddressEntity, ['crea
     @ApiProperty()
     status: number;
 
+    @IsNumber()
+    @IsOptional()
     fkPerson : number;
 }
