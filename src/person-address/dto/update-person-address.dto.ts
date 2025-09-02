@@ -1,18 +1,18 @@
-import { OmitType } from '@nestjs/mapped-types';
+import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { PersonAddressEntity } from '../entities/person-address.entity';
 
-export class UpdatePersonAddressDto extends OmitType(PersonAddressEntity, ['createdAt', 'updatedAt']) {
+export class UpdatePersonAddressDto extends PartialType(OmitType(PersonAddressEntity, ['createdAt', 'updatedAt', 'person'])) {
     @IsNumber()
     @IsOptional()
-    @ApiProperty()
-    pkAddress: number;
+    @ApiProperty({ required: false })
+    pkAddress?: number;
 
     @IsString()
     @IsOptional()
-    @ApiProperty()
-    address: string;
+    @ApiProperty({ required: false })
+    address?: string;
 
     @IsString()
     @IsOptional()
@@ -26,15 +26,36 @@ export class UpdatePersonAddressDto extends OmitType(PersonAddressEntity, ['crea
 
     @IsNumber()
     @IsOptional()
-    @ApiProperty()
-    isPrimary: number;
+    @ApiProperty({ required: false })
+    isPrimary?: number;
 
     @IsNumber()
     @IsOptional()
-    @ApiProperty()
-    status: number;
+    @ApiProperty({ required: false })
+    status?: number;
 
     @IsNumber()
     @IsOptional()
-    fkPerson : number;
+    @ApiProperty({ required: false })
+    latitude?: number;
+
+    @IsNumber()
+    @IsOptional()
+    @ApiProperty({ required: false })
+    longitude?: number;
+
+    @IsNumber()
+    @IsOptional()
+    @ApiProperty({ required: false })
+    country?: number;
+
+    @IsNumber()
+    @IsOptional()
+    @ApiProperty({ required: false })
+    state?: number;
+
+    @IsNumber()
+    @IsOptional()
+    @ApiProperty({ required: false })
+    city?: number;
 }
