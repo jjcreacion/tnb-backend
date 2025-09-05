@@ -45,5 +45,5 @@ export class UpdateRequestDto {
   @IsOptional()
   @IsNumber()
   @ApiProperty()
-  status: number;
+  fkRequestStatus: number;
 }

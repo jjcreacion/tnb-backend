@@ -10,7 +10,7 @@ export class ReadRequestDto {
     address: string;
     latitude: number;
     longitude: number;
-    status: number;
+    fkRequestStatus: number;
     createdAt: Date;
     updatedAt: Date;
     fkUser?: ReadUserDto | ReadUserDto[];

@@ -38,5 +38,5 @@ export class CreateRequestDto {
 
   @IsOptional()
   @IsNumber({}, { message: 'status must be a number' })
-  status: number;
+  fkRequestStatus: number;
 }

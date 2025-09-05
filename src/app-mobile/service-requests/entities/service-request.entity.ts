@@ -12,6 +12,8 @@ import {
   import { CategoryEntity } from '@/category/entities/category.entity';
   import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
   import { RequestImageEntity } from '@/request-images/entities/request-image.entity'; 
+  import { RequestStatusEntity } from '@/request_status/entities/request-status.entity';
+ 
   
   @Entity('mobile_service_requests')
   export class RequestEntity {
@@ -45,8 +47,8 @@ import {
     longitude: number;
   
     // CORREGIDO: de decimal a int
-    @Column({ name: 'status', type: 'int' })
-    status: number;
+    @Column({ name: 'fk_request_status', type: 'int' })
+    fkRequestStatus: number;
   
     @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
     createdAt: Date;
@@ -56,4 +58,8 @@ import {
 
     @OneToMany(() => RequestImageEntity, image => image.fkRequest)
     images: RequestImageEntity[];
+
+    @OneToMany(() => RequestStatusEntity, (requestStatus) => requestStatus.request)
+    requestStatus: RequestStatusEntity[];
+
   }

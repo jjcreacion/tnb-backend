@@ -16,7 +16,7 @@ export class RequestMapper {
     entity.address = dto.address;
     entity.latitude = dto.latitude;
     entity.longitude = dto.longitude;
-    entity.status = dto.status;
+    entity.fkRequestStatus = dto.fkRequestStatus;
     return entity;
   }
 
@@ -29,7 +29,7 @@ export class RequestMapper {
     dto.address = entity.address;
     dto.latitude = entity.latitude;
     dto.longitude = entity.longitude;
-    dto.status = entity.status;
+    dto.fkRequestStatus = entity.fkRequestStatus;
     dto.createdAt = entity.createdAt;
     dto.updatedAt = entity.updatedAt;
     dto.fkUser = entity.fkUser;
@@ -48,7 +48,7 @@ export class RequestMapper {
     entity.address = dto.address;
     entity.latitude = dto.latitude;
     entity.longitude = dto.longitude;
-    entity.status = dto.status;
+    entity.fkRequestStatus = dto.fkRequestStatus;
     return entity;
   }
 }
