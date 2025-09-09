@@ -14,7 +14,8 @@ export class StatusListService {
 
   async findAll(): Promise<ReadStatusListDto[]> {
     const statuses = await this.statusListRepository.find({
-      where: { status: 1 }
+      where: { status: 1 },
+      order: { order: 'ASC' } 
     });
     return statuses.map((status) => StatusListMapper.entityToReadDto(status));
   }

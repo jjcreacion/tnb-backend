@@ -5,5 +5,8 @@ export class ReadStatusListDto {
   statusId: number;
 
   @ApiProperty()
+  order: number;
+
+  @ApiProperty()
   name: string;
 }

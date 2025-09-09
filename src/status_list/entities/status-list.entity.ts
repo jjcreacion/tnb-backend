@@ -9,6 +9,9 @@ export class StatusListEntity {
   @Column({ name: 'name', type: 'text', nullable: true })
   name: string;
 
+  @Column({ name: 'order', nullable: true })
+  order: number;
+
   @Column({ name: 'status', nullable: true })
   status: number;
 
