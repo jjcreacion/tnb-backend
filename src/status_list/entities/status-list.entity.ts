@@ -15,6 +15,9 @@ export class StatusListEntity {
   @Column({ name: 'status', nullable: true })
   status: number;
 
+  @Column({ name: 'color', type: 'text', nullable: true })
+  color: string;
+
   @OneToMany(() => RequestEntity, (request) => request.fkRequestStatus)
   serviceRequests: RequestEntity[];
 }

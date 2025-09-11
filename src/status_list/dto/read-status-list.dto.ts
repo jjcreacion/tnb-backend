@@ -9,4 +9,7 @@ export class ReadStatusListDto {
 
   @ApiProperty()
   name: string;
+
+  @ApiProperty()
+  color: string;
 }
