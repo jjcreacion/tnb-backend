@@ -57,6 +57,9 @@ export class RequestService {
        const userWithRequests = await this.requestRepository.find({
         where: { fkUser: { pkUser: userId } }, 
         relations: ['fkUser'], 
+        order: {
+          createdAt: 'DESC', 
+        },
       });
 
       if (!userWithRequests || userWithRequests.length === 0) {
