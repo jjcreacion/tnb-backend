@@ -32,6 +32,7 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
 import { UserModule } from './user/user.module';
 import { RequestStatusModule } from './request_status/request-status.module';
 import { StatusListModule } from './status_list/status-list.module';
+import { RequestImagesModule } from './request-images/request-images.module';
 
 @Module({
   imports: [
@@ -91,7 +92,8 @@ import { StatusListModule } from './status_list/status-list.module';
     MobileCampaignModule,
     CampaignInterestModule,
     RequestStatusModule,
-    StatusListModule
+    StatusListModule,
+    RequestImagesModule
   ],
   controllers: [],
   providers: [
