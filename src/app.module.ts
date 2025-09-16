@@ -33,6 +33,8 @@ import { UserModule } from './user/user.module';
 import { RequestStatusModule } from './request_status/request-status.module';
 import { StatusListModule } from './status_list/status-list.module';
 import { RequestImagesModule } from './request-images/request-images.module';
+import { AppSettingsModule } from './app-settings/app-settings.module';
+
 
 @Module({
   imports: [
@@ -93,7 +95,8 @@ import { RequestImagesModule } from './request-images/request-images.module';
     CampaignInterestModule,
     RequestStatusModule,
     StatusListModule,
-    RequestImagesModule
+    RequestImagesModule,
+    AppSettingsModule
   ],
   controllers: [],
   providers: [
