@@ -14,6 +14,8 @@ export class ReadUserDto {
     validatePhone: number;
     status: number;
     img_profile: string;
+    referralCode: string;
+    balance: number;
     createdAt: Date;
     updatedAt: Date;
 }

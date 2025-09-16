@@ -59,6 +59,31 @@ export class UserService {
     return await this.userRepository.save(entity);
   }
 
+  // Método para generar Código Unico de referido 
+  private async generateReferralCode(): Promise<string> {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const codeLength = 8;
+    let referralCode = '';
+    let isUnique = false;
+
+    while (!isUnique) {
+      referralCode = '';
+      for (let i = 0; i < codeLength; i++) {
+        referralCode += characters.charAt(
+          Math.floor(Math.random() * characters.length),
+        );
+      }
+      const existingUser = await this.userRepository.findOne({
+        where: { referralCode },
+      });
+      if (!existingUser) {
+        isUnique = true;
+      }
+    }
+    return referralCode;
+  }
+
   async createWithEmail(
     createUserWithEmailDto: CreateUserWithEmailDto,
   ): Promise<ReadUserDto> {
@@ -82,7 +107,12 @@ export class UserService {
     entity.validatePhone = createUserWithEmailDto.validatePhone || 0;
     entity.status = createUserWithEmailDto.status || 1;
 
+    // Generar código para referir y asignarlo antes de guardar
+    entity.referralCode = await this.generateReferralCode();
+    
+    //Guardar el usuario
     const savedUser = await this.userRepository.save(entity);
+
     return UserMapper.entityToReadUserDto(savedUser);
   }
 

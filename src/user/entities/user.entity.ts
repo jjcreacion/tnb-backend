@@ -71,6 +71,12 @@ export class UserEntity {
   })
   updatedAt: Date;
 
+  @Column({ name: 'referral_code', type: 'varchar', nullable: true, unique: true })
+  referralCode: string;
+
+  @Column({ name: 'balance', type: 'decimal', precision: 10, scale: 2, default: 0.00 })
+  balance: number;
+
   // Relación con mobile service requests
   @OneToMany(() => RequestEntity, (request) => request.fkUser)
   serviceRequests: RequestEntity[];

@@ -21,6 +21,8 @@ export class UserMapper {
         dto.img_profile = entity.img_profile;
         dto.createdAt = entity.createdAt;
         dto.updatedAt = entity.updatedAt;
+        dto.referralCode = entity.referralCode;
+        dto.balance = entity.balance;
         
         // Mapear relaciones opcionales
         if(entity.person) {
