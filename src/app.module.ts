@@ -34,7 +34,7 @@ import { RequestStatusModule } from './request_status/request-status.module';
 import { StatusListModule } from './status_list/status-list.module';
 import { RequestImagesModule } from './request-images/request-images.module';
 import { AppSettingsModule } from './app-settings/app-settings.module';
-
+import { ReferralModule } from './referral-tracking/referral.module';
 
 @Module({
   imports: [
@@ -96,7 +96,8 @@ import { AppSettingsModule } from './app-settings/app-settings.module';
     RequestStatusModule,
     StatusListModule,
     RequestImagesModule,
-    AppSettingsModule
+    AppSettingsModule,
+    ReferralModule
   ],
   controllers: [],
   providers: [

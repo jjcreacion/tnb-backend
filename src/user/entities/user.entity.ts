@@ -74,6 +74,9 @@ export class UserEntity {
   @Column({ name: 'referral_code', type: 'varchar', nullable: true, unique: true })
   referralCode: string;
 
+  @Column({ name: 'referred_by_code', type: 'varchar', nullable: true, unique: true })
+  referred_by_code: string;
+  
   @Column({ name: 'balance', type: 'decimal', precision: 10, scale: 2, default: 0.00 })
   balance: number;
 
