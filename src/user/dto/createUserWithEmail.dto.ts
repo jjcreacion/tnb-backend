@@ -20,6 +20,11 @@ export class CreateUserWithEmailDto {
     @MinLength(8, { message: 'The password must be at least 8 characters long' })
     password: string;
 
+    @ApiProperty()
+    @IsString({ message: 'Referred Code' })
+    @IsOptional()
+    referred_by_code: string;
+    
     @ApiProperty({ type: [String], enum: Role, isArray: true, required: false })
     @IsOptional()
     @IsArray()

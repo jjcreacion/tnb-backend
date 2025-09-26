@@ -32,6 +32,10 @@ export class CreateUserDto {
   @MinLength(8, { message: 'The password must be at least 8 characters long' })
   password: string;
 
+  @IsString({ message: 'Referred Code' })
+  @IsOptional()
+  referred_by_code: string;
+
   @IsString({ message: 'The phone must be a string' })
   @IsNotEmpty({ message: 'The phone is required' })
   phone: string;

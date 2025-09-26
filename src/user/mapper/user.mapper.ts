@@ -45,6 +45,7 @@ export class UserMapper {
         entity.validateEmail = dto.validateEmail || 0;
         entity.validatePhone = dto.validatePhone || 0;
         entity.status = dto.status || 1;
+        entity.referred_by_code = dto.referred_by_code || '';
         entity.img_profile = dto.img_profile || '';
         return entity;
     }
