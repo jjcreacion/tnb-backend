@@ -4,6 +4,7 @@ import { ReadUserDto } from '@/user/dto/readUser.dto';
 import { ValidEmailDto } from '@/user/dto/validEmail.dto';
 import { UserEntity } from '@/user/entities/user.entity';
 import { Role } from '@/user/enums/role.enum';
+import { AppSettingsEntity } from '@/app-settings/entities/app-settings.entity';
 import { UserMapper } from '@/user/mapper/user.mapper';
 import {
     HttpException,
@@ -33,6 +34,8 @@ export class UserService {
     @InjectRepository(PersonAddressEntity)
     private addressRepository: Repository<PersonAddressEntity>,
     private readonly jwtService: JwtService,
+    @InjectRepository(AppSettingsEntity)
+    private appSettingsRepository: Repository<AppSettingsEntity>,
   ) {}
 
   async create(
@@ -110,6 +113,24 @@ export class UserService {
     // Generar código para referir y asignarlo antes de guardar
     entity.referralCode = await this.generateReferralCode();
     
+    if (entity.referred_by_code) {
+      const referringUser = await this.userRepository.findOne({
+        where: { referralCode: entity.referred_by_code },
+      });
+
+      if (referringUser) {
+        const rewardSetting = await this.appSettingsRepository.findOne({
+          where: { key: 'referral_reward_amount' },
+        });
+
+        if (rewardSetting && rewardSetting.value) {
+          const rewardAmount = parseFloat(rewardSetting.value);
+          if (!isNaN(rewardAmount)) {
+            entity.balance = (entity.balance || 0) + rewardAmount;
+          }
+        }
+      }
+    }
     //Guardar el usuario
     const savedUser = await this.userRepository.save(entity);
 
