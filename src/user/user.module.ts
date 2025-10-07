@@ -11,10 +11,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserController } from './controller/user.controller';
 import { UserService } from './service/user.service';
+import { AppSettingsEntity } from '@/app-settings/entities/app-settings.entity';
+
 
 @Module({
   imports: [
-      TypeOrmModule.forFeature([UserEntity, PersonEntity, PersonPhoneEntity, PersonAddressEntity]),
+      TypeOrmModule.forFeature([UserEntity, PersonEntity, PersonPhoneEntity, PersonAddressEntity,AppSettingsEntity]),
       UserMapperModule,
       PersonMapperModule,
       ProfileMapperModule,
