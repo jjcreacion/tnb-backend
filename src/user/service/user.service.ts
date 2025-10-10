@@ -125,8 +125,11 @@ export class UserService {
 
         if (rewardSetting && rewardSetting.value) {
           const rewardAmount = parseFloat(rewardSetting.value);
-          if (!isNaN(rewardAmount)) {
+          if (!isNaN(rewardAmount) && rewardAmount > 0) {
             entity.balance = (entity.balance || 0) + rewardAmount;
+
+            referringUser.balance = (referringUser.balance || 0) + rewardAmount;
+            await this.userRepository.save(referringUser);
           }
         }
       }
