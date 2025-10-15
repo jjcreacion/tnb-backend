@@ -35,6 +35,7 @@ import { StatusListModule } from './status_list/status-list.module';
 import { RequestImagesModule } from './request-images/request-images.module';
 import { AppSettingsModule } from './app-settings/app-settings.module';
 import { ReferralModule } from './referral-tracking/referral.module';
+import { InvoiceModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -97,7 +98,8 @@ import { ReferralModule } from './referral-tracking/referral.module';
     StatusListModule,
     RequestImagesModule,
     AppSettingsModule,
-    ReferralModule
+    ReferralModule,
+    InvoiceModule
   ],
   controllers: [],
   providers: [

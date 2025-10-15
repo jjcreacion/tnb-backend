@@ -1,6 +1,7 @@
 import { RequestEntity } from '@/app-mobile/service-requests/entities/service-request.entity';
 import { PersonEntity } from '@/person/entities/person.entity';
 import { ProfileEntity } from '@/profile/entities/profile.entity';
+import { Invoice } from '@/invoices/entities/invoice.entity';
 import {
   Column,
   Entity,
@@ -83,4 +84,8 @@ export class UserEntity {
   // Relación con mobile service requests
   @OneToMany(() => RequestEntity, (request) => request.fkUser)
   serviceRequests: RequestEntity[];
+
+  // Relación con Invoices
+  @OneToMany(() => Invoice, (invoice) => invoice.user)
+  invoices: Invoice[];
 }
