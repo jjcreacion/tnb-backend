@@ -10,6 +10,6 @@ export const MAILER_TRANSPORT = {
 };
 
 export const MAILER_OPTIONS = {
-    from: '"Verificación" <jjcreacion@gmail.com>',
+    from: '"TNB Customer Service" <jjcreacion@gmail.com>',
     subject: 'Tu Código de Verificación',
 };
