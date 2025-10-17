@@ -17,16 +17,59 @@ export class MailerService {
       await this.transporter.sendMail({
         ...MAILER_OPTIONS,
         to: dto.email,
-        text: `Tu código de verificación es: ${dto.code}`,
+        subject: 'Código de Verificación---',
+        text: `Tu código de verificaciónn es: ${dto.code}`,
         html: `
-                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #2563eb;">Verificación de Email</h2>
-                        <p>Por favor utiliza el siguiente código para verificar tu email:</p>
-                        <div style="background: #f3f4f6; padding: 16px; text-align: center; font-size: 24px; letter-spacing: 2px; margin: 20px 0;">
-                            ${dto.code}
-                        </div>
-                        <p>Este código expirará en 15 minutos.</p>
-                    </div>
+                   <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f6f8; padding: 20px; line-height: 1.6; margin: 0; box-sizing: border-box;">
+    <div class="email-container" style="max-width: 800px; margin: 0 auto; background-color: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+      <div class="top-border" style="height: 4px; background-color: #bd1011;"></div>
+
+      <div class="header" style="padding: 15px 40px; border-bottom: 1px solid #e0e0e0; background-color: #fef4f4;">
+        <div class="logo" style="display: flex; align-items: center; gap: 8px;">
+          <a href="#" style="text-decoration: none; color: inherit;">
+          <img
+            src="https://static.wixstatic.com/media/9c545c_653592f38a4244f48b32f17ee8c4b393~mv2.png/v1/fill/w_111,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9c545c_653592f38a4244f48b32f17ee8c4b393~mv2.png"
+            width="70"
+            alt="TNB"
+            style="border: 0; max-width: 100%; border-width: 0px"
+          />
+          </a>
+          <span class="logo-text" style="font-size: 24px; font-weight: 600; color: #bd1010;">TNB</span>
+        </div>
+      </div>
+
+      <div class="content" style="padding: 40px;">
+        <h1 style="font-size: 25px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px;">Verification code</h1>
+
+        <p class="instruction" style="font-size: 16px; color: #333; margin-bottom: 30px;">
+          Please use the following code to verify your identity and sign up for
+          your TNB account.
+        </p>
+
+        <div class="verification-code" style="border: 1px solid #b0e7ff; font-size: 30px; font-weight: 700; color: #1a1a1a; margin-bottom: 30px; background-color: #dcf5fe; text-align: center; padding-top: 10px; padding-bottom: 10px;"> 
+          ${dto.code}
+         </div>
+
+        <p class="warning-text" style="font-size: 16px; color: #333; margin-bottom: 5px;">This code will expire in 15 minutes.</p>
+        <p class="warning-text" style="font-size: 16px; color: #333; margin-bottom: 5px;">
+          If you did not request this code, please ignore this message.
+        </p>
+        <p class="warning-text" style="font-size: 16px; color: #333; margin-bottom: 5px;">
+         Need help? Contact our 
+          <a href="#" class="link" style="color: #2765cf; text-decoration: none; font-weight: bold;">Customer Support Team</a>.
+        </p>
+      </div>
+
+      <div class="footer" style="padding: 30px 40px; background-color: #fafafa; border-top: 1px solid #e0e0e0;">
+        <div class="footer-links" style="display: flex; gap: 30px; margin-bottom: 20px;">
+          <a href="#" class="footer-link" style="color: #2765cf; text-decoration: none; font-size: 14px; font-weight: bold;">Security & Privacy</a>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="#" class="footer-link" style="color: #2765cf; text-decoration: none; font-size: 14px; font-weight: bold;">Contact Us</a>
+        </div>
+        <p class="copyright" style="font-size: 14px; color: #666;">© TNB - 9101 LBJ Freeway, Dallas, Texas, 75243</p>
+      </div>
+    </div>
+  </div>
                 `,
       });
       return true;
