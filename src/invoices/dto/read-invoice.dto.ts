@@ -27,6 +27,9 @@ export class ReadInvoiceDto {
   @ApiProperty({ type: String, format: 'date', required: false, example: '2024-09-01' })
   payment_date?: Date;
 
+  @ApiProperty({ type: String, required: false })
+  observation?: string;
+
   @ApiProperty()
   created_at: Date;
 

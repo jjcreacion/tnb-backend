@@ -71,12 +71,16 @@ private async findOneEntity(id: number): Promise<Invoice> {
     };
   }
 
-  async updateStatus(id: number, status: InvoiceStatus): Promise<ReadInvoiceDto> {
+  async updateStatus(id: number, status: InvoiceStatus, observation?: string): Promise<ReadInvoiceDto> {
     const invoice = await this.findOneEntity(id);
 
     const updatePayload: Partial<Invoice> = {
       invoice_status: status,
     };
+
+    if (observation !== undefined) {
+      updatePayload.observation = observation;
+    }
 
     if (status === InvoiceStatus.PAID) {
       updatePayload.payment_date = new Date();

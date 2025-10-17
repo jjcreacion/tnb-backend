@@ -73,7 +73,7 @@ import {
   
   
     @Patch(':id/status')
-    @ApiOperation({ summary: 'Update invoice status' })
+    @ApiOperation({ summary: 'Update invoice status and observation' })
     @ApiResponse({ status: 200, description: 'Invoice status updated.', type: ReadInvoiceDto })
     @ApiResponse({ status: 404, description: 'Invoice not found.' })
     updateStatus(
@@ -81,7 +81,7 @@ import {
       @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
       updateStatusDto: UpdateInvoiceStatusDto,
     ): Promise<ReadInvoiceDto> {
-      return this.invoiceService.updateStatus(id, updateStatusDto.status);
+      return this.invoiceService.updateStatus(id, updateStatusDto.status, updateStatusDto.observation);
     }
   
     @Get('user/:userId/pending')

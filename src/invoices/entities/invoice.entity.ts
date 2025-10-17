@@ -45,6 +45,9 @@ export class Invoice {
   @Column({ type: 'date', nullable: true })
   payment_date: Date | null;
 
+  @Column({ type: 'text', nullable: true })
+  observation: string | null;
+
   @CreateDateColumn({ type: 'datetime' })
   created_at: Date;
 

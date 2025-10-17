@@ -1,6 +1,4 @@
-// update-status.dto.ts
-
-import { IsEnum, IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger'; 
 import { InvoiceStatus } from '../entities/invoice.entity'; 
 
@@ -14,4 +12,14 @@ export class UpdateInvoiceStatusDto {
   @IsNotEmpty()
   @IsEnum(InvoiceStatus)
   status: InvoiceStatus;
+
+  @ApiProperty({
+    description: 'Una observación opcional sobre el cambio de estado.',
+    required: false,
+    example: 'El pago fue confirmado manualmente.'
+  })
+  @IsOptional()
+  @IsString()
+  observation?: string;
+  
 }

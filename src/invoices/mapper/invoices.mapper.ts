@@ -14,6 +14,7 @@ export class InvoiceMapper {
     dto.invoice_number = entity.invoice_number ?? undefined;
     dto.invoice_date = entity.invoice_date ?? undefined;
     dto.payment_date = entity.payment_date ?? undefined;
+    dto.observation = entity.observation ?? undefined;
     dto.created_at = entity.created_at;
     dto.updated_at = entity.updated_at;
 
