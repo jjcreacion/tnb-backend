@@ -66,7 +66,7 @@ export class MailerService {
         </p>
         <p style="font-size: 16px; color: #333; margin-bottom: 5px;">
          Need help? Contact our 
-          <a href="#" class="link" style="color: #2765cf; text-decoration: none; font-weight: bold;">Customer Support Team</a>.
+          <a href="https://www.thenationalbuilders.com/contactus" style="color: #2765cf; text-decoration: none; font-weight: bold;">Customer Support Team</a>.
         </p>
       </div>
 
