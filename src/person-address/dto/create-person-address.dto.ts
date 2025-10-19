@@ -32,10 +32,12 @@ export class CreatePersonAddressDto extends OmitType(PersonAddressEntity, [
 
     @ApiProperty()
     @IsNumber()
+    @IsOptional()
     latitude: number;
 
     @ApiProperty()
     @IsNumber()
+    @IsOptional()
     longitude : number;
 
     @ApiProperty()

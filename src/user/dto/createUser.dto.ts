@@ -1,12 +1,12 @@
 import {
-    IsArray,
-    IsEmail,
-    IsEnum,
-    IsNotEmpty,
-    IsNumber,
-    IsOptional,
-    IsString,
-    MinLength,
+  IsArray,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MinLength,
 } from 'class-validator';
 import { Role } from '../enums/role.enum';
 
@@ -24,7 +24,8 @@ export class CreateUserDto {
   email: string;
 
   @IsString({ message: 'The username must be a string' })
-  @IsNotEmpty({ message: 'The username is required' })
+  // @IsNotEmpty({ message: 'The username is required' })
+  @IsOptional({ message: '' })
   username: string;
 
   @IsString({ message: 'The password must be a string' })
@@ -37,7 +38,8 @@ export class CreateUserDto {
   referred_by_code: string;
 
   @IsString({ message: 'The phone must be a string' })
-  @IsNotEmpty({ message: 'The phone is required' })
+  // @IsNotEmpty({ message: 'The phone is required' })
+  @IsOptional()
   phone: string;
 
   @IsArray()
