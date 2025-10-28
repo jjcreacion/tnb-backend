@@ -1,15 +1,14 @@
 export const MAILER_TRANSPORT = {
-    service: 'gmail',
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
     auth: {
-        user: 'jjcreacion@gmail.com',
-        pass: 'weffeojosbtsgsey', // Contraseña de aplicación
+        user: 'tnb@thenationalbuilders.com', 
+        pass: 'fswhdtiyzibtunzn', 
     },
 };
 
 export const MAILER_OPTIONS = {
-    from: '"TNB Customer Service" <jjcreacion@gmail.com>',
-    subject: 'Tu Código de Verificación',
+    from: '"TNB Customer Service" <no-reply@thenationalbuilders.com>', 
+    subject: 'Your Verification Code',
 };

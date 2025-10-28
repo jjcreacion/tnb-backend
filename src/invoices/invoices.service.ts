@@ -108,6 +108,19 @@ private async findOneEntity(id: number): Promise<Invoice> {
     return invoices.map((invoice) => InvoiceMapper.entityToReadDto(invoice));
   }
 
+   async findByUser(userId: number): Promise<ReadInvoiceDto[]> {
+    const invoices = await this.invoiceRepository.find({
+      where: {
+        fk_user: userId,
+      },
+      order: {
+        invoice_date: 'ASC',
+      },
+      relations: ['user', 'user.person'],
+    });
+    return invoices.map((invoice) => InvoiceMapper.entityToReadDto(invoice));
+  }
+
   async findHistoryByUser(userId: number): Promise<ReadInvoiceDto[]> {
     const historyStatuses = [InvoiceStatus.PAID, InvoiceStatus.CANCELLED];
     

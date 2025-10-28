@@ -84,6 +84,13 @@ import {
       return this.invoiceService.updateStatus(id, updateStatusDto.status, updateStatusDto.observation);
     }
   
+    @Get('user/:userId')
+    @ApiOperation({ summary: 'Get all invoices for a user' })
+    @ApiResponse({ status: 200, description: 'List of pending invoices.', type: [ReadInvoiceDto] })
+    findByUser(@Param('userId', ParseIntPipe) userId: number): Promise<ReadInvoiceDto[]> {
+      return this.invoiceService.findByUser(userId);
+    }
+
     @Get('user/:userId/pending')
     @ApiOperation({ summary: 'Get all pending invoices for a user' })
     @ApiResponse({ status: 200, description: 'List of pending invoices.', type: [ReadInvoiceDto] })
