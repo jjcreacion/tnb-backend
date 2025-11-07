@@ -217,6 +217,33 @@ export class UserService {
     return UserMapper.entityToReadUserDto(entity);
   }
 
+async findUserByReferralCode(referralCode: string): Promise<{
+    email: string;
+    firstName: string;
+    lastName: string;
+  } | null> {
+    const userEntity = await this.userRepository.findOne({
+      where: { referralCode },
+      relations: ['person'], // Para cargar los datos de la persona
+    });
+
+    if (!userEntity) {
+      return null;
+    }
+
+    if (!userEntity.person) {
+      throw new NotFoundException(
+        `Person data not found for user with referral code ${referralCode}`,
+      );
+    }
+
+    return {
+      email: userEntity.email,
+      firstName: userEntity.person.firstName,
+      lastName: userEntity.person.lastName,
+    };
+  }
+
   async findByEmail(email: string): Promise<UserEntity | null> {
     return this.userRepository.findOne({ where: { email } });
     //    return this.userRepository.findOne({

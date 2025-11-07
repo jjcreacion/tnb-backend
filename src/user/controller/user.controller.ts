@@ -116,6 +116,7 @@ export class UserController {
     };
   }
 
+
   @Public()
   @ApiOperation({ summary: 'Verificar si el email existe' })
   @Get('verifyEmail')
@@ -155,6 +156,31 @@ export class UserController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @Public()
+  @ApiOperation({
+    summary: 'Verificar existencia de usuario por código de referido',
+    description: 'Retorna email, nombre y apellido del usuario si el código existe.',
+  })
+  @Get('verifyReferralCode/:referralCode')
+  async verifyReferralCode(
+    @Param('referralCode') referralCode: string,
+  ): Promise<{ email: string; firstName: string; lastName: string }> {
+    if (!referralCode) {
+      throw new HttpException('Código de referido es requerido', HttpStatus.BAD_REQUEST);
+    }
+
+    const userData = await this.userService.findUserByReferralCode(referralCode);
+
+    if (!userData) {
+      throw new HttpException(
+        'Código de referido no encontrado o no válido',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return userData;
   }
 
   @ApiOperation({ summary: 'Cambiar la contraseña de un usuario por email' })
