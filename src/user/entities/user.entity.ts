@@ -2,6 +2,8 @@ import { RequestEntity } from '@/app-mobile/service-requests/entities/service-re
 import { PersonEntity } from '@/person/entities/person.entity';
 import { ProfileEntity } from '@/profile/entities/profile.entity';
 import { Invoice } from '@/invoices/entities/invoice.entity';
+import { ReferralHistoryEntity } from '../entities/referral-history.entity';
+
 import {
   Column,
   Entity,
@@ -88,4 +90,12 @@ export class UserEntity {
   // Relación con Invoices
   @OneToMany(() => Invoice, (invoice) => invoice.user)
   invoices: Invoice[];
+
+  // Relación con Referidos
+  @OneToMany(() => ReferralHistoryEntity, (history) => history.referrerUser)
+  referredHistoryAsReferrer: ReferralHistoryEntity[];
+  
+  // Relación con Referidos  
+  @OneToMany(() => ReferralHistoryEntity, (history) => history.referredUser)
+  referredHistoryAsReferred: ReferralHistoryEntity[];
 }

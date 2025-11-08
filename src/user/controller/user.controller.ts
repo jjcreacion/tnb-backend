@@ -15,7 +15,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { Public } from '../../auth/guard/public.decorators';
@@ -27,6 +27,7 @@ import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 import { UploadProfileImageDto } from '../dto/UploadProfileImageDto';
 import { VerifyEmailDto } from '../dto/verifyEmail.dto';
 import { UserService } from '../service/user.service';
+import { ReferredUserHistoryDto } from '../dto/readReferredUserHistory.dto'; 
 
 // @Roles(Role.ADMIN)
 @Controller('user')
@@ -58,6 +59,22 @@ export class UserController {
   @Get('findAll')
   findAll() {
     return this.userService.findAll();
+  }
+
+  @ApiOperation({ summary: 'Listar referidos de un usuario por su PK' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Lista de usuarios referidos con detalles de la recompensa.',
+    type: [ReferredUserHistoryDto],
+  })
+  @Get('referred-by/:id')
+  async getReferredUsers(
+    @Param('id') id: number,
+  ): Promise<ReferredUserHistoryDto[]> {
+    if (!id || isNaN(Number(id))) {
+      throw new HttpException('ID de usuario inválido.', HttpStatus.BAD_REQUEST);
+    }
+    return this.userService.findReferredUsers(id);
   }
 
   @ApiOperation({ summary: 'Listar usuario por Id' })

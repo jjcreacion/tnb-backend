@@ -4,6 +4,7 @@ import { PersonEntity } from "@/person/entities/person.entity";
 import { PersonMapperModule } from "@/person/mapper/person.mapper.module";
 import { ProfileMapperModule } from "@/profile/mapper/profile.mapper.module";
 import { UserEntity } from "@/user/entities/user.entity";
+import { ReferralHistoryEntity } from "@/user/entities/referral-history.entity";
 import { UserMapperModule } from "@/user/mapper/user.mapper.module";
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,7 +17,7 @@ import { AppSettingsEntity } from '@/app-settings/entities/app-settings.entity';
 
 @Module({
   imports: [
-      TypeOrmModule.forFeature([UserEntity, PersonEntity, PersonPhoneEntity, PersonAddressEntity,AppSettingsEntity]),
+      TypeOrmModule.forFeature([UserEntity, ReferralHistoryEntity, PersonEntity, PersonPhoneEntity, PersonAddressEntity,AppSettingsEntity]),
       UserMapperModule,
       PersonMapperModule,
       ProfileMapperModule,

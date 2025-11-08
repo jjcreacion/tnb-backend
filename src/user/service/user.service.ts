@@ -17,9 +17,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { PersonEntity } from '../../person/entities/person.entity';
+import { ReferralHistoryEntity } from '@/user/entities/referral-history.entity';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
+import { ReferredUserHistoryDto } from '../dto/readReferredUserHistory.dto';
 
 @Injectable()
 export class UserService {
@@ -36,6 +38,8 @@ export class UserService {
     private readonly jwtService: JwtService,
     @InjectRepository(AppSettingsEntity)
     private appSettingsRepository: Repository<AppSettingsEntity>,
+    @InjectRepository(ReferralHistoryEntity) 
+    private readonly referralHistoryRepository: Repository<ReferralHistoryEntity>,
   ) {}
 
   async create(
@@ -87,58 +91,73 @@ export class UserService {
     return referralCode;
   }
 
-  async createWithEmail(
-    createUserWithEmailDto: CreateUserWithEmailDto,
-  ): Promise<ReadUserDto> {
-    const entity = this.userRepository.create(createUserWithEmailDto);
+//Crear usuario por email
+ async createWithEmail(
+  createUserWithEmailDto: CreateUserWithEmailDto,
+): Promise<ReadUserDto> {
+  const entity = this.userRepository.create(createUserWithEmailDto);
 
-    // Establecer relaciones opcionales si se proporcionan
-    if (createUserWithEmailDto.fkPerson) {
-      entity.person = {
-        pkPerson: createUserWithEmailDto.fkPerson,
-      } as PersonEntity;
-    }
+  // Establecer relaciones opcionales si se proporcionan
+  if (createUserWithEmailDto.fkPerson) {
+    entity.person = {
+      pkPerson: createUserWithEmailDto.fkPerson,
+    } as PersonEntity;
+  }
 
-    // Hash de la contraseña
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(entity.password, salt);
-    entity.password = hashedPassword;
+  // Hash de la contraseña
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(entity.password, salt);
+  entity.password = hashedPassword;
 
-    // Establecer valores por defecto si no se proporcionan
-    entity.roles = createUserWithEmailDto.roles || [Role.CLIENT];
-    entity.validateEmail = createUserWithEmailDto.validateEmail || 0;
-    entity.validatePhone = createUserWithEmailDto.validatePhone || 0;
-    entity.status = createUserWithEmailDto.status || 1;
+  // Establecer valores por defecto si no se proporcionan
+  entity.roles = createUserWithEmailDto.roles || [Role.CLIENT];
+  entity.validateEmail = createUserWithEmailDto.validateEmail || 0;
+  entity.validatePhone = createUserWithEmailDto.validatePhone || 0;
+  entity.status = createUserWithEmailDto.status || 1;
 
-    // Generar código para referir y asignarlo antes de guardar
-    entity.referralCode = await this.generateReferralCode();
-    
-    if (entity.referred_by_code) {
-      const referringUser = await this.userRepository.findOne({
-        where: { referralCode: entity.referred_by_code },
+  // Generar código para referir y asignarlo antes de guardar
+  entity.referralCode = await this.generateReferralCode();
+  
+  let rewardAmount = 0;
+  let referringUser: UserEntity | null = null;
+  
+  if (entity.referred_by_code) {
+    referringUser = await this.userRepository.findOne({
+      where: { referralCode: entity.referred_by_code },
+    });
+
+    if (referringUser) {
+      const rewardSetting = await this.appSettingsRepository.findOne({
+        where: { key: 'referral_reward_amount' },
       });
 
-      if (referringUser) {
-        const rewardSetting = await this.appSettingsRepository.findOne({
-          where: { key: 'referral_reward_amount' },
-        });
+      if (rewardSetting && rewardSetting.value) {
+        rewardAmount = parseFloat(rewardSetting.value);
+        if (!isNaN(rewardAmount) && rewardAmount > 0) {
+          // Sumar recompensa al usuario referido
+          entity.balance = (entity.balance || 0) + rewardAmount;
 
-        if (rewardSetting && rewardSetting.value) {
-          const rewardAmount = parseFloat(rewardSetting.value);
-          if (!isNaN(rewardAmount) && rewardAmount > 0) {
-            entity.balance = (entity.balance || 0) + rewardAmount;
-
-            referringUser.balance = (referringUser.balance || 0) + rewardAmount;
-            await this.userRepository.save(referringUser);
-          }
+          // Sumar recompensa al usuario que refirió
+          referringUser.balance = parseFloat(referringUser.balance as any || 0) + rewardAmount;
+          await this.userRepository.save(referringUser); 
         }
       }
     }
-    //Guardar el usuario
-    const savedUser = await this.userRepository.save(entity);
-
-    return UserMapper.entityToReadUserDto(savedUser);
   }
+
+  const savedUser = await this.userRepository.save(entity);
+  
+  if (referringUser && rewardAmount > 0) {
+      const historyEntity = this.referralHistoryRepository.create({
+          referrerUserId: referringUser.pkUser,
+          referredUserId: savedUser.pkUser,
+          rewardAmount: rewardAmount,
+      });
+      await this.referralHistoryRepository.save(historyEntity);
+  }
+
+  return UserMapper.entityToReadUserDto(savedUser);
+}
 
   async findAll(): Promise<ReadUserDto[]> {
     const responseUsers = await this.userRepository.find({
@@ -243,6 +262,41 @@ async findUserByReferralCode(referralCode: string): Promise<{
       lastName: userEntity.person.lastName,
     };
   }
+
+ //Buscar Referidos
+  async findReferredUsers(referrerId: number): Promise<ReferredUserHistoryDto[]> {
+    const historyRecords = await this.referralHistoryRepository.find({
+      where: { referrerUserId: referrerId },
+      relations: ['referredUser', 'referredUser.person'], 
+    });
+
+    if (!historyRecords || historyRecords.length === 0) {
+      return []; 
+    }
+
+    return historyRecords.map(record => {
+      const referredUser = record.referredUser;
+      const person = referredUser.person;
+
+      if (!person) {
+        console.warn(`Persona no encontrada para el usuario referido ID: ${referredUser.pkUser}`);
+        return {
+          referredFullName: `Usuario ID ${referredUser.pkUser} (Datos Personales Faltantes)`,
+          rewardAmount: record.rewardAmount,
+          referredAt: record.referredAt,
+        };
+      }
+
+      const referredFullName = `${person.firstName} ${person.lastName}`;
+
+      return {
+        referredFullName,
+        rewardAmount: record.rewardAmount,
+        referredAt: record.referredAt,
+      };
+    });
+  }
+
 
   async findByEmail(email: string): Promise<UserEntity | null> {
     return this.userRepository.findOne({ where: { email } });
