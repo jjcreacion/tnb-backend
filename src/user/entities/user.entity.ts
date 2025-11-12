@@ -2,6 +2,7 @@ import { RequestEntity } from '@/app-mobile/service-requests/entities/service-re
 import { PersonEntity } from '@/person/entities/person.entity';
 import { ProfileEntity } from '@/profile/entities/profile.entity';
 import { Invoice } from '@/invoices/entities/invoice.entity';
+import { DeviceEntity } from '@/device/entities/device.entity';
 import { ReferralHistoryEntity } from '../entities/referral-history.entity';
 
 import {
@@ -90,6 +91,10 @@ export class UserEntity {
   // Relación con Invoices
   @OneToMany(() => Invoice, (invoice) => invoice.user)
   invoices: Invoice[];
+
+    // Relación con Devices
+  @OneToMany(() => DeviceEntity, (device) => device.user)
+  devices: DeviceEntity[];
 
   // Relación con Referidos
   @OneToMany(() => ReferralHistoryEntity, (history) => history.referrerUser)
