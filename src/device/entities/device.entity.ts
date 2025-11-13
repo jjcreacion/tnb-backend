@@ -1,10 +1,10 @@
 import { UserEntity } from '@/user/entities/user.entity'; 
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('devices')
 export class DeviceEntity {
-    @PrimaryColumn({ name: 'pk_device', type: 'char', length: 36 })
-    pkDevice: string;
+    @PrimaryGeneratedColumn({name: 'pk_device', type: 'bigint'})
+    pkDevice: number;
 
     @ManyToOne(() => UserEntity, (user) => user.devices)
     @JoinColumn({ name: 'fk_user' })

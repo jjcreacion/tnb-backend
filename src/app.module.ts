@@ -36,6 +36,7 @@ import { RequestImagesModule } from './request-images/request-images.module';
 import { AppSettingsModule } from './app-settings/app-settings.module';
 import { ReferralModule } from './referral-tracking/referral.module';
 import { InvoiceModule } from './invoices/invoices.module';
+import { DeviceModule } from './device/device.module';
 
 @Module({
   imports: [
@@ -99,7 +100,8 @@ import { InvoiceModule } from './invoices/invoices.module';
     RequestImagesModule,
     AppSettingsModule,
     ReferralModule,
-    InvoiceModule
+    InvoiceModule,
+    DeviceModule
   ],
   controllers: [],
   providers: [

@@ -28,6 +28,7 @@ import { UploadProfileImageDto } from '../dto/UploadProfileImageDto';
 import { VerifyEmailDto } from '../dto/verifyEmail.dto';
 import { UserService } from '../service/user.service';
 import { ReferredUserHistoryDto } from '../dto/readReferredUserHistory.dto'; 
+import { ToggleStateDto } from '../dto/toggleState.dto';
 
 // @Roles(Role.ADMIN)
 @Controller('user')
@@ -308,5 +309,29 @@ export class UserController {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @ApiOperation({ summary: 'Activar/Desactivar todas las notificaciones para un usuario' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Estado de notificaciones actualizado.', type: ReadUserDto })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Usuario no encontrado.' })
+  @Patch(':id/toggle-all-notifications')
+  async toggleAllNotifications(
+    @Param('id') id: number,
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    toggleStateDto: ToggleStateDto,
+  ): Promise<ReadUserDto> {
+    return this.userService.toggleAllNotifications(id, toggleStateDto.status);
+  }
+
+  @ApiOperation({ summary: 'Activar/Desactivar notificaciones por SMS para un usuario' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Estado de notificaciones SMS actualizado.', type: ReadUserDto })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Usuario no encontrado.' })
+  @Patch(':id/toggle-sms-notifications')
+  async toggleSmsNotifications(
+    @Param('id') id: number,
+    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    toggleStateDto: ToggleStateDto,
+  ): Promise<ReadUserDto> {
+    return this.userService.toggleSmsNotifications(id, toggleStateDto.status);
   }
 }

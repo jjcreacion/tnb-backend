@@ -26,9 +26,7 @@ export class DeviceService {
       return DeviceMapper.entityToReadDeviceDto(updated);
     }
 
-    const pkDevice = crypto.randomUUID();
     const newDevice = this.deviceRepo.create({
-        pkDevice: pkDevice,
         fkUser: dto.fkUser,
         expoPushToken: dto.expoPushToken,
         platform: dto.platform,
@@ -38,24 +36,21 @@ export class DeviceService {
   }
 
   async updatePreferences(dto: UpdateDevicePreferencesDto): Promise<ReadDeviceDto> {
-    const { pkDevice, notificationsEnabled } = dto;
+    const { expoPushToken, notificationsEnabled } = dto; 
     
-    const device = await this.deviceRepo.findOneBy({ pkDevice });
+    const device = await this.deviceRepo.findOneBy({ expoPushToken });
+    
     if (!device) {
-        throw new HttpException(`Device with ID ${pkDevice} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(`Device with token ${expoPushToken} not found`, HttpStatus.NOT_FOUND);
     }
     
-    if (notificationsEnabled !== undefined) { 
-        device.notificationsEnabled = notificationsEnabled; 
-    }
-    
+    device.notificationsEnabled = notificationsEnabled;
     const updated = await this.deviceRepo.save(device);
-    
     return DeviceMapper.entityToReadDeviceDto(updated);
-}
+  }
 
 
- async getActiveTokensByUserId(userId: number): Promise<string[]> {
+  async getActiveTokensByUserId(userId: number): Promise<string[]> {
     const devices = await this.deviceRepo.find({
       select: ['expoPushToken'],
       where: {
@@ -66,7 +61,7 @@ export class DeviceService {
     return devices.map(d => d.expoPushToken);
   }
 
-  async removeToken(token: string): Promise<DeleteResult> { 
+  async removeToken(token: string): Promise<DeleteResult> {
     return this.deviceRepo.delete({ expoPushToken: token }); 
   }
 

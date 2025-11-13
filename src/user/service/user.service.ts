@@ -446,4 +446,24 @@ async findUserByReferralCode(referralCode: string): Promise<{
 
     return updatedUser as unknown as ReadUserDto;
   }
+
+  async toggleAllNotifications(pkUser: number, status: boolean): Promise<ReadUserDto> {
+    const user = await this.userRepository.findOneBy({ pkUser });
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${pkUser} no encontrado.`);
+    }
+    user.allNotifications = status;
+    const updatedUser = await this.userRepository.save(user);
+    return UserMapper.entityToReadUserDto(updatedUser);
+  }
+
+  async toggleSmsNotifications(pkUser: number, status: boolean): Promise<ReadUserDto> {
+    const user = await this.userRepository.findOneBy({ pkUser });
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${pkUser} no encontrado.`);
+    }
+    user.smsNotifications = status;
+    const updatedUser = await this.userRepository.save(user);
+    return UserMapper.entityToReadUserDto(updatedUser);
+  }
 }

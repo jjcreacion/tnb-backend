@@ -17,7 +17,7 @@ export class DeviceController {
     return this.deviceService.register(createDeviceDto);
   }
 
-  @ApiOperation({ summary: 'Actualizar la preferencia de notificación (activar/desactivar) de un dispositivo' })
+  @ApiOperation({ summary: 'Actualizar la preferencia de notificación (activar/desactivar) de un dispositivo usando el token' })
   @ApiResponse({ status: 200, description: 'Preferencia actualizada.', type: ReadDeviceDto })
   @ApiResponse({ status: 404, description: 'Dispositivo no encontrado.' })
   @Patch('preferences')

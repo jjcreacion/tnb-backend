@@ -23,7 +23,9 @@ export class UserMapper {
         dto.updatedAt = entity.updatedAt;
         dto.referralCode = entity.referralCode;
         dto.balance = entity.balance;
-        
+        dto.allNotifications = entity.allNotifications;
+        dto.smsNotifications = entity.smsNotifications;
+              
         // Mapear relaciones opcionales
         if(entity.person) {
             dto.person = PersonMapper.entityToReadPersonDto(entity.person);
@@ -47,6 +49,8 @@ export class UserMapper {
         entity.status = dto.status || 1;
         entity.referred_by_code = dto.referred_by_code || '';
         entity.img_profile = dto.img_profile || '';
+        entity.allNotifications = dto.allNotifications ?? true;
+        entity.smsNotifications = dto.smsNotifications ?? true;
         return entity;
     }
 }

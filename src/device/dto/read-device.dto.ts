@@ -1,7 +1,7 @@
 import { ReadUserDto } from "@/user/dto/readUser.dto"; 
 
 export class ReadDeviceDto {
-    pkDevice: string;
+    pkDevice: number;
     expoPushToken: string;
     platform: string;
     notificationsEnabled: boolean;

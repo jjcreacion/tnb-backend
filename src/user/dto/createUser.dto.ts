@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsBoolean,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -62,4 +63,12 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   img_profile?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  allNotifications?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  smsNotifications?: boolean;
 }

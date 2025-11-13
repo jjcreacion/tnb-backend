@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsBoolean, MinLength } from 'class-validator';
 import { Role } from '../enums/role.enum';
 
 export class CreateUserWithEmailDto {
@@ -45,5 +45,13 @@ export class CreateUserWithEmailDto {
     @IsOptional()
     @IsNumber()
     status?: number;
+
+    @IsOptional()
+    @IsBoolean()
+    allNotifications?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    smsNotifications?: boolean;
 
 }

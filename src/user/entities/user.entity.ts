@@ -52,6 +52,12 @@ export class UserEntity {
   @Column({ name: 'img_profile' })
   img_profile: string;
 
+  @Column({ name: 'all_notifications', default: true })
+  allNotifications: boolean;
+
+  @Column({ name: 'sms_notifications', default: true })
+  smsNotifications: boolean;
+
   @Column({
     name: 'roles',
     type: 'set',

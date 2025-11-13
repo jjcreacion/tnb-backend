@@ -16,6 +16,8 @@ export class ReadUserDto {
     img_profile: string;
     referralCode: string;
     balance: number;
+    allNotifications: boolean;
+    smsNotifications: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
