@@ -1,4 +1,5 @@
-// /home/johann/Documentos/TNB/tnb-backend/src/invoices/invoices.service.ts
+
+
 import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
@@ -7,47 +8,32 @@ import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { ReadInvoiceDto } from './dto/read-invoice.dto';
 import { InvoiceMapper } from './mapper/invoices.mapper';
+import { InvoiceNotificationService } from './invoice-notification.service'; 
 
 @Injectable()
 export class InvoiceService {
   constructor(
     @InjectRepository(Invoice)
     private readonly invoiceRepository: Repository<Invoice>,
+    private readonly invoiceNotificationService: InvoiceNotificationService, 
   ) {}
 
   async create(createInvoiceDto: CreateInvoiceDto): Promise<ReadInvoiceDto> {
     const newInvoice = this.invoiceRepository.create(createInvoiceDto);
     const savedInvoice = await this.invoiceRepository.save(newInvoice);
+
     const fullInvoice = await this.findOneEntity(savedInvoice.invoice_id);
+
+    await this.invoiceNotificationService.sendCreationNotifications(fullInvoice);
+
     return InvoiceMapper.entityToReadDto(fullInvoice);
   }
 
-  async findAll(): Promise<ReadInvoiceDto[]> {
-    const invoices = await this.invoiceRepository.find({
-      order: { created_at: 'DESC' },
-       relations: ['user', 'user.person'],
-    });
-    return invoices.map((invoice) => InvoiceMapper.entityToReadDto(invoice));
-}
-
-private async findOneEntity(id: number): Promise<Invoice> {
-    const invoice = await this.invoiceRepository.findOne({
-      where: { invoice_id: id },
-      relations: ['user', 'user.person'],
-    });
-    if (!invoice) {
-      throw new NotFoundException(`Invoice with ID ${id} not found`);
-    }
-    return invoice;
-  }
-
-  async findOne(id: number): Promise<ReadInvoiceDto> {
-    const invoice = await this.findOneEntity(id);
-    return InvoiceMapper.entityToReadDto(invoice);
-  }
-
-  async update(id: number, updateInvoiceDto: UpdateInvoiceDto): Promise<ReadInvoiceDto> {
-
+  
+  async update(
+    id: number,
+    updateInvoiceDto: UpdateInvoiceDto,
+  ): Promise<ReadInvoiceDto> {
     const invoice = await this.invoiceRepository.preload({
       invoice_id: id,
       ...updateInvoiceDto,
@@ -60,19 +46,14 @@ private async findOneEntity(id: number): Promise<Invoice> {
     return InvoiceMapper.entityToReadDto(updatedInvoice);
   }
 
-  async remove(id: number): Promise<{ message: string; status: HttpStatus }> {
-    const result = await this.invoiceRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Invoice with ID ${id} not found`);
-    }
-    return {
-      message: `Invoice with ID ${id} has been successfully deleted.`,
-      status: HttpStatus.OK,
-    };
-  }
-
-  async updateStatus(id: number, status: InvoiceStatus, observation?: string): Promise<ReadInvoiceDto> {
+  async updateStatus(
+    id: number,
+    status: InvoiceStatus,
+    observation?: string,
+  ): Promise<ReadInvoiceDto> {
     const invoice = await this.findOneEntity(id);
+    const originalStatus = invoice.invoice_status;
+    //const originalStatus = invoice.invoice_status as InvoiceStatus;
 
     const updatePayload: Partial<Invoice> = {
       invoice_status: status,
@@ -82,16 +63,38 @@ private async findOneEntity(id: number): Promise<Invoice> {
       updatePayload.observation = observation;
     }
 
-    if (status === InvoiceStatus.PAID) {
+   if (status === InvoiceStatus.PAID) {
       updatePayload.payment_date = new Date();
-    } else if (invoice.invoice_status === InvoiceStatus.PAID) {
-      updatePayload.payment_date = null;
+    }
+  
+    if (originalStatus === InvoiceStatus.PAID && status !== InvoiceStatus.PAID) {
+         updatePayload.payment_date = null;
     }
 
     await this.invoiceRepository.update(id, updatePayload);
-    
+
     const updatedInvoice = await this.findOneEntity(id);
+
+    if (originalStatus !== updatedInvoice.invoice_status) {
+      await this.invoiceNotificationService.sendStatusChangeNotifications(
+        updatedInvoice,
+      );
+    }
+
     return InvoiceMapper.entityToReadDto(updatedInvoice);
+  }
+
+  async findAll(): Promise<ReadInvoiceDto[]> {
+    const invoices = await this.invoiceRepository.find({
+      order: { created_at: 'DESC' },
+      relations: ['user', 'user.person'],
+    });
+    return invoices.map((invoice) => InvoiceMapper.entityToReadDto(invoice));
+  }
+
+  async findOne(id: number): Promise<ReadInvoiceDto> {
+    const invoice = await this.findOneEntity(id);
+    return InvoiceMapper.entityToReadDto(invoice);
   }
 
   async findPendingByUser(userId: number): Promise<ReadInvoiceDto[]> {
@@ -108,7 +111,7 @@ private async findOneEntity(id: number): Promise<Invoice> {
     return invoices.map((invoice) => InvoiceMapper.entityToReadDto(invoice));
   }
 
-   async findByUser(userId: number): Promise<ReadInvoiceDto[]> {
+  async findByUser(userId: number): Promise<ReadInvoiceDto[]> {
     const invoices = await this.invoiceRepository.find({
       where: {
         fk_user: userId,
@@ -123,18 +126,40 @@ private async findOneEntity(id: number): Promise<Invoice> {
 
   async findHistoryByUser(userId: number): Promise<ReadInvoiceDto[]> {
     const historyStatuses = [InvoiceStatus.PAID, InvoiceStatus.CANCELLED];
-    
+
     const invoices = await this.invoiceRepository.find({
       where: {
         fk_user: userId,
-        invoice_status: In(historyStatuses), 
+        invoice_status: In(historyStatuses),
       },
       order: {
-        invoice_date: 'DESC', 
+        invoice_date: 'DESC',
       },
       relations: ['user', 'user.person'],
     });
-    
+
     return invoices.map((invoice) => InvoiceMapper.entityToReadDto(invoice));
+  }
+
+  async remove(id: number): Promise<{ message: string; status: HttpStatus }> {
+    const result = await this.invoiceRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Invoice with ID ${id} not found`);
+    }
+    return {
+      message: `Invoice with ID ${id} has been successfully deleted.`,
+      status: HttpStatus.OK,
+    };
+  }
+
+  private async findOneEntity(id: number): Promise<Invoice> {
+    const invoice = await this.invoiceRepository.findOne({
+      where: { invoice_id: id },
+      relations: ['user', 'user.person'],
+    });
+    if (!invoice) {
+      throw new NotFoundException(`Invoice with ID ${id} not found`);
+    }
+    return invoice;
   }
 }

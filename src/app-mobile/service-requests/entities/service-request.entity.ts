@@ -13,7 +13,7 @@ import {
   import { SubCategoryEntity } from '@/sub-category/entity/sub-category.entity';
   import { RequestImageEntity } from '@/request-images/entities/request-image.entity'; 
   import { RequestStatusEntity } from '@/request_status/entities/request-status.entity';
- 
+  import { StatusListEntity } from './status-list.entity';
   
   @Entity('mobile_service_requests')
   export class RequestEntity {
@@ -61,5 +61,9 @@ import {
 
     @OneToMany(() => RequestStatusEntity, (requestStatus) => requestStatus.request)
     requestStatus: RequestStatusEntity[];
+
+    @ManyToOne(() => StatusListEntity, (status) => status.serviceRequests)
+    @JoinColumn({ name: 'fk_request_status' }) 
+    fkStatus: StatusListEntity;
 
   }

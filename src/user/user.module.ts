@@ -13,6 +13,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserController } from './controller/user.controller';
 import { UserService } from './service/user.service';
 import { AppSettingsEntity } from '@/app-settings/entities/app-settings.entity';
+import { UserNotificationService } from './service/user-notification.service'; 
+import { NotificacionesPushModule  } from '@/notifications-push/notifications-push.module'; 
+import { DeviceModule } from '@/device/device.module'; 
+import { MailerModule } from '@/mailer/mailer.module';
 
 
 @Module({
@@ -28,10 +32,13 @@ import { AppSettingsEntity } from '@/app-settings/entities/app-settings.entity';
           secret: configService.get<string>('JWT_SECRET'), 
           signOptions: { expiresIn: '12h' }, 
       }),
-    })
+    }),
+    NotificacionesPushModule,
+    DeviceModule,
+    MailerModule,  
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserNotificationService],
   exports:[ProfileMapperModule, UserService]
 })
 export class UserModule {}

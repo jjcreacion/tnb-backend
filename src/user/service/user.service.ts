@@ -22,6 +22,7 @@ import { CreateUserDto } from '../dto/createUser.dto';
 import { CreateUserWithEmailDto } from '../dto/createUserWithEmail.dto';
 import { UpdateUserProfileDto } from '../dto/updateUserProfile.dto';
 import { ReferredUserHistoryDto } from '../dto/readReferredUserHistory.dto';
+import { UserNotificationService } from './user-notification.service';
 
 @Injectable()
 export class UserService {
@@ -40,6 +41,7 @@ export class UserService {
     private appSettingsRepository: Repository<AppSettingsEntity>,
     @InjectRepository(ReferralHistoryEntity) 
     private readonly referralHistoryRepository: Repository<ReferralHistoryEntity>,
+    private readonly userNotificationService: UserNotificationService,
   ) {}
 
   async create(
@@ -148,12 +150,29 @@ export class UserService {
   const savedUser = await this.userRepository.save(entity);
   
   if (referringUser && rewardAmount > 0) {
-      const historyEntity = this.referralHistoryRepository.create({
-          referrerUserId: referringUser.pkUser,
-          referredUserId: savedUser.pkUser,
-          rewardAmount: rewardAmount,
-      });
-      await this.referralHistoryRepository.save(historyEntity);
+    // Registrar historial
+    const historyEntity = this.referralHistoryRepository.create({
+      referrerUserId: referringUser.pkUser,
+      referredUserId: savedUser.pkUser,
+      rewardAmount: rewardAmount,
+    });
+    await this.referralHistoryRepository.save(historyEntity);
+    
+    //RECUPERAR DATOS DEL NUEVO USUARIO PARA NOTIFICACIÓN
+    const newUserWithPerson = await this.userRepository.findOne({
+        where: { pkUser: savedUser.pkUser },
+        relations: ['person'], 
+    });
+    
+    // ENVIAR NOTIFICACIÓN (PUSH Y EMAIL)
+    if (newUserWithPerson) {
+        await this.userNotificationService.sendReferralRewardNotification(
+            referringUser.pkUser,         // ID para Push
+            newUserWithPerson,            // Nombre
+            rewardAmount,                 // Monto
+            referringUser.email           // Email para Correo
+        );
+    }
   }
 
   return UserMapper.entityToReadUserDto(savedUser);

@@ -9,6 +9,7 @@ import { RequestMapper } from './mapper/service-request.mapper';
 import { UpdateRequestDto } from './dto/update-request.dt';
 import { UserService } from "@/user/service/user.service";
 import { RequestImageEntity } from '../../request-images/entities/request-image.entity'; 
+import { RequestNotificationService } from './service-request-notification.service'; 
 
 @Injectable()
 export class RequestService {
@@ -17,15 +18,25 @@ export class RequestService {
     private readonly requestRepository: Repository<RequestEntity>,
     @InjectRepository(RequestImageEntity) 
     private readonly requestImageRepository: Repository<RequestImageEntity>,
-    private readonly UserService : UserService
+    private readonly UserService : UserService,
+    private readonly requestNotificationService: RequestNotificationService,
   ) {}
 
-  async create(createRequestDto: CreateRequestDto): Promise<ReadRequestDto> {
-    return RequestMapper.entityToReadRequestDto(
-      await this.requestRepository.save(
-        RequestMapper.createRequestDtoToEntity(createRequestDto),
-      ),
-    );
+ async create(createRequestDto: CreateRequestDto): Promise<ReadRequestDto> {
+    const newRequestEntity = RequestMapper.createRequestDtoToEntity(createRequestDto);
+    
+    const savedEntity = await this.requestRepository.save(newRequestEntity);
+    
+    const requestWithUser = await this.requestRepository.findOne({
+        where: { requestId: savedEntity.requestId },
+        relations: ['fkUser'], 
+    });
+
+    if (requestWithUser) {
+        await this.requestNotificationService.sendCreationNotifications(requestWithUser);
+    }
+
+    return RequestMapper.entityToReadRequestDto(savedEntity);
   }
 
   async findOne(validId: ValidID): Promise<ReadRequestDto> {
@@ -106,9 +117,12 @@ export class RequestService {
   async update(
     updateRequestDto: UpdateRequestDto,
   ): Promise<{ message: string; status: HttpStatus }> {
+    
     const entity = await this.requestRepository.findOne({
       where: { requestId: updateRequestDto.requestId },
+      relations: ['fkStatus'], 
     });
+    
     if (!entity) {
       throw new HttpException(
         `Request with ID ${updateRequestDto.requestId} not found`,
@@ -116,14 +130,33 @@ export class RequestService {
       );
     }
 
+    const oldStatusId = entity.fkStatus ? entity.fkStatus.statusId : null; 
+    
     const updatedEntity = RequestMapper.updateRequestDtoToEntity(
       updateRequestDto,
     );
     const mergedEntity = this.requestRepository.merge(entity, updatedEntity);
-    const updateResult = await this.requestRepository.save(mergedEntity);
+    const updateResult = await this.requestRepository.save(mergedEntity); 
 
     if (!updateResult) {
       return { message: 'Request Not Updated', status: HttpStatus.NOT_MODIFIED };
+    }
+    
+    if (updateRequestDto.fkRequestStatus && updateRequestDto.fkRequestStatus !== oldStatusId) {
+        
+        const updatedRequest = await this.requestRepository.findOne({
+            where: { requestId: updateRequestDto.requestId },
+            relations: ['fkUser', 'fkStatus'],
+        });
+        
+        if (updatedRequest && updatedRequest.fkStatus) {
+            const newStatusName = updatedRequest.fkStatus.name; 
+            
+            await this.requestNotificationService.sendStatusChangeNotifications(
+                updatedRequest, 
+                newStatusName
+            );
+        }
     }
 
     return {

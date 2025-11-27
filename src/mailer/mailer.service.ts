@@ -3,6 +3,7 @@ import * as nodemailer from 'nodemailer';
 import { MAILER_OPTIONS, MAILER_TRANSPORT } from './constanst/mailer.constants';
 import { SendPasswordResetDto } from './dto/send-password-reset.dto';
 import { SendVerificationCodeDto } from './dto/send-verification-code.dto';
+import { SendMailOptions } from 'nodemailer';
 
 @Injectable()
 export class MailerService {
@@ -11,6 +12,20 @@ export class MailerService {
   constructor() {
     this.transporter = nodemailer.createTransport(MAILER_TRANSPORT);
   }
+
+  async sendMail(mailOptions: SendMailOptions): Promise<boolean> {
+    try {
+      await this.transporter.sendMail({
+        ...MAILER_OPTIONS,
+        ...mailOptions, 
+      });
+      return true;
+    } catch (error) {
+      console.error('Error enviando email genérico:', error);
+      return false;
+    }
+  }
+
 
   async sendVerificationCode(dto: SendVerificationCodeDto): Promise<boolean> {
     try {
