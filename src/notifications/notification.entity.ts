@@ -11,8 +11,9 @@ import {
 @Entity('notifications')
 @Index(['fk_user', 'is_read'])
 export class Notification {
-  @PrimaryGeneratedColumn('uuid', { name: 'pk_notification' })
-  pk_notification: string;
+ 
+  @PrimaryGeneratedColumn({name: 'pk_notification'})
+  pk_notification: number;
 
   @Column({ name: 'fk_user', type: 'int' })
   fk_user: number;

@@ -26,9 +26,8 @@ export class NotificationsController {
 
   @Patch('read/:id')
   async markNotificationAsRead(
-    @Param('id', ParseUUIDPipe) notificationId: string,
+    @Param('id', ParseIntPipe) notificationId: number,
   ): Promise<NotificationResponseDto> {
-    const userId = 1; 
-    return this.notificationsService.markAsRead(notificationId, userId);
+    return this.notificationsService.markAsRead(notificationId);
   } 
 }

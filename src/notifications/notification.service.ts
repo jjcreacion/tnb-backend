@@ -29,14 +29,14 @@ export class NotificationsHistoryService {
     return this.mapper.toDtoList(notifications);
   }
 
-  async markAsRead(notificationId: string, userId: number): Promise<NotificationResponseDto> {
+  async markAsRead(notificationId: number): Promise<NotificationResponseDto> {
     const notification = await this.notificationRepository.findOne({
-      where: { pk_notification: notificationId, fk_user: userId },
+      where: { pk_notification: notificationId },
     });
 
     if (!notification) {
       throw new NotFoundException(
-        `Notification with ID ${notificationId} not found or does not belong to user ${userId}.`,
+        `Notification with ID ${notificationId} not found or does not belong`,
       );
     }
 
