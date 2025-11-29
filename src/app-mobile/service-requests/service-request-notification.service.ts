@@ -3,6 +3,10 @@ import { RequestEntity } from './entities/service-request.entity';
 import { NotificationsService } from '@/notifications-push/notifications.service'; 
 import { DeviceService } from '../../device/device.service';
 import { MailerService } from '../../mailer/mailer.service';
+import { NotificationsHistoryService } from '@/notifications/notification.service'; 
+import { CreateNotificationDto } from '@/notifications/dto/create-notification.dto'; 
+import { Notification } from '@/notifications/notification.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class RequestNotificationService {
@@ -10,6 +14,7 @@ export class RequestNotificationService {
     private readonly notificationsService: NotificationsService,
     private readonly deviceService: DeviceService,
     private readonly mailerService: MailerService,
+    private readonly notificationsHistoryService: NotificationsHistoryService,
   ) {}
 
   async sendCreationNotifications(request: RequestEntity): Promise<void> {
@@ -24,6 +29,13 @@ export class RequestNotificationService {
         console.warn(`User data is incomplete for request ${requestIdentifier}. Skipping notifications.`);
         return;
     }
+
+   const historyDto: CreateNotificationDto = {
+      fk_user: user.pkUser,
+      title: title,
+      body: body,
+   };
+   await this.notificationsHistoryService.saveNotification(historyDto);
 
     await this.sendRequestPushNotification(
       user.pkUser,
@@ -48,7 +60,15 @@ export class RequestNotificationService {
     if (!notificationTitle || !user || !user.pkUser) {
       return;
     }
-    
+
+    const historyDto: CreateNotificationDto = {
+      fk_user: user.pkUser,
+      title: notificationTitle,
+      body: notificationBody,
+    };
+
+    await this.notificationsHistoryService.saveNotification(historyDto);
+  
     await this.sendRequestPushNotification(
       user.pkUser,
       request,

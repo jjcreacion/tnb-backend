@@ -17,6 +17,7 @@ import { UserNotificationService } from './service/user-notification.service';
 import { NotificacionesPushModule  } from '@/notifications-push/notifications-push.module'; 
 import { DeviceModule } from '@/device/device.module'; 
 import { MailerModule } from '@/mailer/mailer.module';
+import { NotificationsModule } from '@/notifications/notification.module'; 
 
 
 @Module({
@@ -25,6 +26,7 @@ import { MailerModule } from '@/mailer/mailer.module';
       UserMapperModule,
       PersonMapperModule,
       ProfileMapperModule,
+      NotificationsModule,
       JwtModule.registerAsync({
         imports: [ConfigModule],
         inject: [ConfigService],

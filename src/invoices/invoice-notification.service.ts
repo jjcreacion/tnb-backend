@@ -3,6 +3,8 @@ import { Invoice, InvoiceStatus } from './entities/invoice.entity';
 import { NotificationsService } from '../notifications-push/notifications.service';
 import { DeviceService } from '../device/device.service';
 import { MailerService } from '../mailer/mailer.service';
+import { NotificationsHistoryService } from '../notifications/notification.service'; 
+import { CreateNotificationDto } from '../notifications/dto/create-notification.dto'; 
 
 @Injectable()
 export class InvoiceNotificationService {
@@ -10,6 +12,7 @@ export class InvoiceNotificationService {
     private readonly notificationsService: NotificationsService,
     private readonly deviceService: DeviceService,
     private readonly mailerService: MailerService,
+    private readonly notificationsHistoryService: NotificationsHistoryService,
   ) {}
 
   async sendCreationNotifications(invoice: Invoice): Promise<void> {
@@ -24,6 +27,15 @@ export class InvoiceNotificationService {
     } for $${formattedAmount} is now available.`;
     const emailSubject = 'Invoice Issued / Factura Emitida';
     const emailTitle = 'Invoice Created';
+    
+    if (userId !== null) {
+        const historyDto: CreateNotificationDto = {
+          fk_user: userId,
+          title: title,
+          body: body,
+       };
+       await this.notificationsHistoryService.saveNotification(historyDto);
+     }
 
     if (userId !== null) {
       await this.sendInvoicePushNotification(
@@ -48,6 +60,16 @@ export class InvoiceNotificationService {
 
     if (!notificationTitle) {
       return;
+    }
+    
+    if (userId !== null) {
+      const historyDto: CreateNotificationDto = {
+        fk_user: userId,
+        title: notificationTitle,
+        body: notificationBody,
+      };
+
+      await this.notificationsHistoryService.saveNotification(historyDto);
     }
     
     if (userId !== null) {

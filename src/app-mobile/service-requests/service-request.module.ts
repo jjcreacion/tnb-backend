@@ -10,6 +10,8 @@ import { MailerModule } from '@/mailer/mailer.module';
 import { NotificacionesPushModule } from '@/notifications-push/notifications-push.module'; 
 import { RequestNotificationModule } from './service-request-notification.module'; 
 import { StatusListEntity } from './entities/status-list.entity'; 
+import { NotificationsModule } from '@/notifications/notification.module'; 
+import { RequestNotificationService } from './service-request-notification.service'; 
 
 @Module({
   imports: [
@@ -19,9 +21,10 @@ import { StatusListEntity } from './entities/status-list.entity';
     MailerModule,
     NotificacionesPushModule,
     RequestNotificationModule,
+    NotificationsModule,
   ],
   controllers: [RequestController],
-  providers: [RequestService],
+  providers: [RequestService, RequestNotificationService],
   exports: [RequestService],
 })
 export class ServiceRequestModule {}

@@ -36,7 +36,7 @@ import { RequestImagesModule } from './request-images/request-images.module';
 import { AppSettingsModule } from './app-settings/app-settings.module';
 import { ReferralModule } from './referral-tracking/referral.module';
 import { InvoiceModule } from './invoices/invoices.module';
-import { DeviceModule } from './device/device.module';
+import { DeviceModule } from './device/device.module'; 
 
 @Module({
   imports: [

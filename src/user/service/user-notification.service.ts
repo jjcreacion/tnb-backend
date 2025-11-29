@@ -3,6 +3,9 @@ import { UserEntity } from '../entities/user.entity';
 import { DeviceService } from '@/device/device.service';
 import { NotificationsService } from '@/notifications-push/notifications.service';
 import { MailerService } from '@/mailer/mailer.service'; 
+import { NotificationsHistoryService } from '@/notifications/notification.service'; 
+import { CreateNotificationDto } from '@/notifications/dto/create-notification.dto'; 
+
 
 @Injectable()
 export class UserNotificationService {
@@ -10,6 +13,7 @@ export class UserNotificationService {
     private readonly deviceService: DeviceService,
     private readonly notificationsService: NotificationsService,
     private readonly mailerService: MailerService, 
+    private readonly notificationsHistoryService: NotificationsHistoryService,
   ) {}
 
   async sendReferralRewardNotification(
@@ -29,6 +33,13 @@ export class UserNotificationService {
     const title = 'Referral Reward Received! 💰';
     const body = `${fullName} registered using your code and you earned a reward of $${rewardAmount.toFixed(2)}! Your balance has been updated.`;
     
+      const historyDto: CreateNotificationDto = {
+        fk_user: referrerUserId,
+        title: title,
+        body: body,
+     };
+     await this.notificationsHistoryService.saveNotification(historyDto);
+
     const activeTokens = await this.deviceService.getActiveTokensByUserId(referrerUserId);
 
     if (activeTokens.length > 0) {

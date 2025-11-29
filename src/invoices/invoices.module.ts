@@ -7,7 +7,8 @@ import { UserModule } from '@/user/user.module';
 import { InvoiceNotificationService } from './invoice-notification.service';
 import { DeviceModule } from '@/device/device.module'; 
 import { MailerModule } from '@/mailer/mailer.module'; 
-import { NotificacionesPushModule } from '@/notifications-push/notifications-push.module'; 
+import { NotificacionesPushModule } from '@/notifications-push/notifications-push.module';
+import { NotificationsModule } from '@/notifications/notification.module'; 
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { NotificacionesPushModule } from '@/notifications-push/notifications-pus
     DeviceModule,
     MailerModule,
     NotificacionesPushModule,
+    NotificationsModule
   ],
   controllers: [InvoiceController],
   providers: [InvoiceService, InvoiceNotificationService],
