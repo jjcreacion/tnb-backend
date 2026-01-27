@@ -1,15 +1,15 @@
+import { UserService } from "@/user/service/user.service";
+import { ValidID } from '@/utils/validID';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ValidID } from '@/utils/validID';
-import { RequestEntity } from './entities/service-request.entity';
+import { RequestImageEntity } from '../../request-images/entities/request-image.entity';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { ReadRequestDto } from './dto/read-request.dto';
-import { RequestMapper } from './mapper/service-request.mapper';
 import { UpdateRequestDto } from './dto/update-request.dt';
-import { UserService } from "@/user/service/user.service";
-import { RequestImageEntity } from '../../request-images/entities/request-image.entity'; 
-import { RequestNotificationService } from './service-request-notification.service'; 
+import { RequestEntity } from './entities/service-request.entity';
+import { RequestMapper } from './mapper/service-request.mapper';
+import { RequestNotificationService } from './service-request-notification.service';
 
 @Injectable()
 export class RequestService {
@@ -67,7 +67,7 @@ export class RequestService {
     try {
        const userWithRequests = await this.requestRepository.find({
         where: { fkUser: { pkUser: userId } }, 
-        relations: ['fkUser'], 
+        relations: ['fkUser', 'fkCategory', 'fkSubCategory'], 
         order: {
           createdAt: 'DESC', 
         },
