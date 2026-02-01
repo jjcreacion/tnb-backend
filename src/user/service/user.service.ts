@@ -485,4 +485,35 @@ async findUserByReferralCode(referralCode: string): Promise<{
     const updatedUser = await this.userRepository.save(user);
     return UserMapper.entityToReadUserDto(updatedUser);
   }
+
+  //Borrado lógico
+  async softDeleteUser(pkUser: number): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { pkUser, status: 1 }, 
+      relations: ['person'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User not found or already deleted.`);
+    }
+
+    // Anonimización (Identidad destruida)
+    const timestamp = Date.now();
+    user.email = `deleted_${pkUser}_${timestamp}@thenationalbuilders.com`;
+    user.password = `BYE_${timestamp}_${Math.random()}`; 
+    user.status = 0; 
+    user.referralCode = `DELETED_${pkUser}`;
+
+    if (user.person) {
+      user.person.firstName = 'Deleted';
+      user.person.lastName = 'Account';
+      await this.personRepository.save(user.person);
+    }
+
+    await this.userRepository.save(user);
+    
+  }
+ 
+
 }
+

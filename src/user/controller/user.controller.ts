@@ -9,10 +9,13 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   Query,
   UploadedFile,
   UseInterceptors,
   ValidationPipe,
+  NotFoundException, 
+  UseGuards
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -105,7 +108,7 @@ export class UserController {
   ): Promise<{ accessToken: string; pkUser: number; roles?: string[] }> {
     const user = await this.userService.findByEmail(loginDto.email);
 
-    if (!user) {
+    if (!user || user.status == 0 ) {
       throw new HttpException(
         'Credenciales inválidas',
         HttpStatus.UNAUTHORIZED,
@@ -334,4 +337,36 @@ export class UserController {
   ): Promise<ReadUserDto> {
     return this.userService.toggleSmsNotifications(id, toggleStateDto.status);
   }
+
+
+  @ApiOperation({summary: 'Eliminar Cuenta'})
+  @Patch('delete-my-account')
+  // @UseGuards(JwtAuthGuard)
+  async deleteMyAccount(@Request() req: any): Promise<{ message: string }> {
+    const userId = req.user?.pkUser || req.user?.sub;
+
+    if (!userId) {
+      throw new HttpException(
+        'No se pudo extraer la identidad del usuario del token.',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    try {
+      await this.userService.softDeleteUser(userId);
+      return { 
+        message: 'Your account has been successfully deleted.' 
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Error interno: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }  
+
+
 }
