@@ -341,7 +341,7 @@ export class UserController {
 
   @ApiOperation({summary: 'Eliminar Cuenta'})
   @Patch('delete-my-account')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async deleteMyAccount(@Request() req: any): Promise<{ message: string }> {
     const userId = req.user?.pkUser || req.user?.sub;
 
