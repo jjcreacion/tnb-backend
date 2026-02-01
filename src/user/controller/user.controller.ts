@@ -32,6 +32,7 @@ import { VerifyEmailDto } from '../dto/verifyEmail.dto';
 import { UserService } from '../service/user.service';
 import { ReferredUserHistoryDto } from '../dto/readReferredUserHistory.dto'; 
 import { ToggleStateDto } from '../dto/toggleState.dto';
+import { AuthGuard } from '../../auth/guard/auth.guard';
 
 // @Roles(Role.ADMIN)
 @Controller('user')
@@ -341,7 +342,7 @@ export class UserController {
 
   @ApiOperation({summary: 'Eliminar Cuenta'})
   @Patch('delete-my-account')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard)
   async deleteMyAccount(@Request() req: any): Promise<{ message: string }> {
     const userId = req.user?.pkUser || req.user?.sub;
 
