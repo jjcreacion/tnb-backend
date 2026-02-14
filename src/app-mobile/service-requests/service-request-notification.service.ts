@@ -50,7 +50,8 @@ export class RequestNotificationService {
     }
 
     const companyEmail = 'tnb@thenationalbuilders.com'; 
-    
+    const primaryPhone = user.person?.phones?.find(p => p.isPrimary) || user.person?.phones?.[0];
+
     try {
         await this.mailerService.sendMail({
         to: companyEmail,
@@ -61,9 +62,8 @@ export class RequestNotificationService {
             
             <h3 style="color: #333;">Datos del Cliente</h3>
             <p style="margin: 5px 0;"><strong>Nombre:</strong> ${user.person?.firstName || ''} ${user.person?.lastName || 'No proporcionado'}</p>
-            <p style="margin: 5px 0;"><strong>Teléfono:</strong> ${user.phone || 'No proporcionado'}</p>
+            <p style="margin: 5px 0;"><strong>Teléfono:</strong> ${primaryPhone?.phone || 'No proporcionado'}</p>
             <p style="margin: 5px 0;"><strong>Email:</strong> ${user.email}</p>
-            <p style="margin: 5px 0;"><strong>Dirección del cliente:</strong> ${user.person?.addresses || 'No proporcionada'}</p>
             
             <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
             
