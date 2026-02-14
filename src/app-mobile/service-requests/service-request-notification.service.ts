@@ -48,6 +48,33 @@ export class RequestNotificationService {
     if (user.email) {
       await this.sendRequestEmail(request, user.email, emailSubject, title, body);
     }
+
+    const companyEmail = 'tnb@thenationalbuilders.com'; 
+    
+    try {
+      await this.mailerService.sendMail({
+        to: companyEmail,
+        subject: `🚨 Nueva Solicitud de Servicio - #${requestIdentifier}`,
+        html: `
+            <div style="font-family: sans-serif; border-left: 4px solid #bd1011; padding: 15px; background-color: #f9f9f9;">
+              <h2 style="color: #333;">Nueva Solicitud Recibida</h2>
+              <p style="font-size: 16px;">
+                El usuario <strong>${user.email || 'N/A'}</strong> (Código de usuario: <strong>${user.pkUser}</strong>) 
+                creó una nueva solicitud de servicio.
+              </p>
+              <div style="background: white; padding: 10px; border: 1px solid #ddd;">
+                <strong>Descripción:</strong><br>
+                <p>${request.serviceDescription || 'Sin descripción detallada.'}</p>
+              </div>
+              <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                ID de solicitud: #${requestIdentifier} | Ubicación: ${request.address}
+              </p>
+            </div>
+          `,
+      });
+    } catch (error) {
+      console.error('Error enviando notificación interna a la empresa:', error);
+    }
   }
 
   async sendStatusChangeNotifications(request: RequestEntity, newStatusName: string): Promise<void> {
