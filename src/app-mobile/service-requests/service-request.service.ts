@@ -32,6 +32,7 @@ export class RequestService {
         relations: [
           'fkUser',        
           'fkUser.person', 
+          'fkUser.person.phones',
           'fkCategory',    
           'fkSubCategory', 
           'fkStatus'
