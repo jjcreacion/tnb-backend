@@ -52,25 +52,34 @@ export class RequestNotificationService {
     const companyEmail = 'tnb@thenationalbuilders.com'; 
     
     try {
-      await this.mailerService.sendMail({
+        await this.mailerService.sendMail({
         to: companyEmail,
-        subject: `🚨 Nueva Solicitud de Servicio - #${requestIdentifier}`,
+        subject: `🚨 Nueva Solicitud: ${user.person?.firstName || 'Cliente'} ${user.person?.lastName || ''} - #${requestIdentifier}`,
         html: `
-            <div style="font-family: sans-serif; border-left: 4px solid #bd1011; padding: 15px; background-color: #f9f9f9;">
-              <h2 style="color: #333;">Nueva Solicitud Recibida</h2>
-              <p style="font-size: 16px;">
-                El usuario <strong>${user.email || 'N/A'}</strong> (Código de usuario: <strong>${user.pkUser}</strong>) 
-                creó una nueva solicitud de servicio.
-              </p>
-              <div style="background: white; padding: 10px; border: 1px solid #ddd;">
-                <strong>Descripción:</strong><br>
-                <p>${request.serviceDescription || 'Sin descripción detallada.'}</p>
-              </div>
-              <p style="margin-top: 15px; font-size: 14px; color: #666;">
-                ID de solicitud: #${requestIdentifier} | Ubicación: ${request.address}
-              </p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; border: 1px solid #eee; padding: 20px;">
+            <h2 style="color: #bd1011; border-bottom: 2px solid #bd1011; padding-bottom: 10px;">Nueva Solicitud de Servicio</h2>
+            
+            <h3 style="color: #333;">Datos del Cliente</h3>
+            <p style="margin: 5px 0;"><strong>Nombre:</strong> ${user.person?.firstName || ''} ${user.person?.lastName || 'No proporcionado'}</p>
+            <p style="margin: 5px 0;"><strong>Teléfono:</strong> ${user.phone || 'No proporcionado'}</p>
+            <p style="margin: 5px 0;"><strong>Email:</strong> ${user.email}</p>
+            <p style="margin: 5px 0;"><strong>Dirección del cliente:</strong> ${user.person?.addresses || 'No proporcionada'}</p>
+            
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            
+            <h3 style="color: #333;">Detalles del Servicio</h3>
+            <p style="margin: 5px 0;"><strong>Trade:</strong> ${request.fkCategory?.name || 'N/A'}</p>
+            <p style="margin: 5px 0;"><strong>Service:</strong> ${request.fkSubCategory?.name || 'N/A'}</p>
+            <p style="margin: 5px 0;"><strong>Dirección del Servicio:</strong> ${request.address}</p>
+            
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 15px;">
+              <strong>Descripción del trabajo:</strong><br>
+              <p style="font-style: italic;">${request.serviceDescription || 'Sin descripción'}</p>
             </div>
-          `,
+            
+            <p style="font-size: 12px; color: #999; margin-top: 20px;">ID de Referencia: #${requestIdentifier}</p>
+          </div>
+        `,
       });
     } catch (error) {
       console.error('Error enviando notificación interna a la empresa:', error);
