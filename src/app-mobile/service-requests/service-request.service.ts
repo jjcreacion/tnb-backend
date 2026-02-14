@@ -29,7 +29,13 @@ export class RequestService {
     
     const requestWithUser = await this.requestRepository.findOne({
         where: { requestId: savedEntity.requestId },
-        relations: ['fkUser'], 
+        relations: [
+          'fkUser',        
+          'fkUser.person', 
+          'fkCategory',    
+          'fkSubCategory', 
+          'fkStatus'
+        ], 
     });
 
     if (requestWithUser) {
