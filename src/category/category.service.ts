@@ -26,6 +26,52 @@
      );
    }
 
+   private getOrderedCategoryQuery() {
+    const today = new Date().toISOString().split('T')[0];
+
+    return this.categoryRepository
+      .createQueryBuilder('category')
+      .addSelect(
+        `(CASE 
+            WHEN category.is_preferred = 1 AND (
+                (category.preferred_start_date IS NULL AND category.preferred_end_date IS NULL) OR 
+                (:today BETWEEN category.preferred_start_date AND category.preferred_end_date)
+            ) 
+            THEN 1 ELSE 0 
+          END)`,
+        'priority_rank',
+      )
+      .setParameter('today', today)
+      .where('category.status = :status', { status: 1 })
+      .orderBy('priority_rank', 'DESC')
+      .addOrderBy('category.name', 'ASC');
+  }
+
+  async findAll(): Promise<ReadCategoryDto[]> {
+    const categories = await this.getOrderedCategoryQuery().getMany();
+    
+    return categories.map(cat => CategoryMapper.entityToReadCategoryDto(cat));
+  }
+
+  async findAllWithChildrens(): Promise<ReadCategoryDto[]> {
+    const categories = await this.getOrderedCategoryQuery()
+      .leftJoinAndSelect('category.subCategory', 'subCategory')
+      .getMany();
+
+    return categories.map(cat => CategoryMapper.entityToReadCategoryDto(cat));
+  }
+
+  async findAllWithChildrensCompleted(): Promise<ReadCategoryDto[]> {
+    const categories = await this.getOrderedCategoryQuery()
+      .leftJoinAndSelect('category.subCategory', 'subCategory')
+      .leftJoinAndSelect('subCategory.services', 'services')
+      .leftJoinAndSelect('services.addons', 'addons')
+      .getMany();
+
+    return categories.map(cat => CategoryMapper.entityToReadCategoryDto(cat));
+  }
+
+   /*
    async findAll(): Promise <ReadCategoryDto[]> {
      return await this.categoryRepository.find()
        .then( categories =>
@@ -53,6 +99,7 @@
                  )
              );
      }
+             */
 
    async findOne(validID: ValidID): Promise<ReadCategoryDto> {
      const category = await this.categoryRepository.findOneBy({ pkCategory: validID.id });

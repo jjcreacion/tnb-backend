@@ -29,6 +29,15 @@ export class CategoryEntity {
     @Column({ name:'updatedAt', type: "timestamp", default: () => 'CURRENT_TIMESTAMP'})
     updatedAt : Date;
 
+    @Column({ type: 'tinyint', default: 0 })
+    is_preferred: number;
+
+    @Column({ type: 'date', nullable: true })
+    preferred_start_date: Date;
+
+    @Column({ type: 'date', nullable: true })
+    preferred_end_date: Date;
+
     @OneToMany(() => RequestEntity, (request) => request.fkCategory)
     serviceRequests: RequestEntity[];
 }
